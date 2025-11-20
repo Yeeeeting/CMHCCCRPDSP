@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCC & 補強計畫數位演練系統 V3.7 (視力友善版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        /* Increased base font size and line height for better readability */
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; line-height: 1.6; }
+        
+        /* === REFINED TAB STYLING (Large Text) === */
+        .module-tab { 
+            @apply px-12 py-5 font-bold text-xl transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer relative;
+            @apply rounded-t-md; 
+        }
+
+        .module-tab-active-ccc { 
+            @apply bg-[#0f766e] text-white shadow-md z-10; 
+        }
+        .module-tab-active-rem { 
+            @apply bg-[#4338ca] text-white shadow-md z-10; 
+        }
+
+        .module-tab-inactive { 
+            @apply bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50; 
+        }
+
+        #main-container { @apply transition-all duration-500 ease-in-out; }
+
+        /* Step Indicators - Larger Text */
+        .step-active { 
+            border-left: 6px solid #0f766e; /* Thicker border */
+            background-color: #f0fdfa; 
+            color: #0f766e; 
+            font-weight: 700; 
+        }
+        .step-inactive { 
+            border-left: 6px solid transparent; 
+            color: #64748b; 
+        }
+        .step-inactive:hover { 
+            background-color: #f8fafc; 
+            color: #334155; 
+            padding-left: 2rem; 
+        }
+        .step-item { @apply transition-all duration-200 ease-out; }
+
+        .card-shadow { 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
+        }
+        .card-hover {
+            @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl;
+        }
+        
+        textarea { resize: vertical; font-size: 1.125rem; /* text-lg */ } 
+        input[type="text"] { font-size: 1.125rem; /* text-lg */ }
+        
+        /* Custom Scrollbar - Slightly wider for easier grabbing */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 0.2s, transform 0.2s; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 0.2s, transform 0.2s; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Navigation / Header -->
+        <nav class="bg-white px-10 pt-8 pb-0 flex flex-col sticky top-0 z-50 shadow-sm border-b border-slate-200">
+            <div class="flex justify-between items-end mb-0">
+                <div class="flex items-center gap-6 mb-6">
+                    <div id="app-icon" class="bg-teal-700 text-white w-16 h-16 rounded-xl flex items-center justify-center shadow-lg transition-colors duration-300">
+                        <i class="fa-solid fa-user-doctor text-3xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold text-slate-800 tracking-wide leading-tight">臨床教育訓練數位演練平台</h1>
+                        <p class="text-lg text-slate-500 font-medium mt-1 tracking-wider uppercase">Competence Committee & Remediation System</p>
+                    </div>
+                </div>
+                
+                <!-- Global Timer -->
+                <div class="flex gap-4 items-center mb-6">
+                    <div class="bg-slate-50 px-8 py-4 rounded-full text-2xl font-mono font-bold text-slate-600 border border-slate-200 shadow-inner flex items-center gap-3">
+                        <i class="fa-regular fa-clock text-slate-400"></i> <span id="global-timer">00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module Tabs -->
+            <div class="flex gap-0 mt-4">
+                <button onclick="app.switchModule('ccc')" id="tab-ccc" class="module-tab min-w-[280px]">
+                    <i class="fa-solid fa-people-group text-2xl"></i> CCC 委員會演練
+                </button>
+                <button onclick="app.switchModule('remediation')" id="tab-remediation" class="module-tab min-w-[280px]">
+                    <i class="fa-solid fa-clipboard-list text-2xl"></i> 補強計畫設計
+                </button>
+                <div class="flex-1 border-b-2 border-slate-200"></div> 
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="main-container" class="flex-1 p-10 overflow-auto bg-slate-50">
+            <!-- Views will be injected here -->
+        </main>
+    </div>
+
+    <!-- Custom Modal Overlay -->
+    <div id="custom-modal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 z-[100] flex items-center justify-center backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl p-10 max-w-lg w-full mx-4 transform transition-all duration-300 scale-100 border border-slate-100" id="modal-content">
+            <div class="text-center mb-10">
+                <div id="modal-icon" class="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-red-50 mb-8 shadow-sm">
+                    <i class="fa-solid fa-triangle-exclamation text-red-500 text-5xl"></i>
+                </div>
+                <h3 class="text-3xl leading-9 font-bold text-slate-800" id="modal-title">提示</h3>
+                <div class="mt-4 px-2">
+                    <p class="text-xl text-slate-500 leading-relaxed" id="modal-message">請確認相關資訊。</p>
+                </div>
+            </div>
+            <div class="flex justify-center gap-6" id="modal-actions">
+                <button id="modal-btn-cancel" class="bg-white text-slate-600 border border-slate-300 hover:bg-slate-50 hover:text-slate-800 px-8 py-4 rounded-xl text-lg font-bold shadow-sm transition w-full">
+                    取消
+                </button>
+                <button id="modal-btn-confirm" class="bg-teal-600 text-white hover:bg-teal-700 px-8 py-4 rounded-xl text-lg font-bold shadow-lg transition w-full transform hover:-translate-y-0.5">
+                    確定
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMPLATES -->
+
+    <!-- 1. DASHBOARD VIEW TEMPLATE -->
+    <template id="tpl-dashboard">
+        <div class="max-w-[1600px] mx-auto"> <!-- Wider container -->
+            <div class="mb-12 flex justify-between items-end border-b border-slate-200 pb-8">
+                <div>
+                    <h2 class="text-5xl font-extrabold text-slate-800 tracking-tight" id="dashboard-title">模組標題</h2>
+                    <p class="text-slate-500 mt-4 text-xl font-light" id="dashboard-desc">模組說明</p>
+                </div>
+                <div class="flex gap-8 text-lg bg-white px-8 py-5 rounded-2xl shadow-sm border border-slate-100">
+                    <span class="flex items-center gap-3 font-bold text-slate-400"><span class="w-4 h-4 rounded-full bg-slate-300"></span> 未開始</span>
+                    <span class="flex items-center gap-3 font-bold text-yellow-600"><span class="w-4 h-4 rounded-full bg-yellow-400"></span> 進行中</span>
+                    <span class="flex items-center gap-3 font-bold text-green-600"><span class="w-4 h-4 rounded-full bg-green-500"></span> 完成</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" id="dashboard-grid">
+                <!-- Group Cards -->
+            </div>
+        </div>
+    </template>
+
+    <!-- 2. CCC GROUP VIEW TEMPLATE -->
+    <template id="tpl-ccc-group">
+        <div class="flex h-[calc(100vh-200px)] bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200/60">
+            <!-- Sidebar -->
+            <div class="w-80 bg-slate-50 border-r border-slate-200 flex flex-col flex-shrink-0">
+                <div class="p-8 bg-teal-800 text-white flex justify-between items-center shadow-md relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-teal-700 rounded-full opacity-50"></div>
+                    <div class="relative z-10">
+                        <span class="text-sm uppercase text-teal-300 font-bold tracking-wider block mb-1">Current Group</span>
+                        <span class="font-bold text-3xl tracking-wide" id="group-title-sidebar">第 1 組</span>
+                    </div>
+                    <button onclick="app.loadDashboard()" class="relative z-10 text-sm bg-teal-900/40 hover:bg-teal-700 px-4 py-2 rounded-lg transition border border-teal-500/30 backdrop-blur-sm">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> 回列表
+                    </button>
+                </div>
+                <div class="flex-1 overflow-y-auto py-6 space-y-2" id="step-list"></div>
+                <div class="p-6 border-t border-slate-200 bg-slate-100/50 text-sm text-slate-400 font-medium">
+                    <p><i class="fa-solid fa-database mr-1"></i> 資料來源：附件二、附件四</p>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 flex flex-col overflow-hidden bg-white">
+                <div class="bg-white/80 backdrop-blur-md border-b border-slate-100 px-12 py-8 flex justify-between items-center z-10 sticky top-0">
+                    <div>
+                        <h2 class="text-4xl font-bold text-slate-800" id="current-step-title"></h2>
+                        <p class="text-slate-500 text-xl mt-2 font-light" id="current-step-desc"></p>
+                    </div>
+                    <button id="next-step-btn" class="bg-teal-600 hover:bg-teal-700 text-white px-10 py-4 rounded-xl shadow-lg shadow-teal-600/20 hover:shadow-teal-600/40 transition-all flex items-center gap-3 font-bold text-xl transform hover:-translate-y-1 active:translate-y-0"></button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-12 bg-slate-50/50 scroll-smooth" id="step-content"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 3. REMEDIATION GROUP VIEW TEMPLATE -->
+    <template id="tpl-remediation-group">
+        <div class="flex h-[calc(100vh-200px)] bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200/60">
+            <!-- Sidebar -->
+            <div class="w-80 bg-indigo-50 border-r border-indigo-100 flex flex-col flex-shrink-0">
+                <div class="p-8 bg-indigo-800 text-white flex justify-between items-center shadow-md relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-indigo-700 rounded-full opacity-50"></div>
+                    <div class="relative z-10">
+                        <span class="text-sm uppercase text-indigo-300 font-bold tracking-wider block mb-1">Current Group</span>
+                        <span class="font-bold text-3xl tracking-wide" id="rem-group-title">第 1 組</span>
+                    </div>
+                    <button onclick="app.loadDashboard()" class="relative z-10 text-sm bg-indigo-900/40 hover:bg-indigo-600 px-4 py-2 rounded-lg transition border border-indigo-500/30 backdrop-blur-sm">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> 回列表
+                    </button>
+                </div>
+                <div class="p-8 flex-1 overflow-y-auto">
+                    <h4 class="text-indigo-900 font-bold mb-6 text-xl border-b border-indigo-200 pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-indigo-500"></i> 設計指引
+                    </h4>
+                    <ul class="text-base text-indigo-800/80 list-none space-y-6 leading-relaxed">
+                        <li class="relative pl-5"><span class="absolute left-0 top-2 w-2 h-2 bg-indigo-400 rounded-full"></span><strong class="block text-indigo-900 text-lg mb-1">確認缺失 (KSA)</strong>分辨是知識、技能或態度問題。</li>
+                        <li class="relative pl-5"><span class="absolute left-0 top-2 w-2 h-2 bg-indigo-400 rounded-full"></span><strong class="block text-indigo-900 text-lg mb-1">設定目標 (SMART)</strong>具體、可測量、可達成、相關性、有時限。</li>
+                        <li class="relative pl-5"><span class="absolute left-0 top-2 w-2 h-2 bg-indigo-400 rounded-full"></span><strong class="block text-indigo-900 text-lg mb-1">規劃活動</strong>直接觀察、回饋、模擬演練等。</li>
+                        <li class="relative pl-5"><span class="absolute left-0 top-2 w-2 h-2 bg-indigo-400 rounded-full"></span><strong class="block text-indigo-900 text-lg mb-1">評量與期限</strong>設定合理的追蹤點。</li>
+                    </ul>
+                </div>
+                 <div class="p-8 border-t border-indigo-200 bg-indigo-100/50">
+                    <button onclick="app.completeRemediation()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 transition font-bold text-xl flex justify-center items-center gap-3 transform hover:-translate-y-1 active:translate-y-0">
+                        <i class="fa-solid fa-paper-plane"></i> 提交計畫
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 flex flex-col overflow-hidden bg-white">
+                <div class="bg-white/80 backdrop-blur-md border-b border-slate-100 px-12 py-6 flex justify-between items-center z-10 sticky top-0">
+                     <!-- Tabs -->
+                     <div class="flex gap-4 bg-slate-100 p-2 rounded-2xl">
+                        <button onclick="app.switchStudentTab('daming')" id="btn-rem-daming" class="px-8 py-3 rounded-xl text-lg font-bold transition-all flex items-center gap-3 shadow-sm bg-white text-indigo-700">
+                            <i class="fa-solid fa-user-nurse"></i> 王大明
+                        </button>
+                        <button onclick="app.switchStudentTab('xiaomei')" id="btn-rem-xiaomei" class="px-8 py-3 rounded-xl text-lg font-bold transition-all flex items-center gap-3 text-slate-500 hover:text-slate-700">
+                            <i class="fa-solid fa-user-nurse"></i> 李小美
+                        </button>
+                    </div>
+                    <div class="text-base text-slate-500 bg-slate-50 border border-slate-200 px-6 py-2.5 rounded-full font-medium flex items-center gap-2">
+                        <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span> 編輯模式中
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-12 bg-indigo-50/20 scroll-smooth">
+                    
+                    <!-- CCC Feedback Reference -->
+                    <div class="bg-white border border-yellow-200 rounded-3xl p-8 mb-10 shadow-sm border-l-[8px] border-l-yellow-400">
+                        <h4 class="text-yellow-800 font-bold text-xl mb-4 flex items-center">
+                            <i class="fa-solid fa-circle-info mr-3 text-yellow-500 text-2xl"></i> 前階段 (CCC) 決策參考
+                        </h4>
+                        <div id="rem-ccc-reference" class="text-lg text-slate-700 p-6 bg-yellow-50/50 rounded-2xl border border-yellow-100 leading-relaxed">
+                            <!-- Dynamic Content -->
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Table -->
+                    <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+                        <div class="p-8 border-b border-slate-100 bg-slate-50/80 flex justify-between items-center backdrop-blur-sm">
+                            <h3 class="font-bold text-slate-800 text-2xl flex items-center gap-3">
+                                <i class="fa-solid fa-table-list text-indigo-500"></i> 學員學習補強計畫表 (附件五)
+                            </h3>
+                            <button onclick="app.addRemediationRow()" class="text-base bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl shadow-md shadow-emerald-600/20 hover:shadow-lg transition flex items-center gap-2 font-bold transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-plus"></i> 新增項目
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-sm font-extrabold uppercase text-slate-500 tracking-wider">
+                                        <th class="p-6 border-b border-slate-200 w-[20%]">缺失/問題 (Deficit)</th>
+                                        <th class="p-6 border-b border-slate-200 w-[15%]">核心能力 (Competency)</th>
+                                        <th class="p-6 border-b border-slate-200 w-[20%]">行動計畫 (Action)</th>
+                                        <th class="p-6 border-b border-slate-200 w-[15%]">評量方法 (Assessment)</th>
+                                        <th class="p-6 border-b border-slate-200 w-[15%]">目標 (Goal)</th>
+                                        <th class="p-6 border-b border-slate-200 w-[10%]">期限 (Timeline)</th>
+                                        <th class="p-6 border-b border-slate-200 w-[5%]"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rem-table-body" class="text-base align-top divide-y divide-slate-100">
+                                    <!-- Rows generated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="rem-empty-state" class="p-24 text-center text-slate-400 hidden">
+                            <div class="bg-slate-50 w-28 h-28 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                                <i class="fa-solid fa-clipboard-question text-5xl text-slate-300"></i>
+                            </div>
+                            <p class="text-2xl font-medium text-slate-500">尚無計畫內容</p>
+                            <p class="text-lg mt-2">請點擊右上角「新增項目」開始填寫。</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        /**
+         * CONFIGURATION
+         */
+        const CCC_STEPS = [
+            { id: 1, title: "角色分配", duration: 5, desc: "抽籤決定各自擔任本次臨床能力委員會的成員角色" },
+            { id: 2, title: "查閱學習歷程", duration: 10, desc: "查閱兩位護理PGY學員(王大明、李小美)的學習歷程資料" },
+            { id: 3, title: "主席摘要", duration: 5, desc: "聆聽CCC主席對兩位學員之學習歷程摘要" },
+            { id: 4, title: "品質面向討論", duration: 20, desc: "討論品質面向：誠信、可靠性、謙遜、行動力" },
+            { id: 5, title: "信賴決策與輔導", duration: 20, desc: "決定是否可信賴執行EPA及擬定輔導方案" },
+            { id: 6, title: "觀察員紀錄", duration: 5, desc: "完成臨床能力委員會討論過程-觀察表單" }
+        ];
+
+        const ROLES = [
+            { name: "CCC主席", desc: "熟悉訓練計畫，擅長傾聽與總結", count: 1 },
+            { name: "護理部教學負責人", desc: "關注全體進度，掌握學習狀況", count: 1 },
+            { name: "病房資深臨床教師", desc: "20年資歷，提供生活輔導與回饋", count: 1 },
+            { name: "病房護理長", desc: "教學經驗豐富，指導跨領域會議", count: 1 },
+            { name: "病房新任臨床教師", desc: "曾評核兩名學員的職場評估表單", count: 1 },
+            { name: "觀察員", desc: "依據CCC觀察表單紀錄流程", count: "多位" }
+        ];
+
+        const OBSERVER_CHECKLIST = [
+            { category: "會議程序", items: ["主席有說明會議的目的與重點", "適當引導發言順序為「由幼至長」", "討論的過程展現意見的「多樣性」", "意見衝突時的處理機制"] },
+            { category: "決策過程", items: ["決策考慮學員的專業素養 (ARICH)", "決策主要依據具體之「客觀事證」", "不受限於「階級」與「和諧」之框架", "達到「共享心智模式」之師培目的"] }
+        ];
+
+        /**
+         * APP STATE & LOGIC
+         */
+        class App {
+            constructor() {
+                this.currentModule = 'remediation'; // Default view for demo: Remediation
+                this.groups = Array.from({ length: 8 }, (_, i) => ({
+                    id: i + 1,
+                    // CCC State
+                    cccStep: 0,
+                    cccCompleted: false,
+                    students: {
+                        daming: { 
+                            name: "王大明", result: null, reason: "", plan: "", summary: "", qualityNote: "",
+                            remediationPlan: [] // Array of row objects
+                        }, 
+                        xiaomei: { 
+                            name: "李小美", result: null, reason: "", plan: "", summary: "", qualityNote: "",
+                            remediationPlan: [] // Array of row objects
+                        }  
+                    },
+                    activeStudentTab: 'daming', 
+                    observerData: {}, 
+                    // Remediation State
+                    remCompleted: false
+                }));
+
+                this.activeGroupId = null;
+                this.secondsElapsed = 0;
+                
+                this.init();
+            }
+
+            init() {
+                this.startGlobalTimer();
+                this.switchModule(this.currentModule); 
+            }
+
+            startGlobalTimer() {
+                setInterval(() => {
+                    this.secondsElapsed++;
+                    const mins = Math.floor(this.secondsElapsed / 60).toString().padStart(2, '0');
+                    const secs = (this.secondsElapsed % 60).toString().padStart(2, '0');
+                    document.getElementById('global-timer').innerText = `${mins}:${secs}`;
+                }, 1000);
+            }
+
+            // --- MODULE SWITCHING ---
+            switchModule(moduleName) {
+                this.currentModule = moduleName;
+                this.activeGroupId = null;
+
+                const btnCCC = document.getElementById('tab-ccc');
+                const btnRem = document.getElementById('tab-remediation');
+                const appIcon = document.getElementById('app-icon');
+                const body = document.body;
+
+                // Updated Tab Styles Logic (Solid Active State)
+                if (moduleName === 'ccc') {
+                    btnCCC.className = "module-tab module-tab-active-ccc";
+                    btnRem.className = "module-tab module-tab-inactive";
+                    appIcon.className = "bg-teal-700 text-white w-16 h-16 rounded-xl flex items-center justify-center shadow-lg transition-colors duration-300";
+                    body.style.backgroundColor = "#f8fafc"; // Cool Gray
+                } else {
+                    btnCCC.className = "module-tab module-tab-inactive";
+                    btnRem.className = "module-tab module-tab-active-rem";
+                    appIcon.className = "bg-indigo-800 text-white w-16 h-16 rounded-xl flex items-center justify-center shadow-lg transition-colors duration-300";
+                    body.style.backgroundColor = "#eef2ff"; // Indigo Tint
+                }
+
+                this.loadDashboard();
+            }
+
+            // --- DASHBOARD ---
+            loadDashboard() {
+                this.activeGroupId = null;
+                const container = document.getElementById('main-container');
+                const tpl = document.getElementById('tpl-dashboard');
+                container.innerHTML = '';
+                container.appendChild(tpl.content.cloneNode(true));
+
+                const grid = document.getElementById('dashboard-grid');
+                const titleEl = document.getElementById('dashboard-title');
+                const descEl = document.getElementById('dashboard-desc');
+
+                if (this.currentModule === 'ccc') {
+                    titleEl.innerText = "CCC 臨床能力委員會演練";
+                    descEl.innerText = "即時監控 8 個小組的討論進度與決策結果";
+                    titleEl.className = "text-5xl font-extrabold text-teal-900 tracking-tight";
+                } else {
+                    titleEl.innerText = "補強計畫設計演練";
+                    descEl.innerText = "針對學員缺失設計具體行動方案 (Remediation)";
+                    titleEl.className = "text-5xl font-extrabold text-indigo-900 tracking-tight";
+                }
+                
+                this.groups.forEach(group => {
+                    const card = this.createGroupCard(group);
+                    grid.appendChild(card);
+                });
+            }
+
+            createGroupCard(group) {
+                let statusHtml = '';
+                let borderClass = '';
+                let percent = 0;
+                let infoText = '';
+                let btnClass = '';
+                let progressColor = '';
+
+                if (this.currentModule === 'ccc') {
+                    const stepInfo = CCC_STEPS[group.cccStep];
+                    const progressStep = group.cccCompleted ? 5 : (group.cccStep > 4 ? 4 : group.cccStep);
+                    percent = Math.round(((progressStep + 1) / 6) * 100);
+                    
+                    if (group.cccCompleted) percent = 100;
+                    else if (group.cccStep === 5) percent = 100; 
+
+                    infoText = group.cccCompleted ? '演練結束 (Observer Mode)' : stepInfo.title;
+                    btnClass = "text-teal-700 hover:text-white hover:bg-teal-600 border-teal-200 hover:border-teal-600";
+                    progressColor = "bg-teal-500";
+
+                    if (group.cccCompleted) {
+                        statusHtml = `<span class="bg-green-100 text-green-800 text-sm font-bold px-4 py-2 rounded-full border border-green-200 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> 完成</span>`;
+                        borderClass = "border-l-[6px] border-l-green-500";
+                    } else if (group.cccStep === 0) {
+                        statusHtml = `<span class="bg-slate-100 text-slate-600 text-sm font-bold px-4 py-2 rounded-full border border-slate-200 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> 未開始</span>`;
+                        borderClass = "border-l-[6px] border-l-slate-400";
+                    } else {
+                        statusHtml = `<span class="bg-yellow-100 text-yellow-700 text-sm font-bold px-4 py-2 rounded-full border border-yellow-200 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse"></span> 進行中</span>`;
+                        borderClass = "border-l-[6px] border-l-yellow-400";
+                    }
+                } else {
+                    const hasContent = group.students.daming.remediationPlan.length > 0 || group.students.xiaomei.remediationPlan.length > 0;
+                    
+                    btnClass = "text-indigo-700 hover:text-white hover:bg-indigo-600 border-indigo-200 hover:border-indigo-600";
+                    progressColor = "bg-indigo-500";
+
+                    if (group.remCompleted) {
+                        percent = 100;
+                        infoText = "計畫已提交";
+                        statusHtml = `<span class="bg-green-100 text-green-800 text-sm font-bold px-4 py-2 rounded-full border border-green-200 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> 完成</span>`;
+                        borderClass = "border-l-[6px] border-l-green-500";
+                    } else if (hasContent) {
+                        percent = 50;
+                        infoText = "計畫撰寫中...";
+                        statusHtml = `<span class="bg-yellow-100 text-yellow-700 text-sm font-bold px-4 py-2 rounded-full border border-yellow-200 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse"></span> 進行中</span>`;
+                        borderClass = "border-l-[6px] border-l-yellow-400";
+                    } else {
+                        percent = 0;
+                        infoText = "等待開始";
+                        statusHtml = `<span class="bg-slate-100 text-slate-600 text-sm font-bold px-4 py-2 rounded-full border border-slate-200 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> 未開始</span>`;
+                        borderClass = "border-l-[6px] border-l-slate-400";
+                    }
+                }
+
+                const damingStatus = this.getDecisionPill(group.students.daming.result);
+                const xiaomeiStatus = this.getDecisionPill(group.students.xiaomei.result);
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl card-shadow overflow-hidden border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 card-hover ${borderClass}`;
+                
+                card.innerHTML = `
+                    <div class="bg-white px-8 py-6 flex justify-between items-center border-b border-slate-50">
+                        <h3 class="text-slate-800 font-bold text-2xl">第 ${group.id} 組</h3>
+                        ${statusHtml}
+                    </div>
+                    <div class="p-8">
+                        <div class="w-full bg-slate-100 rounded-full h-3 mb-6 overflow-hidden">
+                            <div class="${progressColor} h-3 rounded-full transition-all duration-700 ease-out" style="width: ${percent}%"></div>
+                        </div>
+                        
+                        ${this.currentModule === 'ccc' ? `
+                        <div class="flex gap-4 mb-6">
+                            <div class="flex-1 bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                <div class="text-sm font-bold text-blue-600 mb-2 tracking-wide">王大明</div>
+                                ${damingStatus}
+                            </div>
+                            <div class="flex-1 bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                <div class="text-sm font-bold text-pink-600 mb-2 tracking-wide">李小美</div>
+                                ${xiaomeiStatus}
+                            </div>
+                        </div>` : `
+                        <div class="mb-6 text-base text-slate-600 bg-slate-50/80 p-5 rounded-xl border border-slate-100">
+                            <div class="flex justify-between mb-3 pb-3 border-b border-slate-200/50"><span>王大明計畫項目：</span><span class="font-bold text-indigo-600 bg-indigo-50 px-3 py-0.5 rounded">${group.students.daming.remediationPlan.length}</span></div>
+                            <div class="flex justify-between"><span>李小美計畫項目：</span><span class="font-bold text-indigo-600 bg-indigo-50 px-3 py-0.5 rounded">${group.students.xiaomei.remediationPlan.length}</span></div>
+                        </div>
+                        `}
+
+                        <div class="text-sm text-slate-400 mb-6 h-6 overflow-hidden flex items-center gap-2">
+                            <i class="fa-solid fa-shoe-prints"></i>
+                            <span class="font-medium">當前進度：</span>
+                            ${infoText}
+                        </div>
+
+                        <button onclick="app.loadGroup(${group.id})" class="w-full ${btnClass} font-bold text-base py-3 border rounded-xl flex justify-center items-center gap-2 transition-colors shadow-sm">
+                            查看詳情 <i class="fa-solid fa-arrow-right-long"></i>
+                        </button>
+                    </div>
+                `;
+                return card;
+            }
+
+            getDecisionPill(result) {
+                if (result === true) return '<span class="text-sm text-green-600 font-bold block"><i class="fa-solid fa-check-circle"></i> 通過</span>';
+                if (result === false) return '<span class="text-sm text-red-600 font-bold block"><i class="fa-solid fa-circle-xmark"></i> 未通過</span>';
+                return '<span class="text-sm text-slate-400 block"><i class="fa-solid fa-spinner fa-spin"></i> 討論中</span>';
+            }
+
+            // --- GROUP VIEW LOADING ---
+            loadGroup(groupId) {
+                this.activeGroupId = groupId;
+                const group = this.groups[groupId - 1];
+                const container = document.getElementById('main-container');
+                container.innerHTML = '';
+
+                if (this.currentModule === 'ccc') {
+                    const tpl = document.getElementById('tpl-ccc-group');
+                    container.appendChild(tpl.content.cloneNode(true));
+                    document.getElementById('group-title-sidebar').innerText = `第 ${group.id} 組 (CCC)`;
+                    this.updateCCCGroupUI();
+                } else {
+                    const tpl = document.getElementById('tpl-remediation-group');
+                    container.appendChild(tpl.content.cloneNode(true));
+                    document.getElementById('rem-group-title').innerText = `第 ${group.id} 組 (補強)`;
+                    this.updateRemediationUI();
+                }
+            }
+
+            // --- CCC LOGIC ---
+            updateCCCGroupUI() {
+                const group = this.groups[this.activeGroupId - 1];
+                const step = CCC_STEPS[group.cccStep];
+
+                const stepList = document.getElementById('step-list');
+                stepList.innerHTML = '';
+                CCC_STEPS.forEach((s, idx) => {
+                    const isActive = idx === group.cccStep;
+                    const div = document.createElement('div');
+                    div.className = `px-8 py-5 cursor-pointer transition border-b border-slate-100 step-item ${isActive ? 'step-active' : 'step-inactive'}`;
+                    div.onclick = () => {
+                        group.cccStep = idx;
+                        this.updateCCCGroupUI();
+                    };
+
+                    let labelText = `Step ${idx + 1} • ${s.duration} mins`;
+                    if (idx === 5) labelText = `觀察員專區`; 
+
+                    div.innerHTML = `
+                        <div class="text-xs uppercase tracking-wider mb-1.5 font-bold opacity-70">${labelText}</div>
+                        <div class="text-base font-medium leading-snug">${s.title}</div>
+                    `;
+                    stepList.appendChild(div);
+                });
+
+                const titleEl = document.getElementById('current-step-title');
+                if (group.cccStep === 5) {
+                    titleEl.innerText = step.title; 
+                } else {
+                    titleEl.innerText = `Step ${group.cccStep + 1}: ${step.title}`;
+                }
+                document.getElementById('current-step-desc').innerText = step.desc;
+
+                const nextBtn = document.getElementById('next-step-btn');
+                
+                if (group.cccStep === 4) { // Step 5 (Decision)
+                    nextBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> 完成演練';
+                    nextBtn.className = "bg-slate-800 hover:bg-slate-900 text-white px-10 py-4 rounded-xl shadow-lg transition flex items-center gap-3 font-bold text-lg transform hover:-translate-y-0.5";
+                    nextBtn.onclick = () => this.completeCCCGroupSimulation(); 
+                } else if (group.cccStep === 5) { // Step 6 (Observer)
+                    nextBtn.innerHTML = '返回儀表板 <i class="fa-solid fa-arrow-right-from-bracket"></i>';
+                    nextBtn.className = "bg-white border border-slate-300 text-slate-600 hover:bg-slate-50 px-10 py-4 rounded-xl shadow-sm transition flex items-center gap-3 font-bold text-lg";
+                    nextBtn.onclick = () => this.loadDashboard();
+                } else {
+                    nextBtn.innerHTML = '下一步 <i class="fa-solid fa-arrow-right"></i>';
+                    nextBtn.className = "bg-teal-600 hover:bg-teal-700 text-white px-10 py-4 rounded-xl shadow-lg shadow-teal-600/30 transition flex items-center gap-3 font-bold text-lg transform hover:-translate-y-0.5";
+                    nextBtn.onclick = () => {
+                        group.cccStep++;
+                        this.updateCCCGroupUI();
+                    };
+                }
+
+                this.renderCCCStepContent(group);
+            }
+
+            renderCCCStepContent(group) {
+                const container = document.getElementById('step-content');
+                const stepId = group.cccStep + 1;
+                let html = '';
+
+                if (stepId === 1) {
+                    // Step 1: Role Assignment
+                    html = `<div class="grid grid-cols-1 lg:grid-cols-2 gap-10">`;
+                    ROLES.forEach(role => html += `<div class="bg-white p-10 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition card-hover"><div class="flex items-start gap-6"><div class="bg-teal-50 text-teal-700 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border border-teal-100 shadow-sm"><i class="fa-solid fa-user-tag text-2xl"></i></div><div><div class="flex items-center gap-4 mb-3"><h4 class="font-bold text-slate-800 text-2xl">${role.name}</h4><span class="text-sm bg-slate-100 text-slate-600 px-4 py-1.5 rounded-full border border-slate-200 font-bold">人數: ${role.count}</span></div><p class="text-lg text-slate-600 leading-relaxed">${role.desc}</p></div></div></div>`);
+                    html += `</div><div class="mt-12 p-8 bg-blue-50/50 border border-blue-100 rounded-2xl text-blue-800 text-lg flex items-start gap-5"><i class="fa-solid fa-circle-info mt-1 text-2xl"></i><div>請各組利用 5 分鐘進行抽籤，確認每位成員的角色與職責。抽籤完畢後請點擊下一步。</div></div>`;
+                } else if (stepId === 2) {
+                     // Step 2: Portfolio
+                    html = `<div class="bg-white p-20 rounded-3xl border border-slate-200 shadow-lg shadow-slate-200/50 min-h-[600px] flex flex-col items-center justify-center text-center"><div class="w-40 h-40 bg-slate-50 rounded-full flex items-center justify-center mb-10 text-slate-300 text-7xl border border-slate-100"><i class="fa-solid fa-file-medical"></i></div><h3 class="text-4xl font-bold text-slate-800 mb-6">查閱學習歷程</h3><p class="text-slate-500 max-w-2xl mb-12 leading-relaxed text-xl">請全體委員參閱學員 PGY 學習歷程檔案。<br>閱讀完畢後，請點擊「下一步」進入主席摘要階段。</p><div class="flex gap-8"><button class="px-10 py-5 bg-white border border-slate-300 rounded-2xl hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition flex items-center gap-4 font-bold text-xl shadow-sm hover:-translate-y-1"><i class="fa-regular fa-folder-open"></i> 王大明 - 學習歷程</button><button class="px-10 py-5 bg-white border border-slate-300 rounded-2xl hover:bg-pink-50 hover:text-pink-700 hover:border-pink-300 transition flex items-center gap-4 font-bold text-xl shadow-sm hover:-translate-y-1"><i class="fa-regular fa-folder-open"></i> 李小美 - 學習歷程</button></div></div>`;
+                } else if (stepId === 3) {
+                     // Step 3: Summary
+                    html = `<div class="bg-white p-12 rounded-3xl border border-slate-200 shadow-lg"><div class="mb-12 bg-teal-50/50 border-l-[6px] border-teal-500 p-8 rounded-r-2xl"><div class="flex items-start gap-6"><div class="bg-white text-teal-600 w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 border border-teal-200 shadow-sm text-2xl"><i class="fa-solid fa-pen-to-square"></i></div><div><h4 class="font-bold text-teal-900 text-2xl mb-3">主席任務</h4><p class="text-lg text-teal-800 leading-relaxed">請 CCC 主席依據剛才查閱的學習歷程資料，分別摘要兩位學員在 EPA 執行上的<span class="font-bold text-teal-900">優勢</span>與<span class="font-bold text-teal-900">待加強</span>之處，並在此進行記錄。</p></div></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="bg-slate-50 p-10 rounded-3xl border border-slate-200 hover:border-blue-300 transition-all hover:shadow-md group"><div class="flex items-center gap-5 mb-8 border-b border-slate-200 pb-5"><div class="w-3 h-10 bg-blue-600 rounded-full"></div><h3 class="font-bold text-3xl text-slate-800">王大明</h3></div><label class="block text-base font-bold text-slate-500 mb-4 uppercase tracking-wider">學習歷程摘要</label><textarea oninput="app.updateInput('daming', 'summary', this.value)" class="w-full p-6 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[400px] text-lg leading-relaxed shadow-inner bg-white resize-none" placeholder="請主席輸入王大明的表現摘要...">${group.students.daming.summary}</textarea></div>
+                    <div class="bg-slate-50 p-10 rounded-3xl border border-slate-200 hover:border-pink-300 transition-all hover:shadow-md group"><div class="flex items-center gap-5 mb-8 border-b border-slate-200 pb-5"><div class="w-3 h-10 bg-pink-600 rounded-full"></div><h3 class="font-bold text-3xl text-slate-800">李小美</h3></div><label class="block text-base font-bold text-slate-500 mb-4 uppercase tracking-wider">學習歷程摘要</label><textarea oninput="app.updateInput('xiaomei', 'summary', this.value)" class="w-full p-6 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 min-h-[400px] text-lg leading-relaxed shadow-inner bg-white resize-none" placeholder="請主席輸入李小美的表現摘要...">${group.students.xiaomei.summary}</textarea></div></div></div>`;
+                } else if (stepId === 4) {
+                     // Step 4: Quality
+                     html = `<div class="bg-white p-12 rounded-3xl border border-slate-200 shadow-lg"><h3 class="font-bold text-3xl mb-10 border-b border-slate-100 pb-8 text-slate-800">品質面向討論重點 (ARICH)</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                    <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 text-center hover:bg-indigo-50 transition"><div class="font-bold text-indigo-900 mb-3 text-xl"><i class="fa-solid fa-scale-balanced block text-4xl mb-4 text-indigo-500"></i> 誠信</div><p class="text-base text-indigo-700">誠實面對錯誤、仁慈</p></div>
+                    <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 text-center hover:bg-indigo-50 transition"><div class="font-bold text-indigo-900 mb-3 text-xl"><i class="fa-solid fa-shield-halved block text-4xl mb-4 text-indigo-500"></i> 可靠性</div><p class="text-base text-indigo-700">盡責、情緒穩定</p></div>
+                    <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 text-center hover:bg-indigo-50 transition"><div class="font-bold text-indigo-900 mb-3 text-xl"><i class="fa-solid fa-hand-holding-hand block text-4xl mb-4 text-indigo-500"></i> 謙遜</div><p class="text-base text-indigo-700">辨識限制、主動求助</p></div>
+                    <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 text-center hover:bg-indigo-50 transition"><div class="font-bold text-indigo-900 mb-3 text-xl"><i class="fa-solid fa-person-running block text-4xl mb-4 text-indigo-500"></i> 行動力</div><p class="text-base text-indigo-700">積極主動</p></div></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="bg-blue-50/50 p-10 rounded-2xl border border-blue-200"><div class="flex items-center gap-4 mb-6"><span class="bg-blue-600 text-white text-base font-bold px-4 py-2 rounded-lg shadow-sm">王大明</span><h4 class="font-bold text-blue-900 text-xl">品質面向討論紀錄</h4></div><textarea oninput="app.updateInput('daming', 'qualityNote', this.value)" class="w-full p-6 border border-blue-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[300px] bg-white shadow-sm text-lg resize-none" placeholder="請記錄針對 王大明 的 ARICH 面向討論...">${group.students.daming.qualityNote}</textarea></div>
+                    <div class="bg-pink-50/50 p-10 rounded-2xl border border-pink-200"><div class="flex items-center gap-4 mb-6"><span class="bg-pink-600 text-white text-base font-bold px-4 py-2 rounded-lg shadow-sm">李小美</span><h4 class="font-bold text-pink-900 text-xl">品質面向討論紀錄</h4></div><textarea oninput="app.updateInput('xiaomei', 'qualityNote', this.value)" class="w-full p-6 border border-pink-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 min-h-[300px] bg-white shadow-sm text-lg resize-none" placeholder="請記錄針對 李小美 的 ARICH 面向討論...">${group.students.xiaomei.qualityNote}</textarea></div></div></div>`;
+                } else if (stepId === 5) {
+                    // Step 5 Decision
+                    const activeKey = group.activeStudentTab;
+                    const s = group.students[activeKey];
+                    html = `<div class="flex gap-3 pl-3 mb-[-1px] z-10 relative"><button onclick="app.switchStudentTab('daming')" class="px-10 py-4 rounded-t-2xl font-bold text-lg transition-all ${activeKey==='daming'?'bg-white text-blue-700 border-t border-l border-r border-slate-200 shadow-sm pb-5':'bg-slate-100 text-slate-500 hover:bg-slate-200 border border-transparent'}"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="px-10 py-4 rounded-t-2xl font-bold text-lg transition-all ${activeKey==='xiaomei'?'bg-white text-pink-700 border-t border-l border-r border-slate-200 shadow-sm pb-5':'bg-slate-100 text-slate-500 hover:bg-slate-200 border border-transparent'}"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</button></div>
+                    <div class="bg-white p-12 border border-slate-200 rounded-b-3xl rounded-tr-3xl shadow-sm relative z-0">
+                    <div class="mb-12"><h4 class="font-bold text-slate-800 mb-8 text-2xl border-l-[6px] border-teal-500 pl-5">甲、是否可被信賴執行該 EPA「住院病患的照護與衛教」？</h4><div class="flex gap-8">
+                    <button onclick="app.setDecision('${activeKey}', true)" class="flex-1 py-6 rounded-2xl font-bold transition-all border-2 flex items-center justify-center gap-4 text-xl ${s.result===true?'bg-green-50 border-green-500 text-green-700 ring-4 ring-green-100 shadow-md':'bg-white text-slate-400 border-slate-200 hover:border-green-300 hover:text-green-600'}"><i class="fa-solid fa-circle-check text-3xl"></i><span>可被信賴 (Pass)</span></button>
+                    <button onclick="app.setDecision('${activeKey}', false)" class="flex-1 py-6 rounded-2xl font-bold transition-all border-2 flex items-center justify-center gap-4 text-xl ${s.result===false?'bg-red-50 border-red-500 text-red-700 ring-4 ring-red-100 shadow-md':'bg-white text-slate-400 border-slate-200 hover:border-red-300 hover:text-red-600'}"><i class="fa-solid fa-circle-xmark text-3xl"></i><span>未可被信賴 (Fail)</span></button></div></div>
+                    <div class="mb-12"><h4 class="font-bold text-slate-800 mb-5 text-2xl border-l-[6px] border-teal-500 pl-5">乙、說明決定的原因：</h4><textarea oninput="app.updateInput('${activeKey}','reason',this.value)" class="w-full p-8 bg-slate-800 text-slate-50 rounded-3xl border border-slate-700 focus:border-teal-500 focus:outline-none shadow-inner font-light tracking-wide text-xl leading-relaxed resize-none" rows="5" placeholder="請詳細說明做出上述決定的具體理由...">${s.reason}</textarea></div>
+                    <div class="mb-6 relative"><h4 class="font-bold text-slate-800 text-2xl border-l-[6px] border-teal-500 pl-5 mb-5">丙、具體輔導方案或改善計畫：</h4><textarea oninput="app.updateInput('${activeKey}','plan',this.value)" class="w-full p-8 bg-slate-800 text-slate-50 rounded-3xl border border-slate-700 focus:border-teal-500 focus:outline-none shadow-inner font-light tracking-wide text-xl leading-relaxed resize-none" rows="5" placeholder="請列出具體的教學策略或補強計畫...">${s.plan}</textarea></div></div>`;
+                } else if (stepId === 6) {
+                    // Step 6 Observer
+                     const activeKey = group.activeStudentTab;
+                     html = `<div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-lg"><div class="bg-amber-50/80 border-l-[6px] border-amber-400 p-8 mb-10 rounded-r-xl flex justify-between items-center"><div class="flex items-start gap-6"><div class="bg-white p-4 rounded-full shadow-sm text-amber-500"><i class="fa-solid fa-eye text-3xl"></i></div><div><h4 class="font-bold text-amber-900 text-2xl">觀察員專區</h4><p class="text-lg text-amber-800/80 mt-2">請切換學員標籤，分別記錄委員會針對兩位學員討論過程的觀察。</p></div></div></div>
+                     <div class="flex gap-3 border-b border-slate-200 mb-0 px-3"><button onclick="app.switchStudentTab('daming')" class="px-8 py-4 rounded-t-2xl font-bold text-lg transition-all ${activeKey==='daming'?'bg-blue-50 text-blue-800 border border-slate-200 border-b-white -mb-[1px] shadow-sm':'bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700'}">觀察紀錄：王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="px-8 py-4 rounded-t-2xl font-bold text-lg transition-all ${activeKey==='xiaomei'?'bg-pink-50 text-pink-800 border border-slate-200 border-b-white -mb-[1px] shadow-sm':'bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700'}">觀察紀錄：李小美</button></div>
+                     <div class="overflow-x-auto border border-t-0 border-slate-200 rounded-b-3xl bg-white p-8 ${activeKey==='daming'?'bg-blue-50/20':'bg-pink-50/20'}"><table class="w-full border-collapse min-w-[1000px]"><thead><tr class="border-b-2 border-slate-200 ${activeKey==='daming'?'bg-blue-100/40':'bg-pink-100/40'}"><th class="text-left p-6 font-bold text-slate-700 w-1/3 text-lg">預計觀察內容</th><th class="text-left p-6 font-bold text-slate-700 w-1/3 text-lg">實際觀察到的團隊作為</th><th class="text-left p-6 font-bold text-slate-700 w-1/3 text-lg">潛在的挑戰與限制</th></tr></thead><tbody class="divide-y divide-slate-100 bg-white">`;
+                     
+                     OBSERVER_CHECKLIST.forEach((cat, idx) => {
+                        const aKey = `${activeKey}-${idx}-actual`; const cKey = `${activeKey}-${idx}-challenges`;
+                        const aVal = group.observerData[aKey]||''; const cVal = group.observerData[cKey]||'';
+                        const ring = activeKey==='daming'?'focus:ring-blue-500 focus:border-blue-500':'focus:ring-pink-500 focus:border-pink-500';
+                        html += `<tr class="hover:bg-slate-50/50 transition"><td class="p-8 align-top border-r border-slate-100"><h5 class="font-bold text-slate-800 text-xl mb-5 flex items-center gap-3"><span class="bg-slate-200 text-slate-600 w-8 h-8 rounded flex items-center justify-center text-sm">${idx+1}</span> ${cat.category}</h5><ul class="list-none space-y-4 pl-2 text-base text-slate-600 leading-relaxed">${cat.items.map(i=>`<li class="relative pl-5"><span class="absolute left-0 top-2.5 w-2 h-2 bg-slate-300 rounded-full"></span>${i}</li>`).join('')}</ul></td><td class="p-6 align-top"><textarea oninput="app.updateObserverData('${aKey}',this.value)" class="w-full h-80 p-5 border border-slate-300 rounded-2xl ${ring} text-base shadow-sm resize-none focus:shadow-md transition" placeholder="請詳細描述...">${aVal}</textarea></td><td class="p-6 align-top"><textarea oninput="app.updateObserverData('${cKey}',this.value)" class="w-full h-80 p-5 border border-slate-300 rounded-2xl ${ring} text-base shadow-sm resize-none focus:shadow-md transition" placeholder="請詳細描述...">${cVal}</textarea></td></tr>`;
+                     });
+                     html += `</tbody></table></div></div>`;
+                }
+                container.innerHTML = html;
+            }
+
+            // --- REMEDIATION LOGIC ---
+            updateRemediationUI() {
+                const group = this.groups[this.activeGroupId - 1];
+                const activeKey = group.activeStudentTab;
+
+                const btnDaming = document.getElementById('btn-rem-daming');
+                const btnXiaomei = document.getElementById('btn-rem-xiaomei');
+                
+                if (activeKey === 'daming') {
+                    btnDaming.className = "px-8 py-3.5 rounded-xl text-lg font-bold transition-all border bg-white text-indigo-700 border-indigo-200 shadow-md transform -translate-y-0.5";
+                    btnXiaomei.className = "px-8 py-3.5 rounded-xl text-lg font-bold transition-all border border-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-700";
+                } else {
+                    btnDaming.className = "px-8 py-3.5 rounded-xl text-lg font-bold transition-all border border-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-700";
+                    btnXiaomei.className = "px-8 py-3.5 rounded-xl text-lg font-bold transition-all border bg-white text-pink-700 border-pink-200 shadow-md transform -translate-y-0.5";
+                }
+
+                const refDiv = document.getElementById('rem-ccc-reference');
+                const sData = group.students[activeKey];
+                let refHtml = '';
+                if (sData.result === null) {
+                    refHtml = "<span class='text-slate-400 italic'>CCC 尚未進行信賴決策。</span>";
+                } else {
+                    refHtml = `<div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-3 text-xl"><span class="font-bold text-slate-700">決策結果：</span>${sData.result ? '<span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-base font-bold border border-green-200">Pass 可信賴</span>' : '<span class="bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-base font-bold border border-red-200">Fail 未通過</span>'}</div>
+                        <div class="text-lg"><span class="font-bold text-slate-700">原因說明：</span><span class="text-slate-600">${sData.reason || '無'}</span></div>
+                        <div class="text-lg"><span class="font-bold text-slate-700">建議方案：</span><span class="text-slate-600">${sData.plan || '無'}</span></div>
+                    </div>`;
+                }
+                refDiv.innerHTML = refHtml;
+
+                const tbody = document.getElementById('rem-table-body');
+                tbody.innerHTML = '';
+                const emptyState = document.getElementById('rem-empty-state');
+
+                if (sData.remediationPlan.length === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                    sData.remediationPlan.forEach((row, index) => {
+                        const tr = document.createElement('tr');
+                        tr.className = "border-b border-slate-100 hover:bg-indigo-50/30 transition-colors group";
+                        tr.innerHTML = `
+                            <td class="p-4 align-top"><textarea oninput="app.updateRemRow(${index}, 'deficit', this.value)" class="w-full p-4 border border-slate-300 rounded-xl text-base h-36 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none" placeholder="描述問題...">${row.deficit}</textarea></td>
+                            <td class="p-4 align-top"><textarea oninput="app.updateRemRow(${index}, 'competency', this.value)" class="w-full p-4 border border-slate-300 rounded-xl text-base h-36 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none" placeholder="對應能力...">${row.competency}</textarea></td>
+                            <td class="p-4 align-top"><textarea oninput="app.updateRemRow(${index}, 'action', this.value)" class="w-full p-4 border border-slate-300 rounded-xl text-base h-36 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none" placeholder="教學策略...">${row.action}</textarea></td>
+                            <td class="p-4 align-top"><textarea oninput="app.updateRemRow(${index}, 'assessment', this.value)" class="w-full p-4 border border-slate-300 rounded-xl text-base h-36 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none" placeholder="評估方式...">${row.assessment}</textarea></td>
+                            <td class="p-4 align-top"><textarea oninput="app.updateRemRow(${index}, 'goal', this.value)" class="w-full p-4 border border-slate-300 rounded-xl text-base h-36 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm resize-none" placeholder="預期目標...">${row.goal}</textarea></td>
+                            <td class="p-4 align-top"><input type="text" oninput="app.updateRemRow(${index}, 'deadline', this.value)" class="w-full p-4 border border-slate-300 rounded-xl text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm" placeholder="例如：2週" value="${row.deadline}"></td>
+                            <td class="p-4 text-center align-middle"><button onclick="app.deleteRemRow(${index})" class="text-slate-300 hover:text-red-500 p-3 rounded-full hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100 transform hover:scale-110"><i class="fa-solid fa-trash-can text-2xl"></i></button></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            }
+
+            addRemediationRow() {
+                const group = this.groups[this.activeGroupId - 1];
+                const activeKey = group.activeStudentTab;
+                group.students[activeKey].remediationPlan.push({
+                    deficit: '', competency: '', action: '', assessment: '', goal: '', deadline: ''
+                });
+                this.updateRemediationUI();
+            }
+
+            updateRemRow(index, field, value) {
+                const group = this.groups[this.activeGroupId - 1];
+                const activeKey = group.activeStudentTab;
+                group.students[activeKey].remediationPlan[index][field] = value;
+            }
+
+            deleteRemRow(index) {
+                if(confirm('確定刪除此項目？')) {
+                    const group = this.groups[this.activeGroupId - 1];
+                    const activeKey = group.activeStudentTab;
+                    group.students[activeKey].remediationPlan.splice(index, 1);
+                    this.updateRemediationUI();
+                }
+            }
+
+            completeRemediation() {
+                 const group = this.groups[this.activeGroupId - 1];
+                 const hasContent = (studentKey) => {
+                    const plan = group.students[studentKey].remediationPlan;
+                    if (!plan || plan.length === 0) return false;
+                    return plan.some(row => Object.values(row).some(val => val && val.trim().length > 0));
+                };
+
+                const damingHasPlan = hasContent('daming');
+                const xiaomeiHasPlan = hasContent('xiaomei');
+
+                if (!damingHasPlan && !xiaomeiHasPlan) {
+                    this.showModal({
+                        title: "無法提交計畫",
+                        message: "請至少為一位學員（王大明或李小美）<br>新增並填寫至少一項補強計畫內容。",
+                        type: 'warning'
+                    });
+                    return;
+                }
+
+                 this.showModal({
+                    title: "完成計畫設計",
+                    message: "確定要提交本組的補強計畫嗎？<br>提交後將無法修改。",
+                    type: 'success',
+                    onConfirm: () => {
+                        group.remCompleted = true;
+                        this.loadDashboard();
+                    }
+                });
+            }
+
+            // --- SHARED ACTIONS ---
+            switchStudentTab(student) {
+                this.groups[this.activeGroupId - 1].activeStudentTab = student;
+                if (this.currentModule === 'ccc') {
+                    this.updateCCCGroupUI();
+                } else {
+                    this.updateRemediationUI();
+                }
+            }
+
+            setDecision(student, result) {
+                this.groups[this.activeGroupId - 1].students[student].result = result;
+                this.updateCCCGroupUI(); 
+            }
+            
+            completeCCCGroupSimulation() {
+                const group = this.groups[this.activeGroupId - 1];
+                const p1 = group.students.daming.result;
+                const p2 = group.students.xiaomei.result;
+
+                if (p1 !== null) {
+                    if (p2 !== null) {
+                        this.showModal({
+                            title: "確認結束演練", message: "兩位學員皆已評定完成。<br>確定要結束本組演練並返回儀表板嗎？", type: 'success',
+                            onConfirm: () => { group.cccCompleted = true; this.loadDashboard(); }
+                        });
+                    } else {
+                         this.showModal({
+                            title: "演練暫存確認", message: "您已完成王大明的評定，但<span class='font-bold text-red-600'>李小美尚未評定</span>。<br><br>您可以先返回儀表板，但本組狀態將維持為<span class='font-bold text-yellow-600'>「進行中」</span>。", type: 'warning',
+                            onConfirm: () => { this.loadDashboard(); }
+                        });
+                    }
+                } else {
+                    this.showModal({ title: "無法結束演練", message: "請至少完成<span class='font-bold'>王大明</span>的信賴決策後再送出。", type: 'warning' });
+                }
+            }
+
+            updateInput(student, field, value) {
+                this.groups[this.activeGroupId - 1].students[student][field] = value;
+            }
+            
+            updateObserverData(key, value) {
+                this.groups[this.activeGroupId - 1].observerData[key] = value;
+            }
+
+            showModal({ title, message, icon, type, onConfirm }) {
+                const modal = document.getElementById('custom-modal');
+                const titleEl = document.getElementById('modal-title');
+                const msgEl = document.getElementById('modal-message');
+                const iconContainer = document.getElementById('modal-icon');
+                const btnCancel = document.getElementById('modal-btn-cancel');
+                const btnConfirm = document.getElementById('modal-btn-confirm');
+
+                titleEl.innerText = title;
+                msgEl.innerHTML = message;
+                
+                if (type === 'success') {
+                    iconContainer.innerHTML = '<i class="fa-solid fa-check text-green-600 text-xl"></i>';
+                    iconContainer.className = "mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-green-100 mb-8 shadow-sm";
+                    btnConfirm.className = "bg-green-600 text-white hover:bg-green-700 px-8 py-4 rounded-xl text-lg font-bold shadow-lg transition w-full transform hover:-translate-y-0.5";
+                } else if (type === 'warning') {
+                    iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-600 text-xl"></i>';
+                    iconContainer.className = "mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-yellow-100 mb-8 shadow-sm";
+                    btnConfirm.className = "bg-yellow-600 text-white hover:bg-yellow-700 px-8 py-4 rounded-xl text-lg font-bold shadow-lg transition w-full transform hover:-translate-y-0.5";
+                }
+
+                if (onConfirm) {
+                    btnCancel.classList.remove('hidden');
+                    btnConfirm.onclick = () => { this.closeModal(); onConfirm(); };
+                } else {
+                    btnCancel.classList.add('hidden');
+                    btnConfirm.onclick = () => this.closeModal();
+                }
+
+                btnCancel.onclick = () => this.closeModal();
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.add('opacity-100');
+                    modal.querySelector('#modal-content').classList.add('scale-100');
+                }, 10);
+            }
+
+            closeModal() { 
+                const modal = document.getElementById('custom-modal');
+                modal.classList.remove('opacity-100');
+                modal.querySelector('#modal-content').classList.remove('scale-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden'); 
+                }, 300);
+            }
+        }
+
+        const app = new App();
+    </script>
+</body>
+</html>
