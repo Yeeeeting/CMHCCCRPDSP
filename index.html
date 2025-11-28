@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V4.26 (觀察員介面簡化版)</title>
+    <title>CCC實務工作坊演練平台 V4.31 (學員資料按鈕置頂版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -258,13 +258,15 @@
     <!-- Modal -->
     <div id="custom-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="app.closeModal()"></div>
-        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md transform transition-all scale-100 flex flex-col items-center text-center animate-fade-in" id="modal-content">
-            <div id="modal-icon" class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6 text-4xl">
+        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl transform transition-all scale-100 flex flex-col items-center text-center animate-fade-in max-h-[90vh] flex" id="modal-content">
+            <div id="modal-icon" class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6 text-4xl flex-shrink-0">
                 <i class="fa-solid fa-info"></i>
             </div>
-            <h3 id="modal-title" class="text-3xl font-bold text-slate-800 mb-4">提示</h3>
-            <p id="modal-message" class="text-slate-600 mb-8 text-xl leading-relaxed">內容</p>
-            <div class="flex gap-4 w-full" id="modal-actions">
+            <div class="flex-1 w-full overflow-y-auto px-2">
+                 <h3 id="modal-title" class="text-3xl font-bold text-slate-800 mb-4">提示</h3>
+                 <div id="modal-message" class="text-slate-600 mb-8 text-xl leading-relaxed text-left">內容</div>
+            </div>
+            <div class="flex gap-4 w-full mt-4 flex-shrink-0" id="modal-actions">
                 <button id="modal-btn-cancel" class="flex-1 py-4 rounded-xl border border-slate-200 font-bold text-slate-600 text-xl">取消</button>
                 <button id="modal-btn-confirm" class="flex-1 py-4 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 text-xl">確定</button>
             </div>
@@ -669,7 +671,77 @@
                 if (stepId === 1) {
                     return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center"><i class="fa-solid ${r.icon} text-2xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-sm bg-slate-100 px-3 py-1 rounded text-slate-500">人數: ${r.count}</span></div></div><p class="text-base text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
                 }
-                if (stepId === 2) return `<div class="text-center py-16"><i class="fa-solid fa-book-open text-7xl text-slate-200 mb-8 block"></i><h3 class="text-2xl font-bold text-slate-700 mb-3">請委員參閱 2 位學員的學習歷程檔案</h3><p class="text-slate-500 mb-10 text-lg">請全體委員參閱紙本或平板上的學習歷程資料。</p><div class="flex justify-center gap-6"><button class="px-8 py-4 rounded-xl border border-slate-200 font-bold text-slate-600 bg-white shadow-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition text-lg">王大明資料</button><button class="px-8 py-4 rounded-xl border border-slate-200 font-bold text-slate-600 bg-white shadow-sm hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200 transition text-lg">李小美資料</button></div></div>`;
+                if (stepId === 2) return `
+                    <div class="text-center py-6">
+                        <div class="flex justify-center mb-6"><i class="fa-solid fa-book-open text-7xl text-slate-200"></i></div>
+                        <h3 class="text-2xl font-bold text-slate-700 mb-3">請委員參閱 2 位學員的學習歷程檔案</h3>
+                        <p class="text-slate-500 mb-10 text-lg">請全體委員參閱紙本或平板上的學習歷程資料，並對照 EPA 標準。</p>
+                        
+                        <div class="flex justify-center gap-6 mb-12">
+                            <button class="px-8 py-4 rounded-xl border-2 border-blue-100 font-bold text-blue-700 bg-blue-50 shadow-sm hover:bg-blue-100 hover:border-blue-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=sharing','_blank')">
+                                <i class="fa-regular fa-folder-open"></i> 王大明資料
+                            </button>
+                            <button class="px-8 py-4 rounded-xl border-2 border-pink-100 font-bold text-pink-700 bg-pink-50 shadow-sm hover:bg-pink-100 hover:border-pink-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">
+                                <i class="fa-regular fa-folder-open"></i> 李小美資料
+                            </button>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10 text-left">
+                            <div class="bg-teal-50 px-6 py-4 border-b border-teal-100 flex items-center gap-3">
+                                <i class="fa-solid fa-file-medical text-2xl text-teal-600"></i>
+                                <h4 class="text-xl font-bold text-teal-900">住院病患的照護與衛教 (EPA 標準)</h4>
+                            </div>
+                            <div class="p-8 space-y-8">
+                                <div>
+                                    <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> 任務描述</h5>
+                                    <ul class="list-disc pl-6 space-y-2 text-base text-slate-700">
+                                        <li><strong>疾病知識：</strong>熟悉常見內外科病理生理、檢查與治療要點；掌握高警訊藥與院內政策、感染管制原則。</li>
+                                        <li><strong>臨床照護：</strong>進行整體評估、擬定與執行護理計畫並持續調整；落實用藥與物品管理、病安措施；規劃出院準備與轉介。</li>
+                                        <li><strong>溝通衛教：</strong>對病人/家屬進行有效衛教與教學回饋；清楚交班並與跨專業團隊協作與適時求助；能處理高壓溝通情境。</li>
+                                        <li class="text-slate-400 text-sm italic">(適用限制：排除 ICU、兒科/產科/精神科等需額外專科訓練之情境)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="bg-slate-50 p-5 rounded-xl">
+                                        <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span> 任務失敗風險</h5>
+                                        <p class="text-slate-700">病安事件(用藥錯誤、感染、跌倒、壓瘡)、溝通失誤引起申訴、照護斷裂與再入院、法遵與紀錄不全。</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-5 rounded-xl">
+                                        <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span> 對應核心能力</h5>
+                                        <p class="text-slate-700">醫學知識、病人照護、人際溝通。</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span> 先備要件</h5>
+                                    <ul class="list-disc pl-6 space-y-2 text-base text-slate-700">
+                                        <li><strong>知識：</strong>常見內外科疾病照護、用藥安全與高警訊藥、感染管制、衛教與成人學習原則、院內政策。</li>
+                                        <li><strong>技能：</strong>系統評估、護理計畫、衛教、用藥與物品管控、文件與通報、跨專業溝通。</li>
+                                        <li><strong>態度：</strong>以病人為中心、病安意識、主動求助、尊重與同理。</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div>
+                                         <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">5</span> 評估相關資訊</h5>
+                                        <ul class="list-disc pl-6 space-y-1 text-base text-slate-700">
+                                            <li>筆試：每訓練期 ≥1 次</li>
+                                            <li>短期臨床觀察 (ad-hoc)：每訓練期 ≥3 次</li>
+                                            <li>360度評量：每訓練期 ≥1 次</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-teal-50 p-5 rounded-xl border border-teal-100">
+                                        <h5 class="font-bold text-teal-800 text-lg mb-2">授權標準 (獨立操作時機)</h5>
+                                        <p class="mb-3 text-slate-700">完成病房核心訓練；至少 2 週並獨立照護 ≥5 名病人；至少 3 件出院準備/轉介實作。</p>
+                                        <div class="font-bold text-xl text-teal-900 border-t border-teal-200 pt-2">
+                                            達成授權至 Level 3c 以上
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
                 if (stepId === 3) {
                     return `${this.getTabsHTML(activeKey)}<div class="bg-white border border-slate-200 rounded-b-xl rounded-tr-xl p-8 shadow-sm animate-fade-in"><div class="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div class="w-1.5 h-6 ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'} rounded-full"></div><div class="font-bold text-slate-800 text-xl">${g.students[activeKey].name} 摘要</div></div><textarea class="w-full h-80 bg-slate-50 border-slate-200 focus:bg-white" placeholder="請自由輸入學員職場表現..." oninput="app.updateData('${activeKey}','summary',this.value)">${g.students[activeKey].summary}</textarea></div>`;
                 }
@@ -706,39 +778,9 @@
                     return `${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-10"><h4 class="font-bold text-slate-800 mb-4 border-l-4 border-teal-500 pl-4 text-xl">是否可被信賴執行該 EPA「住院病患的照護與衛教」？</h4><div class="flex gap-4"><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===true?'border-green-500 bg-green-50 text-green-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(true)">Pass 可信賴</button><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===false?'border-red-500 bg-red-50 text-red-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(false)">Fail 未通過</button></div></div><div class="space-y-10"><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">擬定向學員說明此決定的原因？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateData('${activeKey}','reason',this.value)">${s.reason}</textarea></div><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">提出具體輔導方案或改善計畫？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateData('${activeKey}','plan',this.value)">${s.plan}</textarea></div></div></div>`;
                 }
                 if (stepId === 6) {
-                    // Simplified Observer View
-                    return `
-                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="mb-8 border-b border-slate-100 pb-6">
-                            <h3 class="font-bold text-slate-800 text-3xl text-blue-600">觀察員紀錄</h3>
-                            <p class="text-lg text-slate-500 mt-2">填寫回饋表單</p>
-                        </div>
-                        
+                    return `<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
                         ${this.getTabsHTML(activeKey)}
-
-                        <div class="bg-slate-50 p-6 rounded-b-xl rounded-tr-xl border border-slate-200 space-y-10 animate-fade-in">
-                            ${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `
-                                <div>
-                                    <h5 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-3">
-                                        <span class="bg-slate-200 w-8 h-8 flex items-center justify-center rounded text-sm">${catIdx+1}</span> ${category}
-                                    </h5>
-                                    <ul class="list-disc pl-10 mb-6 text-base text-slate-600 space-y-2">
-                                        ${items.map(i => `<li>${i}</li>`).join('')}
-                                    </ul>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label class="text-sm font-bold text-slate-500 mb-2 block">實際觀察到的團隊作為</label>
-                                            <textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea>
-                                        </div>
-                                        <div>
-                                            <label class="text-sm font-bold text-slate-500 mb-2 block">潛在的挑戰與限制</label>
-                                            <textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>`;
+                        <div class="bg-slate-50 p-6 rounded-b-xl rounded-tr-xl border border-slate-200 space-y-10 animate-fade-in">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div><h5 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-3"><span class="bg-slate-200 w-8 h-8 flex items-center justify-center rounded text-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-10 mb-6 text-base text-slate-600 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label class="text-sm font-bold text-slate-500 mb-2 block">實際觀察到的團隊作為</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div><label class="text-sm font-bold text-slate-500 mb-2 block">潛在的挑戰與限制</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
                 }
             }
 
@@ -746,7 +788,6 @@
                 const g = this.groups[this.activeGroupId - 1];
                 const key = g.activeStudentTab;
                 
-                // Tabs: Render unified tabs in the header container
                 const commonBtn = "px-8 py-3 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0";
                 const damingActive = "bg-blue-600 text-white shadow-md transform -translate-y-1"; 
                 const xiaomeiActive = "bg-pink-600 text-white shadow-md transform -translate-y-1";
@@ -755,13 +796,11 @@
                 const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="${commonBtn} ${key==='daming' ? damingActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</button>`;
                 const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="${commonBtn} ${key==='xiaomei' ? xiaomeiActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</button>`;
 
-                // Fix for TypeError: Check if element exists before setting innerHTML
                 const remTabsContainer = document.getElementById('rem-tabs-container');
                 if (remTabsContainer) {
                     remTabsContainer.innerHTML = damingBtn + xiaomeiBtn;
                 }
 
-                // Fix for TypeError: Check if elements exist
                 const remGroupTitle = document.getElementById('rem-group-title');
                 if (remGroupTitle) remGroupTitle.innerText = `第 ${g.id} 組計畫`;
                 
@@ -844,7 +883,6 @@
                         const obsDecisionActual = group.observerData[`${key}-決策過程-actual`] || '無紀錄';
                         const obsDecisionLimit = group.observerData[`${key}-決策過程-limit`] || '無紀錄';
 
-                        // 整合觀察員紀錄為單一字串
                         const obsLog = `【會議程序】\n• 實際: ${obsProcessActual}\n• 限制: ${obsProcessLimit}\n\n【決策過程】\n• 實際: ${obsDecisionActual}\n• 限制: ${obsDecisionLimit}`;
 
                         masterData.push([
@@ -852,11 +890,11 @@
                             `第 ${group.id} 組`,
                             s.name,
                             s.summary || '-',
-                            s.qualityNote || '-', // Step 4 單一欄位
+                            s.qualityNote || '-', 
                             s.result === true ? 'PASS' : (s.result === false ? 'FAIL' : '未決策'),
                             s.reason || '-',
                             s.plan || '-',
-                            obsLog, // Step 6 單一欄位
+                            obsLog, 
                             group.cccCompleted ? '已完成' : '進行中'
                         ]);
                     });
@@ -914,19 +952,16 @@
 
             setTab(t) { 
                 this.groups[this.activeGroupId-1].activeStudentTab = t; 
-                // Check current view and render appropriately to avoid null errors
                 if(this.currentModule === 'ccc') {
                     this.renderCCC(); 
                 } else {
                     this.renderRemediation();
                 }
                 
-                // Scroll content to top when tab changes
                 const contentDiv = document.getElementById('step-content');
                 if (contentDiv && contentDiv.parentElement) {
                    contentDiv.parentElement.scrollTop = 0;
                 }
-                // For remediation view
                 const remContent = document.querySelector('.flex-1.overflow-y-auto');
                 if (remContent) remContent.scrollTop = 0;
             }
@@ -935,12 +970,6 @@
             updateData(s,f,v) { this.groups[this.activeGroupId-1].students[s][f] = v; }
             updateArich(s, field, v) { this.groups[this.activeGroupId-1].students[s].qualityNote = v; }
             updateObs(s, key, v) { this.groups[this.activeGroupId-1].observerData[`${s}-${key}`] = v; }
-            
-            switchStudentTab(t) { 
-                // Unified switcher that just calls setTab
-                this.setTab(t);
-            }
-            
             addRemediationRow() { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.push({deficit:'',competency:'',action:'',assessment:'',goal:'',deadline:''}); this.renderRemediation(); }
             updateItem(idx,f,v) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan[idx][f] = v; }
             delItem(idx) { if(confirm('刪除此項目?')) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.splice(idx,1); this.renderRemediation(); } }
