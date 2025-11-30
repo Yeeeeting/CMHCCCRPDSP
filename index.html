@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V4.31 (學員資料按鈕置頂版)</title>
+    <title>CCC實務工作坊演練平台 V4.33 (角色背景更新版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -434,12 +434,42 @@
         ];
 
         const ROLES = [
-            { name: "CCC主席", count: 1, icon: "fa-gavel", desc: "經驗豐富的PGY資深臨床教師，任務是促進討論、統整觀點並引導決策流程，營造安全開放的對話氛圍。" },
-            { name: "護理部教學負責人", count: 1, icon: "fa-clipboard-user", desc: "任職滿10年，透過教學系統掌握學員表現。知悉兩位學員的異常事件與回饋狀況。" },
-            { name: "病房資深臨床教師", count: 1, icon: "fa-user-tie", desc: "20年經驗，負責學員臨床學習與生活輔導。對王大明的技術印象良好但擔憂團隊連結；肯定李小美的穩健但認為她偏保守。" },
-            { name: "病房護理長", count: 1, icon: "fa-user-nurse", desc: "熟悉病房運作與教學。認為王大明雖主動但規範遵循有警訊；肯定李小美認真可靠且樂於修正。" },
-            { name: "病房新任臨床教師", count: 1, icon: "fa-id-badge", desc: "新加入的指導教師。認為王大明能力足以授權，但互動較命令式；建議給李小美更多時間學習。" },
-            { name: "觀察員", count: "N", icon: "fa-eye", desc: "依觀察表單紀錄會議流程、發言重點與決策過程。" }
+            { 
+                name: "CCC主席", 
+                count: 1, 
+                icon: "fa-gavel", 
+                desc: "經驗豐富的PGY資深臨床教師，熟悉訓練計畫。任務是促進討論、統整觀點並引導決策流程。需確保各方意見被充分聆聽，營造安全開放氛圍，協助建立共識並提出總結性建議。" 
+            },
+            { 
+                name: "護理部教學負責人", 
+                count: 1, 
+                icon: "fa-clipboard-user", 
+                desc: "任職滿10年，透過教學系統掌握每位學員狀況。雖未直接共事，但知悉兩位學員皆發生異常事件，且臨床端已對其提出回饋。" 
+            },
+            { 
+                name: "病房資深臨床教師", 
+                count: 1, 
+                icon: "fa-user-tie", 
+                desc: "20年經驗，負責臨床學習與生活輔導。肯定王大明的知識與效率，但擔憂其團隊連結，要求完成改善計畫才予通過；認為李小美穩健但保守，傾向建議讓她進入下一階段。" 
+            },
+            { 
+                name: "病房護理長", 
+                count: 1, 
+                icon: "fa-user-nurse", 
+                desc: "任職逾10年，重視規範落實。認為王大明雖主動但有規範遵循警訊，未見改善證據前難以信賴；肯定李小美認真可靠、交班完整，能力值得肯定。" 
+            },
+            { 
+                name: "病房新任臨床教師", 
+                count: 1, 
+                icon: "fa-id-badge", 
+                desc: "新加入的指導教師（學姐）。首次參與CCC。認為王大明技術優但互動較命令式，能力足以授權；認為李小美動機強但能力尚未達預期，建議多給時間學習。" 
+            },
+            { 
+                name: "觀察員", 
+                count: "N", 
+                icon: "fa-eye", 
+                desc: "請依「臨床能力委員會討論過程-觀察表」客觀旁觀並紀錄：會議流程、委員發言重點與決策形成過程。會後請回饋所觀察到的優勢與可改進之處。" 
+            }
         ];
 
         const OBSERVER_ITEMS = {
@@ -678,10 +708,10 @@
                         <p class="text-slate-500 mb-10 text-lg">請全體委員參閱紙本或平板上的學習歷程資料，並對照 EPA 標準。</p>
                         
                         <div class="flex justify-center gap-6 mb-12">
-                            <button class="px-8 py-4 rounded-xl border-2 border-blue-100 font-bold text-blue-700 bg-blue-50 shadow-sm hover:bg-blue-100 hover:border-blue-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=sharing','_blank')">
+                            <button class="px-8 py-4 rounded-xl border-2 border-blue-100 font-bold text-blue-700 bg-blue-50 shadow-sm hover:bg-blue-100 hover:border-blue-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1kFyY6sXyQqTZZauE3kU75CHUx_a9SViC/view?usp=drive_link','_blank')">
                                 <i class="fa-regular fa-folder-open"></i> 王大明資料
                             </button>
-                            <button class="px-8 py-4 rounded-xl border-2 border-pink-100 font-bold text-pink-700 bg-pink-50 shadow-sm hover:bg-pink-100 hover:border-pink-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">
+                            <button class="px-8 py-4 rounded-xl border-2 border-pink-100 font-bold text-pink-700 bg-pink-50 shadow-sm hover:bg-pink-100 hover:border-pink-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1DpmGdfgwJRTxE7sSLwUB6wvR5Mep_Abu/view?usp=drive_link','_blank')">
                                 <i class="fa-regular fa-folder-open"></i> 李小美資料
                             </button>
                         </div>
@@ -689,36 +719,43 @@
                         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10 text-left">
                             <div class="bg-teal-50 px-6 py-4 border-b border-teal-100 flex items-center gap-3">
                                 <i class="fa-solid fa-file-medical text-2xl text-teal-600"></i>
-                                <h4 class="text-xl font-bold text-teal-900">住院病患的照護與衛教 (EPA 標準)</h4>
+                                <h4 class="text-xl font-bold text-teal-900">血液檢體採集護理 (EPA 標準)</h4>
                             </div>
                             <div class="p-8 space-y-8">
                                 <div>
                                     <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> 任務描述</h5>
                                     <ul class="list-disc pl-6 space-y-2 text-base text-slate-700">
-                                        <li><strong>疾病知識：</strong>熟悉常見內外科病理生理、檢查與治療要點；掌握高警訊藥與院內政策、感染管制原則。</li>
-                                        <li><strong>臨床照護：</strong>進行整體評估、擬定與執行護理計畫並持續調整；落實用藥與物品管理、病安措施；規劃出院準備與轉介。</li>
-                                        <li><strong>溝通衛教：</strong>對病人/家屬進行有效衛教與教學回饋；清楚交班並與跨專業團隊協作與適時求助；能處理高壓溝通情境。</li>
-                                        <li class="text-slate-400 text-sm italic">(適用限制：排除 ICU、兒科/產科/精神科等需額外專科訓練之情境)</li>
+                                        <li>核對醫囑並執行靜脈採血前準備。</li>
+                                        <li>向病人/家屬說明採集血液檢體的目的。</li>
+                                        <li>依靜脈採血技術作業標準完成採血步驟。</li>
+                                        <li>依病人個別性提供相關衛教指導，並完成紀錄。</li>
+                                        <li>能與病人/家屬、醫療團隊進行雙向溝通。</li>
+                                        <li class="text-slate-400 text-sm italic">(限制：急救、病況不穩定、新生兒)</li>
                                     </ul>
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div class="bg-slate-50 p-5 rounded-xl">
                                         <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span> 任務失敗風險</h5>
-                                        <p class="text-slate-700">病安事件(用藥錯誤、感染、跌倒、壓瘡)、溝通失誤引起申訴、照護斷裂與再入院、法遵與紀錄不全。</p>
+                                        <ul class="list-disc pl-6 space-y-1 text-slate-700 text-base">
+                                            <li>採血部位血腫、檢體溶血。</li>
+                                            <li>病人需重複扎針，增加護理工時及潛在糾紛。</li>
+                                            <li>延誤送檢，影響疾病診斷、治療、處置時效性。</li>
+                                        </ul>
                                     </div>
                                     <div class="bg-slate-50 p-5 rounded-xl">
                                         <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span> 對應核心能力</h5>
-                                        <p class="text-slate-700">醫學知識、病人照護、人際溝通。</p>
+                                        <p class="text-slate-700">病人照顧、專業知識、人際關係與溝通技巧、專業素養。</p>
                                     </div>
                                 </div>
 
                                 <div>
                                     <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span> 先備要件</h5>
                                     <ul class="list-disc pl-6 space-y-2 text-base text-slate-700">
-                                        <li><strong>知識：</strong>常見內外科疾病照護、用藥安全與高警訊藥、感染管制、衛教與成人學習原則、院內政策。</li>
-                                        <li><strong>技能：</strong>系統評估、護理計畫、衛教、用藥與物品管控、文件與通報、跨專業溝通。</li>
-                                        <li><strong>態度：</strong>以病人為中心、病安意識、主動求助、尊重與同理。</li>
+                                        <li><strong>知能：</strong>具備靜脈採血流程與血液注入試管順序知識、具備檢驗醫學與數據判讀知識。</li>
+                                        <li><strong>技能：</strong>使用 Barcode 執行病人辨識、熟悉護理資訊及輸送檢體系統。</li>
+                                        <li><strong>態度：</strong>尊重病人隱私及合宜的應對、能接納臨床教師指導。</li>
+                                        <li><strong>經驗：</strong>使用靜脈模具執行抽血 1 次或全程觀摩臨床教師執行抽血至少 1 次以上。</li>
                                     </ul>
                                 </div>
                                 
@@ -726,16 +763,15 @@
                                     <div>
                                          <h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">5</span> 評估相關資訊</h5>
                                         <ul class="list-disc pl-6 space-y-1 text-base text-slate-700">
-                                            <li>筆試：每訓練期 ≥1 次</li>
-                                            <li>短期臨床觀察 (ad-hoc)：每訓練期 ≥3 次</li>
-                                            <li>360度評量：每訓練期 ≥1 次</li>
+                                            <li>直接觀察：血液檢體採集護理 EPAs 評估表 2 次</li>
+                                            <li>筆試 1 次</li>
                                         </ul>
                                     </div>
                                     <div class="bg-teal-50 p-5 rounded-xl border border-teal-100">
                                         <h5 class="font-bold text-teal-800 text-lg mb-2">授權標準 (獨立操作時機)</h5>
-                                        <p class="mb-3 text-slate-700">完成病房核心訓練；至少 2 週並獨立照護 ≥5 名病人；至少 3 件出院準備/轉介實作。</p>
+                                        <p class="mb-3 text-slate-700">需達成 Level 4 (可獨立執行)。</p>
                                         <div class="font-bold text-xl text-teal-900 border-t border-teal-200 pt-2">
-                                            達成授權至 Level 3c 以上
+                                            期程：培訓期三個月前
                                         </div>
                                     </div>
                                 </div>
@@ -775,12 +811,10 @@
                 }
                 if (stepId === 5) {
                     const s = g.students[activeKey];
-                    return `${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-10"><h4 class="font-bold text-slate-800 mb-4 border-l-4 border-teal-500 pl-4 text-xl">是否可被信賴執行該 EPA「住院病患的照護與衛教」？</h4><div class="flex gap-4"><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===true?'border-green-500 bg-green-50 text-green-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(true)">Pass 可信賴</button><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===false?'border-red-500 bg-red-50 text-red-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(false)">Fail 未通過</button></div></div><div class="space-y-10"><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">擬定向學員說明此決定的原因？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateData('${activeKey}','reason',this.value)">${s.reason}</textarea></div><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">提出具體輔導方案或改善計畫？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateData('${activeKey}','plan',this.value)">${s.plan}</textarea></div></div></div>`;
+                    return `${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-10"><h4 class="font-bold text-slate-800 mb-4 border-l-4 border-teal-500 pl-4 text-xl">是否可被信賴執行該 EPA「血液檢體採集護理」？</h4><div class="flex gap-4"><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===true?'border-green-500 bg-green-50 text-green-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(true)">Pass 可信賴</button><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===false?'border-red-500 bg-red-50 text-red-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(false)">Fail 未通過</button></div></div><div class="space-y-10"><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">擬定向學員說明此決定的原因？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateData('${activeKey}','reason',this.value)">${s.reason}</textarea></div><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">提出具體輔導方案或改善計畫？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateData('${activeKey}','plan',this.value)">${s.plan}</textarea></div></div></div>`;
                 }
                 if (stepId === 6) {
-                    return `<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                        ${this.getTabsHTML(activeKey)}
-                        <div class="bg-slate-50 p-6 rounded-b-xl rounded-tr-xl border border-slate-200 space-y-10 animate-fade-in">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div><h5 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-3"><span class="bg-slate-200 w-8 h-8 flex items-center justify-center rounded text-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-10 mb-6 text-base text-slate-600 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label class="text-sm font-bold text-slate-500 mb-2 block">實際觀察到的團隊作為</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div><label class="text-sm font-bold text-slate-500 mb-2 block">潛在的挑戰與限制</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
+                    return `<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm"><div class="mb-8 border-b border-slate-100 pb-6"><h4 class="font-bold text-slate-500 text-base mb-2">觀察員專區</h4><h3 class="font-bold text-slate-800 text-2xl text-blue-600">觀察員紀錄</h3></div>${this.getTabsHTML(activeKey)}<div class="bg-slate-50 p-6 rounded-b-xl rounded-tr-xl border border-slate-200 space-y-10 animate-fade-in">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div><h5 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-3"><span class="bg-slate-200 w-8 h-8 flex items-center justify-center rounded text-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-10 mb-6 text-base text-slate-600 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label class="text-sm font-bold text-slate-500 mb-2 block">實際觀察到的團隊作為</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div><label class="text-sm font-bold text-slate-500 mb-2 block">潛在的挑戰與限制</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
                 }
             }
 
@@ -883,6 +917,7 @@
                         const obsDecisionActual = group.observerData[`${key}-決策過程-actual`] || '無紀錄';
                         const obsDecisionLimit = group.observerData[`${key}-決策過程-limit`] || '無紀錄';
 
+                        // 整合觀察員紀錄為單一字串
                         const obsLog = `【會議程序】\n• 實際: ${obsProcessActual}\n• 限制: ${obsProcessLimit}\n\n【決策過程】\n• 實際: ${obsDecisionActual}\n• 限制: ${obsDecisionLimit}`;
 
                         masterData.push([
@@ -890,11 +925,11 @@
                             `第 ${group.id} 組`,
                             s.name,
                             s.summary || '-',
-                            s.qualityNote || '-', 
+                            s.qualityNote || '-', // Step 4 單一欄位
                             s.result === true ? 'PASS' : (s.result === false ? 'FAIL' : '未決策'),
                             s.reason || '-',
                             s.plan || '-',
-                            obsLog, 
+                            obsLog, // Step 6 單一欄位
                             group.cccCompleted ? '已完成' : '進行中'
                         ]);
                     });
@@ -952,16 +987,19 @@
 
             setTab(t) { 
                 this.groups[this.activeGroupId-1].activeStudentTab = t; 
+                // Check current view and render appropriately to avoid null errors
                 if(this.currentModule === 'ccc') {
                     this.renderCCC(); 
                 } else {
                     this.renderRemediation();
                 }
                 
+                // Scroll content to top when tab changes
                 const contentDiv = document.getElementById('step-content');
                 if (contentDiv && contentDiv.parentElement) {
                    contentDiv.parentElement.scrollTop = 0;
                 }
+                // For remediation view
                 const remContent = document.querySelector('.flex-1.overflow-y-auto');
                 if (remContent) remContent.scrollTop = 0;
             }
