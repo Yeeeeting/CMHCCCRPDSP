@@ -430,6 +430,12 @@
                 }, 1000);
             }
 
+            // Auto-resize textarea helper
+            autoResize(el) {
+                el.style.height = 'auto';
+                el.style.height = (el.scrollHeight) + 'px';
+            }
+
             switchModule(mod) {
                 this.currentModule = mod;
                 this.activeGroupId = null;
@@ -573,7 +579,12 @@
 
                 // Handle Buttons
                 const btnText = (g.cccStep === 6) ? '返回儀表板' : (g.cccStep === 5) ? '完成演練' : '下一步 <i class="fa-solid fa-arrow-right ml-2"></i>';
-                const btnAction = (g.cccStep === 6) ? () => this.loadDashboard() : (g.cccStep === 5) ? () => this.completeCCCGroupSimulation() : () => { g.cccStep++; this.renderCCC(); };
+                // Trigger auto-save on next
+                const btnAction = (g.cccStep === 6) ? () => this.loadDashboard() : (g.cccStep === 5) ? () => this.completeCCCGroupSimulation() : () => { 
+                    g.cccStep++; 
+                    this.renderCCC(); 
+                    this.sendDataToGoogleSheet(g, 'ccc');
+                };
                 
                 const btnDesktop = document.getElementById('next-step-btn-desktop');
                 const btnMobile = document.getElementById('next-step-btn-mobile');
@@ -715,18 +726,53 @@
             }
             processServerData(data) {
                 this.groups.forEach(g => { g.students.daming.remediationPlan = []; g.students.xiaomei.remediationPlan = []; });
-                if (data.CCC_Master_Log) { data.CCC_Master_Log.forEach(row => { const gid = parseInt(row[1]); const name = row[2]; const sKey = (name==="王大明"?"daming":(name==="李小美"?"xiaomei":null)); if(gid && sKey && this.groups[gid-1]) { const s = this.groups[gid-1].students[sKey]; s.summary=row[3]; s.qualityNote=row[4]; if(row[5]==="PASS") s.result=true; else if(row[5]==="FAIL") s.result=false; s.reason=row[6]; s.plan=row[7]; s.meetingNote=row[8]; try{ if(row[9]) Object.assign(this.groups[gid-1].observerData, JSON.parse(row[9])); }catch(e){} if(row[10]==="Completed") { this.groups[gid-1].cccCompleted=true; this.groups[gid-1].cccStep=6; } } }); }
+                if (data.CCC_Master_Log) { 
+                    data.CCC_Master_Log.forEach(row => { 
+                        const gid = parseInt(row[1]); const name = row[2]; const sKey = (name==="王大明"?"daming":(name==="李小美"?"xiaomei":null)); 
+                        if(gid && sKey && this.groups[gid-1]) { 
+                            const s = this.groups[gid-1].students[sKey]; 
+                            s.summary=row[3]; s.qualityNote=row[4]; 
+                            if(row[5]==="PASS") s.result=true; else if(row[5]==="FAIL") s.result=false; 
+                            s.reason=row[6]; s.plan=row[7]; s.meetingNote=row[8]; 
+                            try{ if(row[9]) Object.assign(this.groups[gid-1].observerData, JSON.parse(row[9])); }catch(e){} 
+                            
+                            // Restore Step Logic from Status Column (row[10])
+                            if(row[10]==="Completed") { 
+                                this.groups[gid-1].cccCompleted=true; this.groups[gid-1].cccStep=6; 
+                            } else if (typeof row[10] === 'string' && row[10].startsWith("Step ")) {
+                                const stepNum = parseInt(row[10].split(" ")[1]);
+                                if (!isNaN(stepNum)) {
+                                    this.groups[gid-1].cccStep = stepNum;
+                                }
+                            }
+                        } 
+                    }); 
+                }
                 if (data.Remediation_Details) { data.Remediation_Details.forEach(row => { const gid = parseInt(row[1]); const name = row[2]; const sKey = (name==="王大明"?"daming":(name==="李小美"?"xiaomei":null)); if(gid && sKey && this.groups[gid-1]) { this.groups[gid-1].students[sKey].remediationPlan.push({ deficit:row[3], competency:row[4], action:row[5], assessment:row[6], goal:row[7], deadline:row[8] }); this.groups[gid-1].remCompleted=true; } }); }
                 if (data.ADAPT_Feedbeck_Log) { data.ADAPT_Feedbeck_Log.forEach(row => { const gid = parseInt(row[1]); const name = row[2]; const sKey = (name==="王大明"?"daming":(name==="李小美"?"xiaomei":null)); if(gid && sKey && this.groups[gid-1]) { const s = this.groups[gid-1].students[sKey]; s.adaptLog['A1_smooth']=(row[3]==="落實"?true:(row[3]==="未落實"?false:null)); s.adaptLog['A1_note']=row[4]; s.adaptLog['D_smooth']=(row[5]==="落實"?true:(row[5]==="未落實"?false:null)); s.adaptLog['D_note']=row[6]; s.adaptLog['A2_smooth']=(row[7]==="落實"?true:(row[7]==="未落實"?false:null)); s.adaptLog['A2_note']=row[8]; s.adaptLog['P_smooth']=(row[9]==="落實"?true:(row[9]==="未落實"?false:null)); s.adaptLog['P_note']=row[10]; s.adaptLog['T_smooth']=(row[11]==="落實"?true:(row[11]==="未落實"?false:null)); s.adaptLog['T_note']=row[12]; this.groups[gid-1].adaptCompleted=true; } }); }
                 this.loadDashboard();
             }
             sendDataToGoogleSheet(group, type) {
                 let sheetName="", rows=[]; const ts=new Date().toISOString();
-                if(type==='ccc'){ sheetName="CCC_Master_Log"; ['daming','xiaomei'].forEach(k=>{ const s=group.students[k]; rows.push([ts, group.id, s.name, s.summary, s.qualityNote, (s.result===true?"PASS":(s.result===false?"FAIL":"")), s.reason, s.plan, s.meetingNote, JSON.stringify(group.observerData||{}), "Completed"]); }); }
+                if(type==='ccc'){ 
+                    sheetName="CCC_Master_Log"; 
+                    ['daming','xiaomei'].forEach(k=>{ 
+                        const s=group.students[k]; 
+                        // Dynamic Status Logic
+                        let statusStr = "In Progress";
+                        if (group.cccCompleted) {
+                            statusStr = "Completed";
+                        } else {
+                            statusStr = `Step ${group.cccStep}`; 
+                        }
+                        
+                        rows.push([ts, group.id, s.name, s.summary, s.qualityNote, (s.result===true?"PASS":(s.result===false?"FAIL":"")), s.reason, s.plan, s.meetingNote, JSON.stringify(group.observerData||{}), statusStr]); 
+                    }); 
+                }
                 else if(type==='remediation'){ sheetName="Remediation_Details"; ['daming','xiaomei'].forEach(k=>{ group.students[k].remediationPlan.forEach(i=>rows.push([ts, group.id, group.students[k].name, i.deficit, i.competency, i.action, i.assessment, i.goal, i.deadline])); }); }
                 else if(type==='adapt'){ sheetName="ADAPT_Feedbeck_Log"; ['daming','xiaomei'].forEach(k=>{ const s=group.students[k]; const r=[ts, group.id, s.name]; ADAPT_STEPS.forEach(st=>{ const v=s.adaptLog[`${st.id}_smooth`]; r.push(v===true?"落實":(v===false?"未落實":"")); r.push(s.adaptLog[`${st.id}_note`]||""); }); rows.push(r); }); }
                 if(rows.length===0) return;
-                fetch(API_URL, { method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({sheet:sheetName, data:rows}) }).then(r=>r.json()).then(d=>{ if(d.result==='error') alert('Error: '+d.error); else { console.log('Saved'); if(type==='ccc') this.completeCCCGroupSimulation(); } }).catch(e=>console.error(e));
+                fetch(API_URL, { method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({sheet:sheetName, data:rows}) }).then(r=>r.json()).then(d=>{ if(d.result==='error') alert('Error: '+d.error); else { console.log('Saved'); if(type==='ccc' && group.cccCompleted) this.completeCCCGroupSimulation(); } }).catch(e=>console.error(e));
             }
             completeCCCGroupSimulation() { /* Simplified for brevity, same logic */ this.loadDashboard(); }
             completeRemediation() { const g=this.groups[this.activeGroupId-1]; g.remCompleted=true; this.sendDataToGoogleSheet(g,'remediation'); this.loadDashboard(); }
