@@ -12,28 +12,33 @@
         :root {
             --primary-teal: #0d9488;
             --primary-indigo: #4f46e5;
-            --primary-adapt: #ED7D31; /* ADAPT 主題色 - 暖橘色 RGB(237, 125, 49) */
-            --bg-slate: #f1f5f9;
+            --primary-adapt: #ED7D31;
+            --bg-slate: #f8fafc; /* 更柔和的背景 */
         }
 
         body { 
             font-family: 'Noto Sans TC', sans-serif; 
             background-color: var(--bg-slate); 
-            line-height: 1.6;
+            line-height: 1.7; /* 增加行高 */
             -webkit-tap-highlight-color: transparent;
-            font-size: 20px; 
+            font-size: 17px; /* 稍微加大預設字體 */
+            color: #334155;
         }
 
-        /* === 共用樣式設定 === */
+        /* === Utilities === */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
+        /* === Components === */
         .dashboard-card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 24px; /* 更圓潤 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(226, 232, 240, 1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -42,59 +47,113 @@
         @media (min-width: 768px) {
             .dashboard-card:hover {
                 transform: translateY(-4px);
-                box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
-                border-color: rgba(148, 163, 184, 0.5);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+                border-color: rgba(148, 163, 184, 0.3);
             }
         }
 
-        /* 步驟導航條 */
-        .step-scroll-container { display: flex; overflow-x: auto; gap: 1rem; padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 20; }
-        .step-scroll-container::-webkit-scrollbar { display: none; }
-        .step-pill { flex: 0 0 auto; padding: 0.8rem 1.5rem; border-radius: 9999px; font-size: 1.1rem; font-weight: 600; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; transition: all 0.2s; white-space: nowrap; }
-        .step-pill.active { background: #0f766e; color: white; border-color: #0f766e; }
+        /* Step Navigation */
+        .step-scroll-container { display: flex; overflow-x: auto; gap: 0.8rem; padding: 1rem; background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 20; }
+        .step-pill { flex: 0 0 auto; padding: 0.7rem 1.4rem; border-radius: 9999px; font-size: 1rem; font-weight: 600; color: #64748b; background: #f1f5f9; border: 1px solid #e2e8f0; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
+        .step-pill.active { background: #0f766e; color: white; border-color: #0f766e; box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2); }
 
-        /* 側邊欄 */
+        /* Sidebar */
         .sidebar-header { background-color: #115e59; color: white; }
         .sidebar-item { padding: 1.25rem 1.5rem; border-left: 5px solid transparent; cursor: pointer; transition: all 0.2s ease; }
         .sidebar-item:hover { background-color: #f8fafc; }
         .sidebar-item.active { background-color: #f0fdfa; border-left-color: #0d9488; }
-        .sidebar-item .label { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.35rem; }
+        .sidebar-item .label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.25rem; }
         .sidebar-item.active .label { color: #2dd4bf; }
-        .sidebar-item .title { font-size: 1.25rem; font-weight: 700; color: #334155; }
+        .sidebar-item .title { font-size: 1rem; font-weight: 700; color: #334155; }
         .sidebar-item.active .title { color: #0f766e; }
 
-        /* 輸入框 */
-        textarea, input[type="text"] { font-size: 20px !important; border-radius: 10px; border: 1px solid #cbd5e1; padding: 14px 18px; width: 100%; transition: border-color 0.2s; line-height: 1.6; }
-        textarea:focus, input:focus { outline: none; border-color: var(--primary-indigo); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        /* Optimized Inputs */
+        textarea, input[type="text"] { 
+            font-size: 1.05rem !important; 
+            border-radius: 12px; 
+            border: 1px solid #cbd5e1; 
+            padding: 16px; 
+            width: 100%; 
+            transition: all 0.2s; 
+            line-height: 1.6;
+            background-color: #fcfcfc;
+        }
+        textarea:focus, input:focus { 
+            outline: none; 
+            border-color: var(--primary-indigo); 
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); 
+            background-color: #fff;
+        }
+        /* Auto-resize utility class handled by JS, but set min-height here */
+        .auto-expand { 
+            min-height: 120px; 
+            overflow-y: hidden; /* Hide scrollbar when auto-expanding */
+            resize: none; 
+        }
 
-        /* 底部行動列 */
-        .mobile-action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 16px 24px; box-shadow: 0 -4px 12px rgba(0,0,0,0.05); z-index: 40; border-top: 1px solid #f1f5f9; display: flex; gap: 16px; }
+        /* Mobile Action Bar */
+        .mobile-action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 16px 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 40; border-top: 1px solid #f1f5f9; display: flex; gap: 16px; }
         @media (min-width: 1024px) { .mobile-action-bar { position: static; box-shadow: none; border-top: none; padding: 0; background: transparent; } }
 
-        /* 導航頁籤 */
-        .nav-pill { position: relative; padding: 1.2rem 2.5rem; font-weight: 700; font-size: 1.25rem; color: #64748b; transition: color 0.3s; cursor: pointer; }
+        /* Nav Pills */
+        .nav-pill { position: relative; padding: 1.2rem 2rem; font-weight: 700; font-size: 1.1rem; color: #64748b; transition: color 0.3s; cursor: pointer; white-space: nowrap; }
         .nav-pill.active { color: #0f172a; }
-        .nav-pill.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 5px; background: currentColor; border-radius: 3px 3px 0 0; }
+        .nav-pill.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 4px; background: currentColor; border-radius: 3px 3px 0 0; }
 
-        /* 表格 */
-        .rem-table th { background-color: #f8fafc; color: #475569; font-weight: 800; text-transform: uppercase; font-size: 1rem; padding: 1.25rem; border-bottom: 2px solid #e2e8f0; white-space: nowrap; }
-        .rem-table td { padding: 1.25rem; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
-        .rem-table textarea { min-height: 140px; resize: vertical; font-size: 1.1rem !important; }
+        /* Remediation Card View (Mobile) vs Table (Desktop) */
+        .rem-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .rem-card-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 6px;
+            display: block;
+        }
 
-        .fade-in { animation: fadeIn 0.3s ease-out; }
+        /* Tables (Desktop Only) */
+        .rem-table th { background-color: #f8fafc; color: #475569; font-weight: 800; text-transform: uppercase; font-size: 0.9rem; padding: 1.2rem; border-bottom: 2px solid #e2e8f0; white-space: nowrap; text-align: left; }
+        .rem-table td { padding: 1.2rem; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+        
+        /* Animations */
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ADAPT Custom Colors (Orange #ED7D31) */
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 999;
+            display: flex; flex-col; align-items: center; justify-content: center;
+            transition: opacity 0.3s;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #0d9488; border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ADAPT Custom Colors */
         .text-adapt { color: #ED7D31; }
         .bg-adapt { background-color: #ED7D31; }
         .border-adapt { border-color: #ED7D31; }
         .hover-bg-adapt:hover { background-color: #d06015; }
-        .ring-adapt:focus { --tw-ring-color: #ED7D31; }
         
-        button { font-size: 1.1rem; }
+        button { font-size: 1.05rem; }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden text-slate-800">
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner mb-4"></div>
+        <div class="text-xl font-bold text-slate-600">正在同步資料庫...</div>
+        <div class="text-sm text-slate-400 mt-2">請稍候，正在讀取最新的演練進度</div>
+    </div>
 
     <!-- Header -->
     <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 z-50 flex-shrink-0">
@@ -105,7 +164,7 @@
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-slate-800 leading-tight">CCC實務工作坊演練平台</h1>
-                    <div class="text-sm text-slate-500 font-medium tracking-wider">CCC & REMEDIATION</div>
+                    <div class="text-sm text-slate-500 font-medium tracking-wider">CCC & REMEDIATION V5.7</div>
                 </div>
             </div>
             <div class="bg-slate-100 px-5 py-2.5 rounded-full text-lg font-mono font-bold text-slate-600 border border-slate-200 flex items-center gap-3">
@@ -113,7 +172,7 @@
             </div>
         </div>
         <div class="border-t border-slate-100 bg-white">
-            <div class="max-w-7xl mx-auto px-4 flex gap-8 overflow-x-auto no-scrollbar">
+            <div class="max-w-7xl mx-auto px-4 flex gap-6 overflow-x-auto no-scrollbar">
                 <button onclick="app.switchModule('ccc')" id="tab-ccc" class="nav-pill active text-teal-700 border-teal-600">
                     <i class="fa-solid fa-people-group mr-2"></i> CCC 演練
                 </button>
@@ -128,33 +187,33 @@
     </header>
 
     <!-- Main Content -->
-    <main id="main-container" class="flex-1 overflow-y-auto bg-slate-50 scroll-smooth pb-32 lg:pb-10">
+    <main id="main-container" class="flex-1 overflow-y-auto bg-slate-50 scroll-smooth pb-32 lg:pb-12">
         <!-- Views injected here -->
     </main>
 
     <!-- Modal -->
     <div id="custom-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="app.closeModal()"></div>
-        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl transform transition-all scale-100 flex flex-col items-center text-center animate-fade-in max-h-[90vh] flex" id="modal-content">
+        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg transform transition-all scale-100 flex flex-col items-center text-center animate-fade-in" id="modal-content">
             <div id="modal-icon" class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6 text-4xl flex-shrink-0">
                 <i class="fa-solid fa-info"></i>
             </div>
-            <div class="flex-1 w-full overflow-y-auto px-2">
+            <div class="w-full mb-8">
                  <h3 id="modal-title" class="text-3xl font-bold text-slate-800 mb-4">提示</h3>
-                 <div id="modal-message" class="text-slate-600 mb-8 text-xl leading-relaxed text-left">內容</div>
+                 <div id="modal-message" class="text-slate-600 text-xl leading-relaxed text-left">內容</div>
             </div>
-            <div class="flex gap-4 w-full mt-4 flex-shrink-0" id="modal-actions">
-                <button id="modal-btn-cancel" class="flex-1 py-4 rounded-xl border border-slate-200 font-bold text-slate-600 text-xl">取消</button>
-                <button id="modal-btn-confirm" class="flex-1 py-4 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 text-xl">確定</button>
+            <div class="flex gap-4 w-full" id="modal-actions">
+                <button id="modal-btn-cancel" class="flex-1 py-4 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg">取消</button>
+                <button id="modal-btn-confirm" class="flex-1 py-4 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 hover:bg-teal-700 text-lg">確定</button>
             </div>
         </div>
     </div>
 
     <!-- 1. DASHBOARD TEMPLATE -->
     <template id="tpl-dashboard">
-        <div class="max-w-7xl mx-auto px-6 py-8 md:py-12 fade-in">
+        <div class="max-w-7xl mx-auto px-6 py-10 fade-in">
             <div class="mb-12 text-center md:text-left">
-                <h2 class="text-4xl md:text-5xl font-black text-slate-800 tracking-tight mb-3" id="dashboard-title"></h2>
+                <h2 class="text-4xl md:text-5xl font-black text-slate-800 tracking-tight mb-4" id="dashboard-title"></h2>
                 <p class="text-slate-500 text-xl" id="dashboard-desc"></p>
                 <div class="mt-8 inline-flex flex-wrap gap-4 bg-white px-8 py-4 rounded-full shadow-sm border border-slate-100 text-base md:text-lg">
                     <span class="flex items-center gap-2"><span class="w-4 h-4 rounded-full bg-slate-300"></span> 未開始</span>
@@ -171,26 +230,27 @@
         <div class="flex flex-col lg:flex-row h-full max-w-7xl mx-auto lg:px-6 lg:py-8 fade-in">
             <div class="lg:hidden step-scroll-container" id="mobile-step-list"></div>
             <!-- Sidebar -->
-            <div class="hidden lg:flex flex-col w-64 bg-white rounded-l-2xl border border-slate-200 overflow-hidden shadow-sm flex-shrink-0 h-[calc(100vh-200px)]">
+            <div class="hidden lg:flex flex-col w-72 bg-white rounded-l-2xl border border-slate-200 overflow-hidden shadow-sm flex-shrink-0 h-[calc(100vh-200px)]">
                 <div class="p-6 sidebar-header flex justify-between items-start">
                     <div>
                         <div class="text-xs font-bold tracking-widest opacity-70 mb-1">CURRENT GROUP</div>
-                        <h2 class="text-3xl font-bold" id="group-title-sidebar">第 1 組</h2>
+                        <h2 class="text-2xl font-bold" id="group-title-sidebar">第 1 組</h2>
                     </div>
                     <button onclick="app.loadDashboard()" class="text-sm bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded text-white transition flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i></button>
                 </div>
                 <div class="flex-1 overflow-y-auto" id="desktop-step-list"></div>
             </div>
             <div class="flex-1 flex flex-col bg-white lg:rounded-r-2xl lg:border-t lg:border-b lg:border-r border-slate-200 h-full lg:h-[calc(100vh-200px)] relative">
-                <div class="px-10 py-8 border-b border-slate-100 bg-white sticky top-0 z-10">
+                <div class="px-8 py-8 border-b border-slate-100 bg-white sticky top-0 z-10">
                      <div class="lg:hidden mb-4"><button onclick="app.loadDashboard()" class="text-base font-bold text-slate-400 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> 回總表</button></div>
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-800 leading-tight" id="current-step-title"></h2>
                     <p class="text-lg text-slate-500 mt-2" id="current-step-desc"></p>
                 </div>
                 <div class="flex-1 overflow-y-auto p-8 md:p-12 space-y-10" id="step-content"></div>
+                <!-- Spacer -->
                 <div class="h-28 lg:hidden"></div>
                 <div class="mobile-action-bar lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:p-10 lg:bg-white lg:border-t lg:border-slate-100 justify-end">
-                     <button id="next-step-btn" class="w-full lg:w-auto bg-teal-600 text-white px-12 py-5 rounded-xl font-bold shadow-lg shadow-teal-600/20 active:scale-95 transition flex items-center justify-center gap-3 text-xl">下一步 <i class="fa-solid fa-arrow-right"></i></button>
+                     <button id="next-step-btn" class="w-full lg:w-auto bg-teal-600 text-white px-10 py-5 rounded-xl font-bold shadow-lg shadow-teal-600/20 active:scale-95 transition flex items-center justify-center gap-3 text-xl">下一步 <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -203,9 +263,9 @@
             <div class="bg-white px-8 pt-8 pb-0 lg:rounded-t-2xl border-b border-slate-200 flex flex-col-reverse md:flex-row justify-between items-end gap-6 sticky top-0 lg:static z-10 shadow-sm lg:shadow-none">
                 
                 <!-- Left: Title & Back -->
-                <div class="flex items-center gap-6 w-full md:w-auto pb-4">
-                    <button onclick="app.loadDashboard()" class="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0">
-                        <i class="fa-solid fa-arrow-turn-up transform rotate-90 text-2xl"></i>
+                <div class="flex items-center gap-6 w-full md:w-auto pb-6">
+                    <button onclick="app.loadDashboard()" class="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0">
+                        <i class="fa-solid fa-arrow-turn-up transform rotate-90 text-xl"></i>
                     </button>
                     <div>
                         <h2 class="font-bold text-slate-800 text-3xl" id="rem-group-title">第 1 組計畫</h2>
@@ -214,40 +274,38 @@
                 </div>
 
                 <!-- Right: Tabs -->
-                <div class="flex gap-3 w-full md:w-auto overflow-x-auto no-scrollbar justify-end" id="rem-tabs-container">
-                    <!-- Tabs will be rendered here by JS -->
-                </div>
+                <div class="flex gap-4 w-full md:w-auto overflow-x-auto no-scrollbar justify-end" id="rem-tabs-container"></div>
             </div>
             
             <div class="flex-1 lg:bg-white lg:border-x lg:border-b border-slate-200 lg:rounded-b-2xl overflow-hidden flex flex-col">
-                <div class="flex-1 overflow-y-auto p-8 md:p-12 bg-slate-50 lg:bg-white">
+                <div class="flex-1 overflow-y-auto p-6 md:p-12 bg-slate-50 lg:bg-white">
                     
-                    <!-- CCC 參考資訊區塊 -->
-                    <div class="mb-12 bg-white border border-indigo-100 rounded-2xl shadow-sm overflow-hidden p-8 relative">
+                    <!-- CCC Reference Block -->
+                    <div class="mb-10 bg-white border border-indigo-100 rounded-2xl shadow-sm overflow-hidden p-8 relative">
                         <div class="absolute top-0 left-0 w-3 h-full bg-indigo-500"></div>
-                        <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-5">
+                        <div class="flex items-center gap-4 mb-6 border-b border-slate-100 pb-4">
                             <div class="w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
                                 <i class="fa-solid fa-file-contract text-2xl"></i>
                             </div>
                             <h3 class="font-bold text-slate-800 text-2xl">CCC 決策參考資訊</h3>
                         </div>
                         
-                        <div id="rem-ccc-reference">
-                            <!-- Dynamic Content -->
-                        </div>
+                        <div id="rem-ccc-reference"></div>
                     </div>
 
-                    <!-- 表格容器 -->
-                    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-                        <div class="p-8 border-b border-slate-200 bg-white flex justify-between items-center">
+                    <!-- Table Container (Desktop) / Cards (Mobile) -->
+                    <div class="bg-white lg:rounded-2xl lg:shadow-lg lg:border border-slate-200 overflow-hidden">
+                        <div class="p-6 lg:p-8 border-b border-slate-200 bg-white flex justify-between items-center sticky top-0 z-10 lg:static shadow-sm lg:shadow-none">
                             <h4 class="font-bold text-slate-800 flex items-center gap-3 text-xl">
                                 <i class="fa-solid fa-list-check text-blue-500"></i> 補強計畫表
                             </h4>
-                            <button onclick="app.addRemediationRow()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-md shadow-blue-600/20 transition flex items-center gap-2">
+                            <button onclick="app.addRemediationRow()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-bold shadow-md shadow-blue-600/20 transition flex items-center gap-2">
                                 <i class="fa-solid fa-plus"></i> 新增
                             </button>
                         </div>
-                        <div class="overflow-x-auto">
+                        
+                        <!-- Desktop Table View -->
+                        <div class="hidden lg:block overflow-x-auto">
                             <table class="w-full rem-table min-w-[1200px]">
                                 <thead>
                                     <tr>
@@ -260,67 +318,73 @@
                                         <th class="w-[5%]"></th>
                                     </tr>
                                 </thead>
-                                <tbody id="rem-table-body"></tbody>
+                                <tbody id="rem-table-body-desktop"></tbody>
                             </table>
                         </div>
-                        <div id="rem-empty-state" class="text-center py-24 hidden bg-slate-50/50">
-                            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300 text-5xl shadow-sm border border-slate-100">
+
+                        <!-- Mobile Card View -->
+                        <div class="lg:hidden p-4 space-y-6" id="rem-list-mobile">
+                            <!-- Cards injected here -->
+                        </div>
+
+                        <div id="rem-empty-state" class="text-center py-20 hidden bg-slate-50/50">
+                            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300 text-4xl shadow-sm border border-slate-100">
                                 <i class="fa-solid fa-clipboard-question"></i>
                             </div>
-                            <p class="text-slate-500 font-medium text-xl">尚無計畫內容，請點擊右上角新增</p>
+                            <p class="text-slate-500 font-medium text-lg">尚無計畫內容，請點擊右上角新增</p>
                         </div>
                     </div>
 
-                    <div class="h-32 lg:hidden"></div>
+                    <div class="h-28 lg:hidden"></div>
                 </div>
             </div>
 
             <!-- Mobile Footer Actions -->
             <div class="mobile-action-bar lg:hidden justify-between gap-4">
-                 <button onclick="app.addRemediationRow()" class="flex-1 bg-white border border-slate-300 text-slate-700 py-5 rounded-xl font-bold shadow-sm text-xl"><i class="fa-solid fa-plus mr-2"></i> 新增</button>
-                <button onclick="app.completeRemediation()" class="flex-1 bg-indigo-600 text-white py-5 rounded-xl font-bold shadow-lg shadow-indigo-600/20 text-xl">提交</button>
+                 <button onclick="app.addRemediationRow()" class="flex-1 bg-white border border-slate-300 text-slate-700 py-4 rounded-xl font-bold shadow-sm text-xl"><i class="fa-solid fa-plus mr-2"></i> 新增</button>
+                <button onclick="app.completeRemediation()" class="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/20 text-xl">提交</button>
             </div>
             <!-- Desktop Footer Actions -->
              <div class="hidden lg:flex absolute bottom-12 right-12 gap-8">
-                <button onclick="app.completeRemediation()" class="bg-indigo-600 text-white px-12 py-5 rounded-full font-bold shadow-xl shadow-indigo-600/30 hover:bg-indigo-700 hover:scale-105 transition flex items-center gap-3 text-xl">
+                <button onclick="app.completeRemediation()" class="bg-indigo-600 text-white px-10 py-5 rounded-full font-bold shadow-xl shadow-indigo-600/30 hover:bg-indigo-700 hover:scale-105 transition flex items-center gap-3 text-xl">
                     提交計畫 <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </div>
         </div>
     </template>
 
-    <!-- 4. ADAPT GROUP VIEW (NEW) -->
+    <!-- 4. ADAPT GROUP VIEW -->
     <template id="tpl-adapt-group">
         <div class="max-w-7xl mx-auto lg:px-6 lg:py-8 h-full flex flex-col fade-in">
             
             <!-- Header Area -->
             <div class="bg-white px-8 pt-8 pb-0 lg:rounded-t-2xl border-b border-slate-200 flex flex-col-reverse md:flex-row justify-between items-end gap-6 sticky top-0 lg:static z-10 shadow-sm lg:shadow-none">
                 <!-- Title & Back -->
-                <div class="flex items-center gap-6 w-full md:w-auto pb-4">
-                    <button onclick="app.loadDashboard()" class="w-14 h-14 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0">
-                        <i class="fa-solid fa-arrow-turn-up transform rotate-90 text-2xl"></i>
+                <div class="flex items-center gap-6 w-full md:w-auto pb-6">
+                    <button onclick="app.loadDashboard()" class="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0">
+                        <i class="fa-solid fa-arrow-turn-up transform rotate-90 text-xl"></i>
                     </button>
                     <div>
                         <h2 class="font-bold text-slate-800 text-3xl" id="adapt-group-title">第 1 組 ADAPT</h2>
                         <p class="text-base text-slate-500 font-medium">Feedback & Coaching</p>
                     </div>
                 </div>
-                <!-- Tabs (Rendered by JS) -->
-                <div class="flex gap-3 w-full md:w-auto overflow-x-auto no-scrollbar justify-end" id="adapt-tabs-container"></div>
+                <!-- Tabs -->
+                <div class="flex gap-4 w-full md:w-auto overflow-x-auto no-scrollbar justify-end" id="adapt-tabs-container"></div>
             </div>
             
             <div class="flex-1 lg:bg-white lg:border-x lg:border-b border-slate-200 lg:rounded-b-2xl overflow-hidden flex flex-col">
-                <div class="flex-1 overflow-y-auto p-8 md:p-12 bg-slate-50 lg:bg-white space-y-8" id="adapt-content">
-                    <!-- Content rendered by JS -->
-                </div>
+                <div class="flex-1 overflow-y-auto p-6 md:p-12 bg-slate-50 lg:bg-white space-y-8" id="adapt-content"></div>
+                <!-- Spacer for mobile -->
+                <div class="h-28 lg:hidden"></div>
             </div>
 
             <!-- Footer Actions -->
             <div class="mobile-action-bar lg:hidden justify-end">
-                 <button onclick="app.completeAdapt()" class="w-full bg-adapt hover-bg-adapt text-white py-5 rounded-xl font-bold shadow-lg shadow-[#ed7d31]/20 text-xl">提交 ADAPT 紀錄</button>
+                 <button onclick="app.completeAdapt()" class="w-full bg-adapt hover-bg-adapt text-white py-4 rounded-xl font-bold shadow-lg shadow-[#ed7d31]/20 text-xl">提交 ADAPT 紀錄</button>
             </div>
              <div class="hidden lg:flex absolute bottom-12 right-12 gap-8">
-                <button onclick="app.completeAdapt()" class="bg-adapt hover-bg-adapt text-white px-12 py-5 rounded-full font-bold shadow-xl shadow-[#ed7d31]/30 hover:scale-105 transition flex items-center gap-3 text-xl">
+                <button onclick="app.completeAdapt()" class="bg-adapt hover-bg-adapt text-white px-10 py-5 rounded-full font-bold shadow-xl shadow-[#ed7d31]/30 hover:scale-105 transition flex items-center gap-3 text-xl">
                     提交 ADAPT 紀錄 <i class="fa-solid fa-check-circle"></i>
                 </button>
             </div>
@@ -386,6 +450,9 @@
                 this.secondsElapsed = 0;
                 this.initTimer();
                 this.switchModule('ccc');
+                
+                // On Init, Fetch Data
+                this.fetchDataFromGoogleSheet();
             }
 
             initTimer() {
@@ -395,6 +462,12 @@
                     const sec = (this.secondsElapsed % 60).toString().padStart(2, '0');
                     document.getElementById('global-timer').innerText = `${min}:${sec}`;
                 }, 1000);
+            }
+
+            // Auto-resize textarea helper
+            autoResize(el) {
+                el.style.height = 'auto';
+                el.style.height = (el.scrollHeight) + 'px';
             }
 
             switchModule(mod) {
@@ -481,7 +554,7 @@
                 div.innerHTML = `
                     <div class="p-8">
                         <div class="flex justify-between items-center mb-8">
-                            <h3 class="font-bold text-2xl text-slate-800">第 ${g.id} 組</h3>
+                            <h3 class="font-bold text-2xl md:text-3xl text-slate-800">第 ${g.id} 組</h3>
                             <div class="flex items-center gap-2 text-base font-bold text-slate-500"><span class="w-4 h-4 rounded-full ${statusColor}"></span> ${statusText}</div>
                         </div>
                         <div class="w-full bg-slate-100 rounded-full h-4 mb-8 overflow-hidden"><div class="h-full ${barColor} transition-all duration-500" style="width: ${progress}%"></div></div>
@@ -539,72 +612,100 @@
                 document.getElementById('step-content').innerHTML = this.getCCCContentHTML(g.cccStep + 1);
 
                 const btn = document.getElementById('next-step-btn');
-                if (g.cccStep === 6) { btn.innerHTML = '返回儀表板'; btn.className = "w-full lg:w-auto bg-white text-slate-600 border border-slate-300 px-8 py-3.5 rounded-xl font-bold shadow-sm"; btn.onclick = () => this.loadDashboard(); } 
-                else if (g.cccStep === 5) { btn.innerHTML = '完成演練'; btn.className = "w-full lg:w-auto bg-slate-800 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg"; btn.onclick = () => this.completeCCCGroupSimulation(); } 
+                if (g.cccStep === 6) { btn.innerHTML = '返回儀表板'; btn.className = "w-full lg:w-auto bg-white text-slate-600 border border-slate-300 px-10 py-5 rounded-xl font-bold shadow-sm text-xl"; btn.onclick = () => this.loadDashboard(); } 
+                else if (g.cccStep === 5) { btn.innerHTML = '完成演練'; btn.className = "w-full lg:w-auto bg-slate-800 text-white px-10 py-5 rounded-xl font-bold shadow-lg text-xl"; btn.onclick = () => this.completeCCCGroupSimulation(); } 
                 else { btn.innerHTML = '下一步 <i class="fa-solid fa-arrow-right ml-2"></i>'; btn.onclick = () => { g.cccStep++; this.renderCCC(); document.getElementById('step-content').parentElement.scrollTop = 0; }; }
             }
 
             getTabsHTML(activeKey, showLabel = false) {
                 const labelPrefix = showLabel ? "" : "";
-                const commonBtn = "px-8 py-3 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0";
+                const commonBtn = "px-8 py-3.5 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0";
                 const damingActive = "bg-blue-600 text-white shadow-md transform -translate-y-1"; 
                 const xiaomeiActive = "bg-pink-600 text-white shadow-md transform -translate-y-1";
                 const inactive = "bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700";
-                return `<div class="flex gap-3 border-b border-slate-200 mb-6 px-2"><button onclick="app.switchStudentTab('daming')" class="${commonBtn} ${activeKey==='daming' ? damingActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="${commonBtn} ${activeKey==='xiaomei' ? xiaomeiActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}李小美</button></div>`;
+                return `<div class="flex gap-3 border-b border-slate-200 mb-8 px-2"><button onclick="app.switchStudentTab('daming')" class="${commonBtn} ${activeKey==='daming' ? damingActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="${commonBtn} ${activeKey==='xiaomei' ? xiaomeiActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}李小美</button></div>`;
             }
 
-            // FIXED: Changed updateData to updateInput
             getCCCContentHTML(stepId) {
                 const g = this.groups[this.activeGroupId - 1];
                 const activeKey = g.activeStudentTab;
-                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center"><i class="fa-solid ${r.icon} text-2xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-sm bg-slate-100 px-3 py-1 rounded text-slate-500">人數: ${r.count}</span></div></div><p class="text-base text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
-                if (stepId === 2) return `<div class="text-center py-6"><div class="flex justify-center mb-6"><i class="fa-solid fa-book-open text-7xl text-slate-200"></i></div><h3 class="text-2xl font-bold text-slate-700 mb-3">請委員參閱 2 位學員的學習歷程檔案</h3><p class="text-slate-500 mb-10 text-lg">請全體委員參閱紙本或平板上的學習歷程資料，並對照 EPA 標準。</p><div class="flex justify-center gap-6 mb-12"><button class="px-8 py-4 rounded-xl border-2 border-blue-100 font-bold text-blue-700 bg-blue-50 shadow-sm hover:bg-blue-100 hover:border-blue-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1kFyY6sXyQqTZZauE3kU75CHUx_a9SViC/view?usp=drive_link','_blank')"><i class="fa-regular fa-folder-open"></i> 王大明資料</button><button class="px-8 py-4 rounded-xl border-2 border-pink-100 font-bold text-pink-700 bg-pink-50 shadow-sm hover:bg-pink-100 hover:border-pink-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1DpmGdfgwJRTxE7sSLwUB6wvR5Mep_Abu/view?usp=drive_link','_blank')"><i class="fa-regular fa-folder-open"></i> 李小美資料</button></div><div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10 text-left"><div class="bg-teal-50 px-6 py-4 border-b border-teal-100 flex items-center gap-3"><i class="fa-solid fa-file-medical text-2xl text-teal-600"></i><h4 class="text-xl font-bold text-teal-900">血液檢體採集護理 (EPA 標準)</h4></div><div class="p-8 space-y-8"><div><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> 任務描述</h5><ul class="list-disc pl-6 space-y-2 text-base text-slate-700"><li>核對醫囑並執行靜脈採血前準備。</li><li>向病人/家屬說明採集血液檢體的目的。</li><li>依靜脈採血技術作業標準完成採血步驟。</li><li>依病人個別性提供相關衛教指導，並完成紀錄。</li><li>能與病人/家屬、醫療團隊進行雙向溝通。</li><li class="text-slate-400 text-sm italic">(限制：急救、病況不穩定、新生兒)</li></ul></div><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div class="bg-slate-50 p-5 rounded-xl"><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span> 任務失敗風險</h5><ul class="list-disc pl-6 space-y-1 text-slate-700 text-base"><li>採血部位血腫、檢體溶血。</li><li>病人需重複扎針，增加護理工時及潛在糾紛。</li><li>延誤送檢，影響疾病診斷、治療、處置時效性。</li></ul></div><div class="bg-slate-50 p-5 rounded-xl"><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span> 對應核心能力</h5><p class="text-slate-700">病人照顧、專業知識、人際關係與溝通技巧、專業素養。</p></div></div><div><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span> 先備要件</h5><ul class="list-disc pl-6 space-y-2 text-base text-slate-700"><li><strong>知能：</strong>具備靜脈採血流程與血液注入試管順序知識、具備檢驗醫學與數據判讀知識。</li><li><strong>技能：</strong>使用 Barcode 執行病人辨識、熟悉護理資訊及輸送檢體系統。</li><li><strong>態度：</strong>尊重病人隱私及合宜的應對、能接納臨床教師指導。</li><li><strong>經驗：</strong>使用靜脈模具執行抽血 1 次或全程觀摩臨床教師執行抽血至少 1 次以上。</li></ul></div><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">5</span> 評估相關資訊</h5><ul class="list-disc pl-6 space-y-1 text-base text-slate-700"><li>直接觀察：血液檢體採集護理 EPAs 評估表 2 次</li><li>筆試 1 次</li></ul></div><div class="bg-teal-50 p-5 rounded-xl border border-teal-100"><h5 class="font-bold text-teal-800 text-lg mb-2">授權標準 (獨立操作時機)</h5><p class="mb-3 text-slate-700">需達成 Level 4 (可獨立執行)。</p><div class="font-bold text-xl text-teal-900 border-t border-teal-200 pt-2">期程：培訓期三個月前</div></div></div></div></div></div>`;
-                // Fixed: updateData -> updateInput
-                if (stepId === 3) return `${this.getTabsHTML(activeKey)}<div class="bg-white border border-slate-200 rounded-b-xl rounded-tr-xl p-8 shadow-sm animate-fade-in"><div class="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div class="w-1.5 h-6 ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'} rounded-full"></div><div class="font-bold text-slate-800 text-xl">${g.students[activeKey].name} 摘要</div></div><textarea class="w-full h-80 bg-slate-50 border-slate-200 focus:bg-white" placeholder="請自由輸入學員職場表現..." oninput="app.updateInput('${activeKey}','summary',this.value)">${g.students[activeKey].summary}</textarea></div>`;
-                if (stepId === 4) return `<div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">${ARICH_CATS.map(cat => `<div class="bg-white p-6 rounded-xl border border-slate-200 text-center shadow-sm"><div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-2xl mb-3"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-lg">${cat.label}</div><div class="text-sm text-slate-500">${cat.desc}</div></div>`).join('')}</div>${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-6 flex items-center gap-3"><span class="px-4 py-1.5 rounded text-base font-bold text-white ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'}">${g.students[activeKey].name}</span><h4 class="text-xl font-bold text-slate-800">品質面向討論紀錄</h4></div><textarea class="w-full h-80 bg-slate-50 border-slate-200 focus:bg-white p-6 rounded-xl text-lg" placeholder="請記錄針對 ${g.students[activeKey].name} 的 ARICH 面向討論..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea></div>`;
-                if (stepId === 5) { const s = g.students[activeKey]; return `${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-10"><h4 class="font-bold text-slate-800 mb-4 border-l-4 border-teal-500 pl-4 text-xl">是否可被信賴執行該 EPA「血液檢體採集護理」？</h4><div class="flex gap-4"><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===true?'border-green-500 bg-green-50 text-green-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(true)">Pass 可信賴</button><button class="flex-1 py-5 rounded-xl border-2 font-bold text-xl ${s.result===false?'border-red-500 bg-red-50 text-red-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(false)">Fail 未通過</button></div></div><div class="space-y-10"><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">擬定向學員說明此決定的原因？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea></div><div><h4 class="font-bold text-slate-800 mb-3 border-l-4 border-teal-500 pl-4 text-xl">提出具體輔導方案或改善計畫？</h4><textarea class="w-full h-40" placeholder="請說明..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea></div></div></div>`; }
-                if (stepId === 6) return `${this.getTabsHTML(activeKey)}<div class="bg-white border border-slate-200 rounded-b-xl rounded-tr-xl p-8 shadow-sm animate-fade-in"><div class="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div class="w-1.5 h-6 ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'} rounded-full"></div><div class="font-bold text-slate-800 text-xl">${g.students[activeKey].name} 紀錄專區</div></div><textarea class="w-full h-80 bg-slate-50 border-slate-200 focus:bg-white" placeholder="請自由書寫討論紀錄、共識或爭議點..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${g.students[activeKey].meetingNote}</textarea></div>`;
-                if (stepId === 7) return `<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">${this.getTabsHTML(activeKey)}<div class="bg-slate-50 p-6 rounded-b-xl rounded-tr-xl border border-slate-200 space-y-10 animate-fade-in">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div><h5 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-3"><span class="bg-slate-200 w-8 h-8 flex items-center justify-center rounded text-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-10 mb-6 text-base text-slate-600 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label class="text-sm font-bold text-slate-500 mb-2 block">實際觀察到的團隊作為</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div><label class="text-sm font-bold text-slate-500 mb-2 block">潛在的挑戰與限制</label><textarea class="h-40 text-base" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
+                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="bg-white p-8 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition"><div class="flex items-center gap-4 mb-4"><div class="w-14 h-14 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center"><i class="fa-solid ${r.icon} text-2xl"></i></div><div><h4 class="font-bold text-slate-800 text-xl">${r.name}</h4><span class="text-sm bg-slate-100 px-3 py-1 rounded text-slate-500">人數: ${r.count}</span></div></div><p class="text-base text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
+                if (stepId === 2) return `<div class="text-center py-10"><div class="flex justify-center mb-8"><i class="fa-solid fa-book-open text-7xl text-slate-200"></i></div><h3 class="text-2xl font-bold text-slate-700 mb-4">請委員參閱 2 位學員的學習歷程檔案</h3><p class="text-slate-500 mb-10 text-lg">請全體委員參閱紙本或平板上的學習歷程資料，並對照 EPA 標準。</p><div class="flex justify-center gap-6 mb-12"><button class="px-8 py-4 rounded-xl border-2 border-blue-100 font-bold text-blue-700 bg-blue-50 shadow-sm hover:bg-blue-100 hover:border-blue-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1kFyY6sXyQqTZZauE3kU75CHUx_a9SViC/view?usp=drive_link','_blank')"><i class="fa-regular fa-folder-open"></i> 王大明資料</button><button class="px-8 py-4 rounded-xl border-2 border-pink-100 font-bold text-pink-700 bg-pink-50 shadow-sm hover:bg-pink-100 hover:border-pink-300 transition text-lg flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1DpmGdfgwJRTxE7sSLwUB6wvR5Mep_Abu/view?usp=drive_link','_blank')"><i class="fa-regular fa-folder-open"></i> 李小美資料</button></div><div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-10 text-left"><div class="bg-teal-50 px-8 py-5 border-b border-teal-100 flex items-center gap-3"><i class="fa-solid fa-file-medical text-2xl text-teal-600"></i><h4 class="text-xl font-bold text-teal-900">血液檢體採集護理 (EPA 標準)</h4></div><div class="p-8 space-y-8"><div><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span> 任務描述</h5><ul class="list-disc pl-6 space-y-2 text-base text-slate-700"><li>核對醫囑並執行靜脈採血前準備。</li><li>向病人/家屬說明採集血液檢體的目的。</li><li>依靜脈採血技術作業標準完成採血步驟。</li><li>依病人個別性提供相關衛教指導，並完成紀錄。</li><li>能與病人/家屬、醫療團隊進行雙向溝通。</li><li class="text-slate-400 text-sm italic">(限制：急救、病況不穩定、新生兒)</li></ul></div><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div class="bg-slate-50 p-6 rounded-xl"><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span> 任務失敗風險</h5><ul class="list-disc pl-6 space-y-2 text-slate-700 text-base"><li>採血部位血腫、檢體溶血。</li><li>病人需重複扎針，增加護理工時及潛在糾紛。</li><li>延誤送檢，影響疾病診斷、治療、處置時效性。</li></ul></div><div class="bg-slate-50 p-6 rounded-xl"><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span> 對應核心能力</h5><p class="text-slate-700 text-base">病人照顧、專業知識、人際關係與溝通技巧、專業素養。</p></div></div><div><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span> 先備要件</h5><ul class="list-disc pl-6 space-y-2 text-base text-slate-700"><li><strong>知能：</strong>具備靜脈採血流程與血液注入試管順序知識、具備檢驗醫學與數據判讀知識。</li><li><strong>技能：</strong>使用 Barcode 執行病人辨識、熟悉護理資訊及輸送檢體系統。</li><li><strong>態度：</strong>尊重病人隱私及合宜的應對、能接納臨床教師指導。</li><li><strong>經驗：</strong>使用靜脈模具執行抽血 1 次或全程觀摩臨床教師執行抽血至少 1 次以上。</li></ul></div><div class="grid grid-cols-1 md:grid-cols-2 gap-8"><div><h5 class="font-bold text-teal-700 text-lg mb-3 flex items-center gap-2"><span class="bg-teal-100 w-6 h-6 rounded-full flex items-center justify-center text-xs">5</span> 評估相關資訊</h5><ul class="list-disc pl-6 space-y-2 text-base text-slate-700"><li>直接觀察：血液檢體採集護理 EPAs 評估表 2 次</li><li>筆試 1 次</li></ul></div><div class="bg-teal-50 p-6 rounded-xl border border-teal-100"><h5 class="font-bold text-teal-800 text-lg mb-2">授權標準 (獨立操作時機)</h5><p class="mb-3 text-slate-700 text-base">需達成 Level 4 (可獨立執行)。</p><div class="font-bold text-xl text-teal-900 border-t border-teal-200 pt-2">期程：培訓期三個月前</div></div></div></div></div></div>`;
+                if (stepId === 3) return `${this.getTabsHTML(activeKey)}<div class="bg-white border border-slate-200 rounded-b-xl rounded-tr-xl p-8 shadow-sm animate-fade-in"><div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4"><div class="w-2 h-8 ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'} rounded-full"></div><div class="font-bold text-slate-800 text-2xl">${g.students[activeKey].name} 摘要</div></div><textarea class="w-full auto-expand min-h-[400px] bg-slate-50 border-slate-200 focus:bg-white p-6" placeholder="請自由輸入學員職場表現..." oninput="app.updateInput('${activeKey}','summary',this.value); app.autoResize(this)">${g.students[activeKey].summary}</textarea></div>`;
+                if (stepId === 4) return `<div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">${ARICH_CATS.map(cat => `<div class="bg-white p-6 rounded-xl border border-slate-200 text-center shadow-sm"><div class="w-14 h-14 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-2xl mb-3"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-lg">${cat.label}</div><div class="text-sm text-slate-500">${cat.desc}</div></div>`).join('')}</div>${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-6 flex items-center gap-3"><span class="px-4 py-1.5 rounded text-base font-bold text-white ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'}">${g.students[activeKey].name}</span><h4 class="text-xl font-bold text-slate-800">品質面向討論紀錄</h4></div><textarea class="w-full auto-expand min-h-[400px] bg-slate-50 border-slate-200 focus:bg-white p-6 rounded-xl text-lg" placeholder="請記錄針對 ${g.students[activeKey].name} 的 ARICH 面向討論..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value); app.autoResize(this)">${g.students[activeKey].qualityNote}</textarea></div>`;
+                if (stepId === 5) { const s = g.students[activeKey]; return `${this.getTabsHTML(activeKey)}<div class="bg-white p-8 rounded-b-xl rounded-tr-xl border border-slate-200 shadow-sm animate-fade-in"><div class="mb-10"><h4 class="font-bold text-slate-800 mb-6 border-l-4 border-teal-500 pl-4 text-xl">是否可被信賴執行該 EPA「血液檢體採集護理」？</h4><div class="flex gap-6"><button class="flex-1 py-6 rounded-xl border-2 font-bold text-2xl ${s.result===true?'border-green-500 bg-green-50 text-green-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(true)">Pass 可信賴</button><button class="flex-1 py-6 rounded-xl border-2 font-bold text-2xl ${s.result===false?'border-red-500 bg-red-50 text-red-700':'border-slate-200 text-slate-400'}" onclick="app.setResult(false)">Fail 未通過</button></div></div><div class="space-y-10"><div><h4 class="font-bold text-slate-800 mb-4 border-l-4 border-teal-500 pl-4 text-xl">擬定向學員說明此決定的原因？</h4><textarea class="w-full auto-expand p-6" placeholder="請說明..." oninput="app.updateInput('${activeKey}','reason',this.value); app.autoResize(this)">${s.reason}</textarea></div><div><h4 class="font-bold text-slate-800 mb-4 border-l-4 border-teal-500 pl-4 text-xl">提出具體輔導方案或改善計畫？</h4><textarea class="w-full auto-expand p-6" placeholder="請說明..." oninput="app.updateInput('${activeKey}','plan',this.value); app.autoResize(this)">${s.plan}</textarea></div></div></div>`; }
+                if (stepId === 6) return `${this.getTabsHTML(activeKey)}<div class="bg-white border border-slate-200 rounded-b-xl rounded-tr-xl p-8 shadow-sm animate-fade-in"><div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4"><div class="w-2 h-8 ${activeKey === 'daming' ? 'bg-blue-600' : 'bg-pink-600'} rounded-full"></div><div class="font-bold text-slate-800 text-2xl">${g.students[activeKey].name} 紀錄專區</div></div><textarea class="w-full auto-expand min-h-[400px] bg-slate-50 border-slate-200 focus:bg-white p-6" placeholder="請自由書寫討論紀錄、共識或爭議點..." oninput="app.updateInput('${activeKey}','meetingNote',this.value); app.autoResize(this)">${g.students[activeKey].meetingNote}</textarea></div>`;
+                if (stepId === 7) return `<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">${this.getTabsHTML(activeKey)}<div class="bg-slate-50 p-8 rounded-b-xl rounded-tr-xl border border-slate-200 space-y-10 animate-fade-in">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div><h5 class="font-bold text-slate-800 text-xl mb-4 flex items-center gap-3"><span class="bg-slate-200 w-8 h-8 flex items-center justify-center rounded text-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-10 mb-6 text-base text-slate-600 space-y-2">${items.map(i => `<li>${i}</li>`).join('')}</ul><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label class="text-base font-bold text-slate-500 mb-2 block">實際觀察到的團隊作為</label><textarea class="auto-expand p-4" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value); app.autoResize(this)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div><label class="text-base font-bold text-slate-500 mb-2 block">潛在的挑戰與限制</label><textarea class="auto-expand p-4" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value); app.autoResize(this)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
             }
 
             renderRemediation() {
                 const g = this.groups[this.activeGroupId - 1];
                 const key = g.activeStudentTab;
-                const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="px-8 py-3 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='daming' ? 'bg-blue-600 text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</button>`;
-                const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="px-8 py-3 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='xiaomei' ? 'bg-pink-600 text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</button>`;
+                const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="px-8 py-3.5 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='daming' ? 'bg-blue-600 text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</button>`;
+                const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="px-8 py-3.5 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='xiaomei' ? 'bg-pink-600 text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</button>`;
                 const remTabsContainer = document.getElementById('rem-tabs-container');
                 if (remTabsContainer) remTabsContainer.innerHTML = damingBtn + xiaomeiBtn;
                 const remGroupTitle = document.getElementById('rem-group-title');
                 if (remGroupTitle) remGroupTitle.innerText = `第 ${g.id} 組計畫`;
-                const remGroupTitleMobile = document.getElementById('rem-group-title-mobile');
-                if (remGroupTitleMobile) remGroupTitleMobile.innerText = `第 ${g.id} 組計畫`;
                 const s = g.students[key];
-                const resultBadge = s.result === true ? '<span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-bold border border-green-200 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> PASS 可信賴</span>' : s.result === false ? '<span class="bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-sm font-bold border border-red-200 flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i> FAIL 未通過</span>' : '<span class="bg-slate-100 text-slate-500 px-4 py-1.5 rounded-full text-xs font-bold border border-slate-200">尚未決策</span>';
+                const resultBadge = s.result === true ? '<span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-bold border border-green-200 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> PASS 可信賴</span>' : s.result === false ? '<span class="bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-sm font-bold border border-red-200 flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i> FAIL 未通過</span>' : '<span class="bg-slate-100 text-slate-500 px-4 py-1.5 rounded-full text-sm font-bold border border-slate-200">尚未決策</span>';
                 const refHTML = `<div class="flex items-center gap-6 mb-6"><span class="text-base font-bold text-slate-500">CCC 信賴決策結果</span>${resultBadge}</div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="border border-slate-200 rounded-xl p-6 bg-white"><h5 class="font-bold text-slate-700 mb-3 text-base flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-orange-400"></span> 決策原因</h5><p class="text-base text-slate-600 whitespace-pre-wrap leading-relaxed">${s.reason || '尚無內容'}</p></div><div class="border border-slate-200 rounded-xl p-6 bg-white"><h5 class="font-bold text-slate-700 mb-3 text-base flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-indigo-400"></span> 輔導方案建議</h5><p class="text-base text-slate-600 whitespace-pre-wrap leading-relaxed">${s.plan || '尚無內容'}</p></div></div>`;
                 const cccRefContainer = document.getElementById('rem-ccc-reference');
                 if (cccRefContainer) cccRefContainer.innerHTML = refHTML;
-                const container = document.getElementById('rem-table-body');
-                if (container) {
-                    container.innerHTML = '';
-                    const emptyState = document.getElementById('rem-empty-state');
-                    if (s.remediationPlan.length === 0) { if (emptyState) emptyState.classList.remove('hidden'); } 
-                    else {
-                        if (emptyState) emptyState.classList.add('hidden');
-                        s.remediationPlan.forEach((item, idx) => {
-                            const tr = document.createElement('tr');
-                            tr.className = "group hover:bg-slate-50 transition-colors";
-                            tr.innerHTML = `<td><textarea class="bg-white focus:bg-indigo-50/30" oninput="app.updateRemRow(${idx},'deficit',this.value)">${item.deficit}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30" oninput="app.updateRemRow(${idx},'competency',this.value)">${item.competency}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30" oninput="app.updateRemRow(${idx},'action',this.value)">${item.action}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30" oninput="app.updateRemRow(${idx},'assessment',this.value)">${item.assessment}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30" oninput="app.updateRemRow(${idx},'goal',this.value)">${item.goal}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30 h-[140px]" oninput="app.updateRemRow(${idx},'deadline',this.value)">${item.deadline}</textarea></td><td class="align-middle text-center"><button onclick="app.deleteRemRow(${idx})" class="text-slate-300 hover:text-red-500 w-10 h-10 rounded-full hover:bg-red-50 transition"><i class="fa-solid fa-trash-can text-xl"></i></button></td>`;
-                            container.appendChild(tr);
-                        });
-                    }
+                
+                // --- 1. Desktop Table ---
+                const containerDesktop = document.getElementById('rem-table-body-desktop');
+                if (containerDesktop) {
+                    containerDesktop.innerHTML = '';
+                    s.remediationPlan.forEach((item, idx) => {
+                        const tr = document.createElement('tr');
+                        tr.className = "group hover:bg-slate-50 transition-colors";
+                        tr.innerHTML = `<td><textarea class="auto-expand bg-white focus:bg-indigo-50/30 p-4 border-slate-200 rounded-lg" oninput="app.updateRemRow(${idx},'deficit',this.value); app.autoResize(this)">${item.deficit}</textarea></td><td><textarea class="auto-expand bg-white focus:bg-indigo-50/30 p-4 border-slate-200 rounded-lg" oninput="app.updateRemRow(${idx},'competency',this.value); app.autoResize(this)">${item.competency}</textarea></td><td><textarea class="auto-expand bg-white focus:bg-indigo-50/30 p-4 border-slate-200 rounded-lg" oninput="app.updateRemRow(${idx},'action',this.value); app.autoResize(this)">${item.action}</textarea></td><td><textarea class="auto-expand bg-white focus:bg-indigo-50/30 p-4 border-slate-200 rounded-lg" oninput="app.updateRemRow(${idx},'assessment',this.value); app.autoResize(this)">${item.assessment}</textarea></td><td><textarea class="auto-expand bg-white focus:bg-indigo-50/30 p-4 border-slate-200 rounded-lg" oninput="app.updateRemRow(${idx},'goal',this.value); app.autoResize(this)">${item.goal}</textarea></td><td><textarea class="auto-expand bg-white focus:bg-indigo-50/30 p-4 border-slate-200 rounded-lg" oninput="app.updateRemRow(${idx},'deadline',this.value); app.autoResize(this)">${item.deadline}</textarea></td><td class="align-middle text-center"><button onclick="app.deleteRemRow(${idx})" class="text-slate-300 hover:text-red-500 w-10 h-10 rounded-full hover:bg-red-50 transition"><i class="fa-solid fa-trash-can text-xl"></i></button></td>`;
+                        containerDesktop.appendChild(tr);
+                    });
+                }
+
+                // --- 2. Mobile Card List ---
+                const containerMobile = document.getElementById('rem-list-mobile');
+                if (containerMobile) {
+                    containerMobile.innerHTML = '';
+                    s.remediationPlan.forEach((item, idx) => {
+                        const card = document.createElement('div');
+                        card.className = "rem-card";
+                        card.innerHTML = `
+                            <div class="flex justify-between items-center mb-4 pb-4 border-b border-slate-100">
+                                <span class="font-bold text-indigo-600 text-lg">項目 ${idx + 1}</span>
+                                <button onclick="app.deleteRemRow(${idx})" class="text-red-400 hover:text-red-600"><i class="fa-solid fa-trash-can"></i> 刪除</button>
+                            </div>
+                            <div class="space-y-4">
+                                <div><label class="rem-card-label">缺失/問題</label><textarea class="auto-expand" oninput="app.updateRemRow(${idx},'deficit',this.value); app.autoResize(this)">${item.deficit}</textarea></div>
+                                <div><label class="rem-card-label">核心能力</label><textarea class="auto-expand" oninput="app.updateRemRow(${idx},'competency',this.value); app.autoResize(this)">${item.competency}</textarea></div>
+                                <div><label class="rem-card-label">行動計畫</label><textarea class="auto-expand" oninput="app.updateRemRow(${idx},'action',this.value); app.autoResize(this)">${item.action}</textarea></div>
+                                <div><label class="rem-card-label">評量方法</label><textarea class="auto-expand" oninput="app.updateRemRow(${idx},'assessment',this.value); app.autoResize(this)">${item.assessment}</textarea></div>
+                                <div><label class="rem-card-label">目標</label><textarea class="auto-expand" oninput="app.updateRemRow(${idx},'goal',this.value); app.autoResize(this)">${item.goal}</textarea></div>
+                                <div><label class="rem-card-label">期限</label><textarea class="auto-expand" oninput="app.updateRemRow(${idx},'deadline',this.value); app.autoResize(this)">${item.deadline}</textarea></div>
+                            </div>
+                        `;
+                        containerMobile.appendChild(card);
+                    });
+                }
+
+                // Empty State Logic
+                const emptyState = document.getElementById('rem-empty-state');
+                if (s.remediationPlan.length === 0) { 
+                    if (emptyState) emptyState.classList.remove('hidden');
+                    if (containerDesktop) containerDesktop.parentElement.classList.add('hidden'); // Hide empty table header on desktop
+                } else {
+                    if (emptyState) emptyState.classList.add('hidden');
+                    if (containerDesktop) containerDesktop.parentElement.classList.remove('hidden');
                 }
             }
 
             renderAdapt() {
                 const g = this.groups[this.activeGroupId - 1];
                 const key = g.activeStudentTab;
-                const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="px-8 py-3 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='daming' ? 'bg-adapt text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</button>`;
-                const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="px-8 py-3 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='xiaomei' ? 'bg-adapt text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</button>`;
+                const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="px-8 py-3.5 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='daming' ? 'bg-adapt text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</button>`;
+                const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="px-8 py-3.5 rounded-t-xl font-bold transition-all text-lg flex-1 md:flex-none flex items-center justify-center border-b-0 ${key==='xiaomei' ? 'bg-adapt text-white shadow-md transform -translate-y-1' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'}"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</button>`;
                 const tabsContainer = document.getElementById('adapt-tabs-container');
                 if (tabsContainer) tabsContainer.innerHTML = damingBtn + xiaomeiBtn;
                 document.getElementById('adapt-group-title').innerText = `第 ${g.id} 組 ADAPT`;
@@ -614,9 +715,12 @@
                 ADAPT_STEPS.forEach((step, idx) => {
                     const isSmooth = s.adaptLog[`${step.id}_smooth`];
                     const note = s.adaptLog[`${step.id}_note`] || '';
-                    html += `<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:border-adapt transition"><div class="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-4"><div><h4 class="font-bold text-slate-800 text-xl flex items-center gap-2"><span class="bg-adapt/10 text-adapt w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">${idx+1}</span> ${step.label}</h4><p class="text-slate-500 text-base mt-1 pl-10">${step.desc}</p></div><div class="flex items-center gap-4 pl-10 md:pl-0"><span class="text-sm font-bold text-slate-500">落實與否</span><div class="flex gap-2"><button onclick="app.updateAdaptItem('${step.id}_smooth', true)" class="px-4 py-2 rounded-lg border ${isSmooth===true ? 'bg-green-500 text-white border-green-600' : 'bg-white text-slate-400 border-slate-200'} font-bold transition">落實</button><button onclick="app.updateAdaptItem('${step.id}_smooth', false)" class="px-4 py-2 rounded-lg border ${isSmooth===false ? 'bg-red-500 text-white border-red-600' : 'bg-white text-slate-400 border-slate-200'} font-bold transition">未落實</button></div></div></div><div class="pl-0 md:pl-10"><textarea class="w-full h-24 bg-slate-50 focus:bg-white p-4 rounded-lg text-base border-slate-200" placeholder="觀察備註 (例如：學員反應、使用的問句...)" oninput="app.updateAdaptItem('${step.id}_note', this.value)">${note}</textarea></div></div>`;
+                    html += `<div class="bg-white border border-slate-200 rounded-xl p-8 shadow-sm hover:border-adapt transition"><div class="flex flex-col md:flex-row justify-between md:items-center mb-6 gap-4"><div><h4 class="font-bold text-slate-800 text-xl flex items-center gap-3"><span class="bg-adapt/10 text-adapt w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">${idx+1}</span> ${step.label}</h4><p class="text-slate-500 text-base mt-2 pl-11">${step.desc}</p></div><div class="flex items-center gap-4 pl-11 md:pl-0"><span class="text-base font-bold text-slate-500">落實與否</span><div class="flex gap-3"><button onclick="app.updateAdaptItem('${step.id}_smooth', true)" class="px-4 py-2 rounded-lg border ${isSmooth===true ? 'bg-green-500 text-white border-green-600' : 'bg-white text-slate-400 border-slate-200'} font-bold transition text-base">落實</button><button onclick="app.updateAdaptItem('${step.id}_smooth', false)" class="px-4 py-2 rounded-lg border ${isSmooth===false ? 'bg-red-500 text-white border-red-600' : 'bg-white text-slate-400 border-slate-200'} font-bold transition text-base">未落實</button></div></div></div><div class="pl-0 md:pl-11"><textarea class="w-full auto-expand bg-slate-50 focus:bg-white p-4 rounded-lg text-base border-slate-200" placeholder="觀察備註 (例如：學員反應、使用的問句...)" oninput="app.updateAdaptItem('${step.id}_note', this.value); app.autoResize(this)">${note}</textarea></div></div>`;
                 });
                 container.innerHTML = html;
+                
+                // Initialize resize for adapt items
+                container.querySelectorAll('textarea').forEach(el => this.autoResize(el));
             }
 
             updateAdaptItem(field, value) {
@@ -626,18 +730,23 @@
             }
 
             updateInput(student, field, value) { this.groups[this.activeGroupId - 1].students[student][field] = value; }
-            // Alias for backward compatibility in case of cached templates or old calls
             updateData(student, field, value) { this.updateInput(student, field, value); }
-
             updateObs(key, value) { this.groups[this.activeGroupId - 1].observerData[key] = value; }
             setResult(r) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].result = r; this.renderCCC(); }
             addRemediationRow() { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.push({deficit:'',competency:'',action:'',assessment:'',goal:'',deadline:''}); this.renderRemediation(); }
             updateRemRow(index, field, value) { this.groups[this.activeGroupId - 1].students[this.groups[this.activeGroupId - 1].activeStudentTab].remediationPlan[index][field] = value; }
             deleteRemRow(index) { if(confirm('刪除此項目?')) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.splice(index,1); this.renderRemediation(); } }
-            switchStudentTab(student) { this.setTab(student); }
+            
+            switchStudentTab(student) { 
+                this.groups[this.activeGroupId - 1].activeStudentTab = student;
+                if(this.currentModule === 'ccc') this.renderCCC();
+                else if(this.currentModule === 'remediation') this.renderRemediation();
+                else if(this.currentModule === 'adapt') this.renderAdapt();
+            }
 
             closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
-            showModal({ title, message, icon, type, onConfirm }) { /* ... same modal logic ... */ 
+            
+            showModal({ title, message, icon, type, onConfirm }) {
                 const modal = document.getElementById('custom-modal');
                 const titleEl = document.getElementById('modal-title');
                 const msgEl = document.getElementById('modal-message');
@@ -646,17 +755,280 @@
                 const btnConfirm = document.getElementById('modal-btn-confirm');
                 titleEl.innerHTML = title;
                 msgEl.innerHTML = message;
-                if (type === 'success') { iconContainer.innerHTML = '<i class="fa-solid fa-check text-green-600 text-xl"></i>'; iconContainer.className = "mx-auto flex items-center justify-center h-20 w-20 md:h-24 md:w-24 rounded-full bg-green-100 mb-6 md:mb-8 shadow-sm"; btnConfirm.className = "bg-green-600 text-white hover:bg-green-700 px-6 md:px-8 py-3 md:py-4 rounded-xl text-base md:text-lg font-bold shadow-lg transition w-full transform hover:-translate-y-0.5"; } 
-                else if (type === 'warning') { iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-600 text-xl"></i>'; iconContainer.className = "mx-auto flex items-center justify-center h-20 w-20 md:h-24 md:w-24 rounded-full bg-yellow-100 mb-6 md:mb-8 shadow-sm"; btnConfirm.className = "bg-yellow-600 text-white hover:bg-yellow-700 px-6 md:px-8 py-3 md:py-4 rounded-xl text-base md:text-lg font-bold shadow-lg transition w-full transform hover:-translate-y-0.5"; }
-                if (onConfirm) { btnCancel.classList.remove('hidden'); btnConfirm.onclick = () => { this.closeModal(); onConfirm(); }; } else { btnCancel.classList.add('hidden'); btnConfirm.onclick = () => this.closeModal(); }
-                modal.classList.remove('hidden'); setTimeout(() => { modal.classList.add('opacity-100'); modal.querySelector('#modal-content').classList.add('scale-100'); }, 10);
+                
+                if (type === 'success') { 
+                    iconContainer.innerHTML = '<i class="fa-solid fa-check text-green-600 text-xl"></i>'; 
+                    iconContainer.className = "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4 shadow-sm"; 
+                    btnConfirm.className = "bg-green-600 text-white hover:bg-green-700 flex-1 py-3 rounded-xl text-base font-bold shadow-lg transition"; 
+                } 
+                else if (type === 'warning') { 
+                    iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-600 text-xl"></i>'; 
+                    iconContainer.className = "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4 shadow-sm"; 
+                    btnConfirm.className = "bg-yellow-600 text-white hover:bg-yellow-700 flex-1 py-3 rounded-xl text-base font-bold shadow-lg transition"; 
+                }
+
+                if (onConfirm) { 
+                    btnCancel.classList.remove('hidden'); 
+                    btnConfirm.onclick = () => { this.closeModal(); onConfirm(); }; 
+                } else { 
+                    btnCancel.classList.add('hidden'); 
+                    btnConfirm.onclick = () => this.closeModal(); 
+                }
+                
+                modal.classList.remove('hidden'); 
+                setTimeout(() => { modal.classList.add('opacity-100'); modal.querySelector('#modal-content').classList.add('scale-100'); }, 10);
             }
+
             completeCCCGroupSimulation() {
                 const group = this.groups[this.activeGroupId - 1];
                 const p1 = group.students.daming.result;
                 const p2 = group.students.xiaomei.result;
-                if (p1 !== null && p2 !== null) { this.showModal({ title: "確認結束演練", message: "兩位學員皆已評定完成。<br>確定要結束本組演練並返回儀表板嗎？", type: 'success', onConfirm: () => { group.cccCompleted = true; this.sendDataToGoogleSheet(group, 'ccc'); this.loadDashboard(); } }); } 
-                else { this.showModal({ title: "無法結束演練", message: "請確認<span class='font-bold text-red-600'>兩位學員</span>皆已完成信賴決策(Pass/Fail)後再送出。", type: 'warning' }); }
+                if (p1 !== null && p2 !== null) { 
+                    this.showModal({ 
+                        title: "確認結束演練", 
+                        message: "兩位學員皆已評定完成。<br>確定要結束本組演練並返回儀表板嗎？", 
+                        type: 'success', 
+                        onConfirm: () => { 
+                            group.cccCompleted = true; 
+                            group.cccStep = 6; 
+                            this.sendDataToGoogleSheet(group, 'ccc'); 
+                            this.loadDashboard(); 
+                        } 
+                    }); 
+                } 
+                else { 
+                    this.showModal({ 
+                        title: "無法結束演練", 
+                        message: "請確認<span class='font-bold text-red-600'>兩位學員</span>皆已完成信賴決策(Pass/Fail)後再送出。", 
+                        type: 'warning' 
+                    }); 
+                }
+            }
+
+            completeRemediation() {
+                const group = this.groups[this.activeGroupId - 1];
+                this.showModal({
+                    title: "提交補強計畫",
+                    message: "確定要提交本組的補強計畫嗎？<br><span class='text-sm text-slate-400'>提交後將標記為完成。</span>",
+                    type: "success",
+                    onConfirm: () => {
+                        group.remCompleted = true;
+                        this.sendDataToGoogleSheet(group, 'remediation');
+                        this.loadDashboard();
+                    }
+                });
+            }
+
+            completeAdapt() {
+                const group = this.groups[this.activeGroupId - 1];
+                this.showModal({
+                    title: "提交 ADAPT 回饋",
+                    message: "確定要提交本組的回饋紀錄嗎？",
+                    type: "success",
+                    onConfirm: () => {
+                        group.adaptCompleted = true;
+                        this.sendDataToGoogleSheet(group, 'adapt');
+                        this.loadDashboard();
+                    }
+                });
+            }
+
+            // --- 新增：讀取資料 ---
+            fetchDataFromGoogleSheet() {
+                console.log("Fetching data from Google Sheet...");
+                document.getElementById('loading-overlay').style.display = 'flex';
+                
+                fetch(API_URL)
+                .then(res => res.json())
+                .then(resp => {
+                    if (resp.result === 'success') {
+                        this.processServerData(resp.data);
+                    } else {
+                        console.error('Server error:', resp);
+                    }
+                })
+                .catch(err => console.error('Fetch error:', err))
+                .finally(() => {
+                    document.getElementById('loading-overlay').style.opacity = '0';
+                    setTimeout(() => { 
+                        document.getElementById('loading-overlay').style.display = 'none'; 
+                    }, 300);
+                });
+            }
+
+            processServerData(data) {
+                // 清空本地計畫，避免重複 (先重置)
+                this.groups.forEach(g => {
+                    g.students.daming.remediationPlan = [];
+                    g.students.xiaomei.remediationPlan = [];
+                });
+
+                // 1. Process CCC Data
+                if (data.CCC_Master_Log) {
+                    data.CCC_Master_Log.forEach(row => {
+                        // row[1] = GroupID, row[2] = Name
+                        const gid = parseInt(row[1]);
+                        const name = row[2];
+                        const studentKey = (name === "王大明") ? "daming" : (name === "李小美") ? "xiaomei" : null;
+                        
+                        if (gid && studentKey && this.groups[gid-1]) {
+                            const s = this.groups[gid-1].students[studentKey];
+                            s.summary = row[3];
+                            s.qualityNote = row[4];
+                            
+                            // Parse Result
+                            if (row[5] === "PASS") s.result = true;
+                            else if (row[5] === "FAIL") s.result = false;
+                            
+                            s.reason = row[6];
+                            s.plan = row[7];
+                            s.meetingNote = row[8];
+                            
+                            // Parse Observer Log
+                            try {
+                                if (row[9]) {
+                                    const obs = JSON.parse(row[9]);
+                                    // Merge observer data
+                                    Object.assign(this.groups[gid-1].observerData, obs);
+                                }
+                            } catch(e) { console.error("JSON parse error", e); }
+                            
+                            if (row[10] === "Completed") {
+                                this.groups[gid-1].cccCompleted = true;
+                                this.groups[gid-1].cccStep = 6;
+                            }
+                        }
+                    });
+                }
+
+                // 2. Process Remediation Data
+                if (data.Remediation_Details) {
+                    data.Remediation_Details.forEach(row => {
+                        const gid = parseInt(row[1]);
+                        const name = row[2];
+                        const studentKey = (name === "王大明") ? "daming" : (name === "李小美") ? "xiaomei" : null;
+                        
+                        if (gid && studentKey && this.groups[gid-1]) {
+                            const s = this.groups[gid-1].students[studentKey];
+                            s.remediationPlan.push({
+                                deficit: row[3],
+                                competency: row[4],
+                                action: row[5],
+                                assessment: row[6],
+                                goal: row[7],
+                                deadline: row[8]
+                            });
+                            // If data exists, mark partial/full complete status visually later
+                            this.groups[gid-1].remCompleted = true; 
+                        }
+                    });
+                }
+
+                // 3. Process ADAPT Data
+                if (data.ADAPT_Feedbeck_Log) {
+                    data.ADAPT_Feedbeck_Log.forEach(row => {
+                        const gid = parseInt(row[1]);
+                        const name = row[2];
+                        const studentKey = (name === "王大明") ? "daming" : (name === "李小美") ? "xiaomei" : null;
+                        
+                        if (gid && studentKey && this.groups[gid-1]) {
+                            const s = this.groups[gid-1].students[studentKey];
+                            
+                            // Helper to parse "落實"/"未落實"
+                            const parseSmooth = (val) => val === "落實" ? true : val === "未落實" ? false : null;
+                            
+                            s.adaptLog['A1_smooth'] = parseSmooth(row[3]);
+                            s.adaptLog['A1_note'] = row[4];
+                            
+                            s.adaptLog['D_smooth'] = parseSmooth(row[5]);
+                            s.adaptLog['D_note'] = row[6];
+                            
+                            s.adaptLog['A2_smooth'] = parseSmooth(row[7]);
+                            s.adaptLog['A2_note'] = row[8];
+                            
+                            s.adaptLog['P_smooth'] = parseSmooth(row[9]);
+                            s.adaptLog['P_note'] = row[10];
+                            
+                            s.adaptLog['T_smooth'] = parseSmooth(row[11]);
+                            s.adaptLog['T_note'] = row[12];
+                            
+                            this.groups[gid-1].adaptCompleted = true;
+                        }
+                    });
+                }
+                
+                // Refresh View
+                this.loadDashboard();
+            }
+
+            // --- 寫入資料 (POST) ---
+            sendDataToGoogleSheet(group, type) {
+                let sheetName = "";
+                let rows = [];
+                const timestamp = new Date().toISOString();
+                
+                if (type === 'ccc') {
+                    sheetName = "CCC_Master_Log";
+                    ['daming', 'xiaomei'].forEach(key => {
+                        const s = group.students[key];
+                        const resultStr = s.result === true ? "PASS" : s.result === false ? "FAIL" : "未定";
+                        const obsLog = JSON.stringify(group.observerData || {});
+                        const row = [
+                            timestamp, group.id, s.name,
+                            s.summary, s.qualityNote,
+                            resultStr, s.reason, s.plan,
+                            s.meetingNote, obsLog, "Completed"
+                        ];
+                        rows.push(row);
+                    });
+                } else if (type === 'remediation') {
+                    sheetName = "Remediation_Details";
+                    ['daming', 'xiaomei'].forEach(key => {
+                        const s = group.students[key];
+                        s.remediationPlan.forEach(item => {
+                             const row = [
+                                timestamp, group.id, s.name,
+                                item.deficit, item.competency, item.action,
+                                item.assessment, item.goal, item.deadline
+                            ];
+                            rows.push(row);
+                        });
+                    });
+                } else if (type === 'adapt') {
+                     sheetName = "ADAPT_Feedbeck_Log"; 
+                     ['daming', 'xiaomei'].forEach(key => {
+                        const s = group.students[key];
+                        const row = [timestamp, group.id, s.name];
+                        ADAPT_STEPS.forEach(step => {
+                            const smoothVal = s.adaptLog[`${step.id}_smooth`];
+                            const noteVal = s.adaptLog[`${step.id}_note`] || "";
+                            let smoothText = "";
+                            if (smoothVal === true) smoothText = "落實";
+                            else if (smoothVal === false) smoothText = "未落實";
+                            row.push(smoothText);
+                            row.push(noteVal);
+                        });
+                        rows.push(row);
+                     });
+                }
+
+                if (rows.length === 0) return;
+
+                const payload = { sheet: sheetName, data: rows };
+                console.log("Sending Data:", payload);
+
+                fetch(API_URL, {
+                    method: 'POST',
+                    redirect: 'follow',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Success:", data);
+                    if(data.result === 'error') alert("傳送失敗: " + data.error);
+                })
+                .catch((error) => console.error('Error:', error));
             }
         }
 
