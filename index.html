@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.19 (標題更新版)</title>
+    <title>CCC實務工作坊演練平台 V5.22 (時尚背景與Logo優化版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,6 +25,97 @@
             color: #334155;
             height: 100vh;
             overflow: hidden;
+            transition: background 0.8s ease;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* === 1. 時尚背景主題 (Fashion Backgrounds) === */
+        /* CCC - Teal Theme */
+        body.theme-ccc {
+            background: radial-gradient(circle at 0% 0%, #f0fdfa 0%, #f8fafc 60%);
+        }
+        /* Remediation - Indigo Theme */
+        body.theme-remediation {
+            background: radial-gradient(circle at 0% 0%, #eef2ff 0%, #f8fafc 60%);
+        }
+        /* ADAPT - Orange Theme */
+        body.theme-adapt {
+            background: radial-gradient(circle at 0% 0%, #fff7ed 0%, #f8fafc 60%);
+        }
+
+        /* === 2. 強化版 Header 背景 (Styled Header) === */
+        .header-container {
+            position: relative;
+            z-index: 50;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+        }
+
+        /* Header 背景層 - 使用絕對定位實現流暢切換與裝飾 */
+        .header-bg-layer {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            transition: opacity 0.5s ease;
+            overflow: hidden;
+        }
+
+        /* CCC Header Style */
+        body.theme-ccc .header-bg-layer {
+            background: linear-gradient(120deg, #ccfbf1 0%, #ffffff 100%);
+        }
+        /* 裝飾圓圈 */
+        body.theme-ccc .header-bg-layer::before {
+            content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+
+        /* Remediation Header Style */
+        body.theme-remediation .header-bg-layer {
+            background: linear-gradient(120deg, #e0e7ff 0%, #ffffff 100%);
+        }
+        body.theme-remediation .header-bg-layer::before {
+            content: ''; position: absolute; top: -100px; right: 20%; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+
+        /* ADAPT Header Style */
+        body.theme-adapt .header-bg-layer {
+            background: linear-gradient(120deg, #ffedd5 0%, #ffffff 100%);
+        }
+        body.theme-adapt .header-bg-layer::before {
+            content: ''; position: absolute; bottom: -50px; right: -20px; width: 250px; height: 250px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+
+        /* === 3. Watermark Logo (放大並增加透明度) === */
+        .bg-watermark {
+            position: fixed;
+            bottom: -5%;
+            right: -5%;
+            width: 65vh; /* 加大尺寸 */
+            height: 65vh;
+            background-image: url('https://raw.githubusercontent.com/Yeeeeting/CMHCCCRPDSP/main/LOGO-BLUE.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.08; /* 稍微增加不透明度使其更明顯 */
+            z-index: 0;
+            pointer-events: none;
+            transform: rotate(-10deg);
+            filter: grayscale(10%);
+            transition: all 0.8s ease;
+        }
+        
+        /* ADAPT 模式下浮水印微調 */
+        body.theme-adapt .bg-watermark {
+            transform: rotate(0deg) scale(1.05);
+            opacity: 0.07;
         }
 
         /* === Utilities === */
@@ -37,25 +128,28 @@
 
         /* === Components === */
         .dashboard-card {
-            background: white;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.7); /* 增加透明感 */
+            backdrop-filter: blur(12px);
+            border-radius: 24px; /* 更圓潤 */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(226, 232, 240, 1);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            z-index: 10;
         }
         .dashboard-card:active { transform: scale(0.98); }
         @media (min-width: 768px) {
             .dashboard-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.05);
-                border-color: rgba(148, 163, 184, 0.3);
+                transform: translateY(-5px);
+                box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
+                border-color: rgba(255, 255, 255, 1);
+                background: rgba(255, 255, 255, 0.9);
             }
         }
 
         /* Step Navigation */
-        .step-scroll-container { display: flex; overflow-x: auto; gap: 0.5rem; padding: 0.75rem; background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 20; }
+        .step-scroll-container { display: flex; overflow-x: auto; gap: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 20; }
         .step-pill { flex: 0 0 auto; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.9rem; font-weight: 600; color: #64748b; background: #f1f5f9; border: 1px solid #e2e8f0; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
         .step-pill.active { background: #0f766e; color: white; border-color: #0f766e; box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2); }
 
@@ -78,7 +172,7 @@
             width: 100%; 
             transition: all 0.2s; 
             line-height: 1.5;
-            background-color: #fcfcfc;
+            background-color: rgba(255, 255, 255, 0.6); /* 輸入框也帶一點透明 */
         }
         textarea:focus, input:focus { 
             outline: none; 
@@ -142,9 +236,18 @@
         .hover-bg-adapt:hover { background-color: #d06015; }
         
         button { font-size: 1rem; }
+        
+        /* Glass effect for main containers */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden text-slate-800">
+<body class="flex flex-col h-screen overflow-hidden text-slate-800 theme-ccc">
+
+    <!-- Watermark Background (放大且更明顯) -->
+    <div class="bg-watermark"></div>
 
     <!-- Loading Overlay -->
     <div id="loading-overlay">
@@ -153,32 +256,37 @@
         <div class="text-sm text-slate-400 mt-2">請稍候，正在讀取最新的演練進度</div>
     </div>
 
-    <!-- Header -->
-    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 z-50 flex-shrink-0">
-        <div class="w-full px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div id="app-icon" class="w-12 h-12 rounded-lg bg-teal-600 text-white flex items-center justify-center shadow-sm transition-colors duration-300">
-                    <i class="fa-solid fa-user-doctor text-2xl"></i>
+    <!-- Header (全新背景設計) -->
+    <header class="header-container flex-shrink-0">
+        <div class="header-bg-layer"></div> <!-- 動態背景層 -->
+        
+        <div class="w-full px-6 h-24 flex items-center justify-between relative z-10">
+            <div class="flex items-center gap-5">
+                <!-- 放大 Logo 容器與圖示 -->
+                <div id="app-icon" class="w-16 h-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105">
+                    <i class="fa-solid fa-user-doctor text-4xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-bold text-slate-800 leading-tight">CCC實務工作坊演練平台</h1>
-                    <div class="text-sm text-slate-500 font-medium tracking-wider">CCC X REMEDIATION X Structured Feedback</div>
+                    <h1 class="text-2xl md:text-3xl font-black text-slate-800 leading-tight drop-shadow-sm">CCC實務工作坊演練平台</h1>
+                    <div class="text-sm text-slate-500 font-bold tracking-wider mt-1 opacity-80">CCC X REMEDIATION X Structured Feedback</div>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-5">
                 <!-- Auto Sync Status -->
-                <div id="sync-status" class="text-slate-300 text-sm flex items-center gap-1.5 transition-colors" title="雲端同步狀態">
+                <div id="sync-status" class="text-slate-400 text-sm flex items-center gap-2 transition-colors font-medium bg-white/50 px-3 py-1 rounded-full" title="雲端同步狀態">
                     <i class="fa-solid fa-cloud"></i>
                     <span id="sync-text">就緒</span>
                 </div>
-                <div class="bg-slate-100 px-6 py-3 rounded-full text-2xl font-mono font-bold text-slate-600 border border-slate-200 flex items-center gap-3">
+                <div class="bg-white/80 backdrop-blur-md px-6 py-3 rounded-full text-2xl font-mono font-bold text-slate-700 border border-slate-200/60 flex items-center gap-3 shadow-sm">
                     <i class="fa-regular fa-clock text-slate-400"></i> <span id="global-timer">00:00</span>
                 </div>
             </div>
         </div>
-        <div class="border-t border-slate-100 bg-white">
-            <div class="w-full px-6 flex gap-4 overflow-x-auto no-scrollbar">
-                <button onclick="app.switchModule('ccc')" id="tab-ccc" class="nav-pill active text-teal-700 border-teal-600">
+        
+        <!-- Tab Navigation (透明背景) -->
+        <div class="bg-white/40 backdrop-blur-md border-t border-white/50">
+            <div class="w-full px-6 flex gap-6 overflow-x-auto no-scrollbar py-1">
+                <button onclick="app.switchModule('ccc')" id="tab-ccc" class="nav-pill active text-teal-800 border-teal-600">
                     <i class="fa-solid fa-people-group mr-2"></i> CCC 演練
                 </button>
                 <button onclick="app.switchModule('remediation')" id="tab-remediation" class="nav-pill text-slate-500">
@@ -192,7 +300,7 @@
     </header>
 
     <!-- Main Content -->
-    <main id="main-container" class="flex-1 overflow-hidden bg-slate-50 relative">
+    <main id="main-container" class="flex-1 overflow-hidden relative z-10">
         <!-- Views injected here -->
     </main>
 
@@ -218,15 +326,15 @@
     <template id="tpl-dashboard">
         <div class="w-full h-full overflow-y-auto px-8 py-10 fade-in">
             <div class="mb-10 text-center md:text-left">
-                <h2 class="text-4xl font-black text-slate-800 tracking-tight mb-3" id="dashboard-title"></h2>
-                <p class="text-slate-500 text-xl" id="dashboard-desc"></p>
-                <div class="mt-6 inline-flex flex-wrap gap-4 bg-white px-6 py-3 rounded-full shadow-sm border border-slate-100 text-base">
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-300"></span> 未開始</span>
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-yellow-400"></span> 進行中</span>
-                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-green-500"></span> 已完成</span>
+                <h2 class="text-5xl font-black text-slate-800 tracking-tight mb-3 drop-shadow-sm" id="dashboard-title"></h2>
+                <p class="text-slate-600 text-2xl font-medium" id="dashboard-desc"></p>
+                <div class="mt-8 inline-flex flex-wrap gap-4 bg-white/70 backdrop-blur-md px-8 py-4 rounded-full shadow-lg border border-white text-lg">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-300 ring-2 ring-slate-100"></span> 未開始</span>
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-yellow-400 ring-2 ring-yellow-100"></span> 進行中</span>
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-green-500 ring-2 ring-green-100"></span> 已完成</span>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-20" id="dashboard-grid"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-20" id="dashboard-grid"></div>
         </div>
     </template>
 
@@ -235,33 +343,33 @@
         <div class="flex flex-col lg:flex-row h-full w-full fade-in overflow-hidden">
             <div class="lg:hidden step-scroll-container flex-shrink-0" id="mobile-step-list"></div>
             <!-- Sidebar -->
-            <div class="hidden lg:flex flex-col w-60 bg-white border-r border-slate-200 overflow-hidden shadow-sm flex-shrink-0 h-full z-20">
-                <div class="p-4 sidebar-header flex justify-between items-start">
+            <div class="hidden lg:flex flex-col w-60 bg-white/90 backdrop-blur-md border-r border-slate-200/60 overflow-hidden shadow-lg flex-shrink-0 h-full z-20">
+                <div class="p-5 sidebar-header flex justify-between items-start shadow-md">
                     <div>
-                        <div class="text-[10px] font-bold tracking-widest opacity-70 mb-1">GROUP</div>
-                        <h2 class="text-lg font-bold" id="group-title-sidebar">第 1 組</h2>
+                        <div class="text-[10px] font-bold tracking-widest opacity-80 mb-1">GROUP</div>
+                        <h2 class="text-xl font-black" id="group-title-sidebar">第 1 組</h2>
                     </div>
-                    <button onclick="app.loadDashboard()" class="text-xs bg-white/10 hover:bg-white/20 border border-white/20 px-2 py-1 rounded text-white transition flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button onclick="app.loadDashboard()" class="text-xs bg-white/20 hover:bg-white/30 border border-white/30 px-2 py-1 rounded text-white transition flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i></button>
                 </div>
-                <div class="flex-1 overflow-y-auto" id="desktop-step-list"></div>
+                <div class="flex-1 overflow-y-auto p-2" id="desktop-step-list"></div>
             </div>
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col bg-white h-full relative overflow-hidden">
+            <div class="flex-1 flex flex-col bg-white/50 backdrop-blur-sm h-full relative overflow-hidden">
                 <!-- Top Bar -->
-                <div class="px-6 py-4 border-b border-slate-100 bg-white flex-shrink-0 flex justify-between items-center z-10 shadow-sm">
+                <div class="px-8 py-5 border-b border-slate-100 bg-white/80 backdrop-blur-md flex-shrink-0 flex justify-between items-center z-10 shadow-sm">
                     <div>
                         <div class="lg:hidden mb-1"><button onclick="app.loadDashboard()" class="text-xs font-bold text-slate-400 flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i> 回總表</button></div>
-                        <h2 class="text-2xl font-bold text-slate-800 leading-tight" id="current-step-title"></h2>
-                        <p class="text-sm text-slate-500" id="current-step-desc"></p>
+                        <h2 class="text-3xl font-bold text-slate-800 leading-tight" id="current-step-title"></h2>
+                        <p class="text-base text-slate-500 font-medium mt-1" id="current-step-desc"></p>
                     </div>
                     <!-- Action Button (Desktop) -->
                     <div class="hidden lg:block">
-                        <button id="next-step-btn-desktop" class="bg-teal-600 text-white px-6 py-2.5 rounded-lg font-bold shadow-md hover:bg-teal-700 transition flex items-center gap-2 text-base">下一步 <i class="fa-solid fa-arrow-right"></i></button>
+                        <button id="next-step-btn-desktop" class="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-teal-600/30 hover:bg-teal-700 hover:-translate-y-0.5 transition flex items-center gap-2 text-lg">下一步 <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
                 
                 <!-- Content Scroll Area -->
-                <div class="flex-1 overflow-y-auto p-6 bg-slate-50/50" id="step-content"></div>
+                <div class="flex-1 overflow-y-auto p-8" id="step-content"></div>
                 
                 <!-- Mobile Action Bar -->
                 <div class="mobile-action-bar lg:hidden flex-shrink-0">
@@ -275,34 +383,34 @@
     <template id="tpl-remediation-group">
         <div class="w-full h-full flex flex-col fade-in overflow-hidden">
             <!-- Header Area -->
-            <div class="bg-white px-6 py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
+            <div class="bg-white/90 backdrop-blur-md px-8 py-5 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
                 <div class="flex items-center gap-4">
-                    <button onclick="app.loadDashboard()" class="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0 transition">
-                        <i class="fa-solid fa-arrow-left text-base"></i>
+                    <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0 transition">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
                     </button>
                     <div>
-                        <h2 class="font-bold text-slate-800 text-xl" id="rem-group-title">第 1 組計畫</h2>
-                        <p class="text-xs text-slate-500 font-medium">Remediation Planning</p>
+                        <h2 class="font-bold text-slate-800 text-2xl" id="rem-group-title">第 1 組計畫</h2>
+                        <p class="text-sm text-slate-500 font-bold tracking-wide text-indigo-500">REMEDIATION PLANNING</p>
                     </div>
                 </div>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar" id="rem-tabs-container"></div>
             </div>
             
-            <div class="flex-1 bg-slate-50 overflow-y-auto p-4 lg:p-6 flex flex-col">
+            <div class="flex-1 overflow-y-auto p-4 lg:p-8 flex flex-col">
                 <!-- CCC Reference Block (Collapsible style) -->
-                <div class="mb-6 bg-white border border-indigo-100 rounded-xl shadow-sm p-5 relative flex-shrink-0">
-                    <div class="absolute top-0 left-0 w-1.5 h-full bg-indigo-500 rounded-l-xl"></div>
-                    <h3 class="font-bold text-slate-700 text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-info text-indigo-500"></i> CCC 參考資訊</h3>
+                <div class="mb-6 bg-white/80 backdrop-blur border border-indigo-100 rounded-2xl shadow-sm p-6 relative flex-shrink-0">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500 rounded-l-2xl"></div>
+                    <h3 class="font-bold text-slate-700 text-xl mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-info text-indigo-500"></i> CCC 參考資訊</h3>
                     <div id="rem-ccc-reference"></div>
                 </div>
 
                 <!-- Table Container -->
-                <div class="bg-white rounded-xl shadow border border-slate-200 flex-1 flex flex-col overflow-hidden min-h-[400px]">
-                    <div class="p-4 border-b border-slate-200 bg-white flex justify-between items-center flex-shrink-0">
-                        <h4 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
-                            <i class="fa-solid fa-list-check text-blue-500"></i> 補強計畫表
+                <div class="bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-white/50 flex-1 flex flex-col overflow-hidden min-h-[400px]">
+                    <div class="p-5 border-b border-slate-200 bg-white/50 flex justify-between items-center flex-shrink-0">
+                        <h4 class="font-bold text-slate-800 flex items-center gap-2 text-xl">
+                            <i class="fa-solid fa-list-check text-blue-600"></i> 補強計畫表
                         </h4>
-                        <button onclick="app.addRemediationRow()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2">
+                        <button onclick="app.addRemediationRow()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition flex items-center gap-2">
                             <i class="fa-solid fa-plus"></i> 新增項目
                         </button>
                     </div>
@@ -328,18 +436,18 @@
                     <!-- Mobile Card View -->
                     <div class="lg:hidden p-4 space-y-4 overflow-y-auto flex-1" id="rem-list-mobile"></div>
 
-                    <div id="rem-empty-state" class="text-center py-20 hidden bg-slate-50/50 flex-1 flex flex-col justify-center items-center">
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 text-slate-300 text-3xl shadow-sm border border-slate-100">
+                    <div id="rem-empty-state" class="text-center py-20 hidden bg-transparent flex-1 flex flex-col justify-center items-center">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 text-slate-300 text-4xl shadow-sm border border-slate-100">
                             <i class="fa-solid fa-clipboard-question"></i>
                         </div>
-                        <p class="text-slate-500 font-medium">尚無計畫內容，請點擊右上角新增</p>
+                        <p class="text-slate-500 font-bold text-lg">尚無計畫內容，請點擊右上角新增</p>
                     </div>
                 </div>
             </div>
 
             <!-- Footer Actions -->
-            <div class="bg-white border-t border-slate-200 p-4 flex justify-end gap-4 flex-shrink-0 z-20">
-                <button onclick="app.completeRemediation()" class="w-full lg:w-auto bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 transition flex items-center justify-center gap-2 text-lg">
+            <div class="bg-white/90 backdrop-blur border-t border-slate-200 p-6 flex justify-end gap-4 flex-shrink-0 z-20">
+                <button onclick="app.completeRemediation()" class="w-full lg:w-auto bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/30 hover:bg-indigo-700 hover:-translate-y-0.5 transition flex items-center justify-center gap-2 text-lg">
                     提交計畫 <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </div>
@@ -350,26 +458,26 @@
     <template id="tpl-adapt-group">
         <div class="w-full h-full flex flex-col fade-in overflow-hidden">
             <!-- Header Area -->
-            <div class="bg-white px-6 py-4 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
+            <div class="bg-white/90 backdrop-blur-md px-8 py-5 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
                 <div class="flex items-center gap-4">
-                    <button onclick="app.loadDashboard()" class="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0 transition">
-                        <i class="fa-solid fa-arrow-left text-base"></i>
+                    <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0 transition">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
                     </button>
                     <div>
-                        <h2 class="font-bold text-slate-800 text-xl" id="adapt-group-title">第 1 組 ADAPT</h2>
-                        <p class="text-xs text-slate-500 font-medium">Feedback & Coaching</p>
+                        <h2 class="font-bold text-slate-800 text-2xl" id="adapt-group-title">第 1 組 ADAPT</h2>
+                        <p class="text-sm text-slate-500 font-bold tracking-wide text-orange-500">FEEDBACK & COACHING</p>
                     </div>
                 </div>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar" id="adapt-tabs-container"></div>
             </div>
             
-            <div class="flex-1 bg-slate-50 overflow-y-auto p-4 lg:p-8">
-                <div class="space-y-6 max-w-5xl mx-auto" id="adapt-content"></div>
+            <div class="flex-1 overflow-y-auto p-4 lg:p-8">
+                <div class="space-y-8 max-w-6xl mx-auto" id="adapt-content"></div>
             </div>
 
             <!-- Footer Actions -->
-            <div class="bg-white border-t border-slate-200 p-4 flex justify-end gap-4 flex-shrink-0 z-20">
-                 <button onclick="app.completeAdapt()" class="w-full lg:w-auto bg-adapt hover-bg-adapt text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-[#ed7d31]/20 transition flex items-center justify-center gap-2 text-lg">
+            <div class="bg-white/90 backdrop-blur border-t border-slate-200 p-6 flex justify-end gap-4 flex-shrink-0 z-20">
+                 <button onclick="app.completeAdapt()" class="w-full lg:w-auto bg-adapt hover-bg-adapt text-white px-10 py-4 rounded-xl font-bold shadow-lg shadow-[#ed7d31]/30 transition hover:-translate-y-0.5 flex items-center justify-center gap-2 text-lg">
                     提交 ADAPT 紀錄 <i class="fa-solid fa-check-circle"></i>
                  </button>
             </div>
@@ -469,25 +577,30 @@
                 this.currentModule = mod;
                 this.activeGroupId = null;
                 
+                // Switch Theme Classes
+                document.body.classList.remove('theme-ccc', 'theme-remediation', 'theme-adapt');
+                document.body.classList.add(`theme-${mod}`);
+                
                 // Reset Classes
                 ['ccc', 'remediation', 'adapt'].forEach(m => {
                     const el = document.getElementById(`tab-${m}`);
                     if(m === mod) {
                         el.classList.add('active');
                         // Dynamic Color per module
-                        if(mod === 'ccc') { el.classList.add('text-teal-700', 'border-teal-600'); document.documentElement.style.setProperty('--primary-color', '#0d9488'); }
-                        if(mod === 'remediation') { el.classList.add('text-indigo-700', 'border-indigo-600'); document.documentElement.style.setProperty('--primary-color', '#4f46e5'); }
-                        if(mod === 'adapt') { el.classList.add('text-adapt', 'border-adapt'); document.documentElement.style.setProperty('--primary-color', '#ed7d31'); }
+                        if(mod === 'ccc') { el.classList.add('text-teal-800', 'border-teal-600'); document.documentElement.style.setProperty('--primary-color', '#0d9488'); }
+                        if(mod === 'remediation') { el.classList.add('text-indigo-800', 'border-indigo-600'); document.documentElement.style.setProperty('--primary-color', '#4f46e5'); }
+                        if(mod === 'adapt') { el.classList.add('text-[#d06015]', 'border-[#d06015]'); document.documentElement.style.setProperty('--primary-color', '#ed7d31'); }
                     } else {
-                        el.classList.remove('active', 'text-teal-700', 'border-teal-600', 'text-indigo-700', 'border-indigo-600', 'text-adapt', 'border-adapt');
+                        el.classList.remove('active', 'text-teal-800', 'border-teal-600', 'text-indigo-800', 'border-indigo-600', 'text-[#d06015]', 'border-[#d06015]');
                         el.classList.add('text-slate-500');
                     }
                 });
 
                 const icon = document.getElementById('app-icon');
-                if(mod === 'ccc') icon.className = `w-10 h-10 rounded-lg bg-teal-600 text-white flex items-center justify-center shadow-sm`;
-                if(mod === 'remediation') icon.className = `w-10 h-10 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-sm`;
-                if(mod === 'adapt') icon.className = `w-10 h-10 rounded-lg bg-adapt text-white flex items-center justify-center shadow-sm`;
+                // Updated icon classes for larger size
+                if(mod === 'ccc') icon.className = `w-16 h-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
+                if(mod === 'remediation') icon.className = `w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
+                if(mod === 'adapt') icon.className = `w-16 h-16 rounded-2xl bg-adapt text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
 
                 this.loadDashboard();
             }
@@ -547,15 +660,15 @@
                 }
 
                 div.innerHTML = `
-                    <div class="p-6 md:p-8">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-bold text-2xl text-slate-800">第 ${g.id} 組</h3>
-                            <div class="flex items-center gap-2 text-sm font-bold text-slate-500"><span class="w-3 h-3 rounded-full ${statusColor}"></span> ${statusText}</div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 class="font-black text-3xl text-slate-800 tracking-tight">第 ${g.id} 組</h3>
+                            <div class="flex items-center gap-2 text-sm font-bold text-slate-500"><span class="w-3 h-3 rounded-full ${statusColor} ring-2 ring-white"></span> ${statusText}</div>
                         </div>
-                        <div class="w-full bg-slate-100 rounded-full h-3 mb-6 overflow-hidden"><div class="h-full ${barColor} transition-all duration-500" style="width: ${progress}%"></div></div>
-                        <div class="text-base text-slate-400 flex justify-between items-center">
+                        <div class="w-full bg-slate-100 rounded-full h-4 mb-8 overflow-hidden border border-slate-200"><div class="h-full ${barColor} transition-all duration-1000 ease-out" style="width: ${progress}%"></div></div>
+                        <div class="text-lg font-bold text-slate-400 flex justify-between items-center group-hover:text-slate-600 transition-colors">
                             <span>${this.currentModule==='ccc'?(g.cccCompleted?'演練結束':`Step ${g.cccStep}`):(this.currentModule==='remediation'?'計畫填寫':'回饋紀錄')}</span>
-                            <i class="fa-solid fa-arrow-right text-slate-300 group-hover:text-slate-600 transition-colors text-lg"></i>
+                            <div class="w-10 h-10 rounded-full bg-slate-50 group-hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-arrow-right"></i></div>
                         </div>
                     </div>`;
                 return div;
@@ -624,58 +737,58 @@
 
             getTabsHTML(activeKey, showLabel = false) {
                 const labelPrefix = showLabel ? "" : "";
-                const commonBtn = "px-6 py-2 rounded-t-lg font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0";
-                const damingActive = "bg-blue-600 text-white shadow-md transform -translate-y-1"; 
-                const xiaomeiActive = "bg-pink-600 text-white shadow-md transform -translate-y-1";
-                const inactive = "bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700";
-                return `<div class="flex gap-2 border-b border-slate-200 mb-0 px-0 pt-2"><button onclick="app.switchStudentTab('daming')" class="${commonBtn} ${activeKey==='daming' ? damingActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="${commonBtn} ${activeKey==='xiaomei' ? xiaomeiActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}李小美</button></div>`;
+                const commonBtn = "px-6 py-2 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0";
+                const damingActive = "bg-blue-600 text-white shadow-lg transform -translate-y-1"; 
+                const xiaomeiActive = "bg-pink-600 text-white shadow-lg transform -translate-y-1";
+                const inactive = "bg-slate-100/80 text-slate-500 hover:bg-slate-200 hover:text-slate-700";
+                return `<div class="flex gap-3 border-b border-slate-200/50 mb-0 px-0 pt-2"><button onclick="app.switchStudentTab('daming')" class="${commonBtn} ${activeKey==='daming' ? damingActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="${commonBtn} ${activeKey==='xiaomei' ? xiaomeiActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}李小美</button></div>`;
             }
 
             getCCCContentHTML(stepId) {
                 const g = this.groups[this.activeGroupId - 1];
                 const activeKey = g.activeStudentTab;
                 
-                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${ROLES.map(r => `<div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center"><i class="fa-solid ${r.icon} text-lg"></i></div><div><h4 class="font-bold text-slate-800 text-base">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500">人數: ${r.count}</span></div></div><p class="text-sm text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
+                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><p class="text-sm text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
                 
                 // 3. UPDATED STEP 2: Compact Reference Card (Fixed Layout)
                 if (stepId === 2) return `
                     <div class="flex flex-col items-center justify-start h-full pb-4 lg:pb-8">
                         
                         <!-- Compact Header Block -->
-                        <div class="flex flex-col md:flex-row items-center justify-between p-4 bg-white rounded-2xl border border-slate-200 shadow-sm w-full max-w-5xl mb-4 flex-shrink-0">
-                            <div class="flex items-center gap-4 mb-3 md:mb-0">
-                                <div class="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0">
-                                    <i class="fa-solid fa-book-open text-xl"></i>
+                        <div class="glass-panel flex flex-col md:flex-row items-center justify-between p-6 rounded-2xl border border-slate-200 shadow-sm w-full max-w-5xl mb-6 flex-shrink-0">
+                            <div class="flex items-center gap-5 mb-4 md:mb-0">
+                                <div class="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0 shadow-inner">
+                                    <i class="fa-solid fa-book-open text-2xl"></i>
                                 </div>
                                 <div class="text-center md:text-left">
-                                    <h3 class="text-lg font-bold text-slate-800">請參閱學習歷程檔案</h3>
-                                    <p class="text-xs text-slate-500">請委員點擊下方按鈕或參閱紙本資料</p>
+                                    <h3 class="text-xl font-bold text-slate-800">請參閱學習歷程檔案</h3>
+                                    <p class="text-sm text-slate-500 mt-1">請委員點擊下方按鈕或參閱紙本資料</p>
                                 </div>
                             </div>
-                            <div class="flex gap-3">
-                                <button class="px-4 py-2 rounded-lg border border-blue-200 font-bold text-blue-700 bg-blue-50 shadow-sm hover:bg-blue-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1kFyY6sXyQqTZZauE3kU75CHUx_a9SViC/view?usp=drive_link','_blank')">
-                                    <i class="fa-regular fa-folder-open"></i> 王大明資料
+                            <div class="flex gap-4">
+                                <button class="px-6 py-3 rounded-xl border border-blue-200 font-bold text-blue-700 bg-blue-50/50 shadow-sm hover:bg-blue-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1kFyY6sXyQqTZZauE3kU75CHUx_a9SViC/view?usp=drive_link','_blank')">
+                                    <i class="fa-regular fa-folder-open text-lg"></i> 王大明資料
                                 </button>
-                                <button class="px-4 py-2 rounded-lg border border-pink-200 font-bold text-pink-700 bg-pink-50 shadow-sm hover:bg-pink-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1DpmGdfgwJRTxE7sSLwUB6wvR5Mep_Abu/view?usp=drive_link','_blank')">
-                                    <i class="fa-regular fa-folder-open"></i> 李小美資料
+                                <button class="px-6 py-3 rounded-xl border border-pink-200 font-bold text-pink-700 bg-pink-50/50 shadow-sm hover:bg-pink-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1DpmGdfgwJRTxE7sSLwUB6wvR5Mep_Abu/view?usp=drive_link','_blank')">
+                                    <i class="fa-regular fa-folder-open text-lg"></i> 李小美資料
                                 </button>
                             </div>
                         </div>
 
                         <!-- 4. ENHANCED REFERENCE TABS -->
-                        <div class="bg-white rounded-xl border border-slate-200 text-left w-full max-w-5xl shadow-sm flex flex-col flex-1 overflow-hidden min-h-0">
-                            <div class="flex border-b border-slate-200 bg-slate-50 flex-shrink-0">
-                                <button onclick="app.switchRefTab('epa')" id="ref-tab-epa" class="flex-1 py-3 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white transition-colors"><i class="fa-solid fa-list-check mr-2"></i> EPA 規範詳情</button>
-                                <button onclick="app.switchRefTab('training')" id="ref-tab-training" class="flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"><i class="fa-solid fa-clipboard-list mr-2"></i> 護理新進人員訓練期程目標</button>
+                        <div class="glass-panel rounded-2xl border border-slate-200 text-left w-full max-w-5xl shadow-lg flex flex-col flex-1 overflow-hidden min-h-0">
+                            <div class="flex border-b border-slate-200 bg-slate-50/50 flex-shrink-0">
+                                <button onclick="app.switchRefTab('epa')" id="ref-tab-epa" class="flex-1 py-4 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white/60 transition-colors"><i class="fa-solid fa-list-check mr-2"></i> EPA 規範詳情</button>
+                                <button onclick="app.switchRefTab('training')" id="ref-tab-training" class="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"><i class="fa-solid fa-clipboard-list mr-2"></i> 護理新進人員訓練期程目標</button>
                             </div>
                             
-                            <div class="flex-1 overflow-y-auto p-6 bg-white">
+                            <div class="flex-1 overflow-y-auto p-8 bg-white/80">
                                 <!-- TAB 1: EPA CONTENT -->
-                                <div id="ref-content-epa" class="block space-y-6">
-                                    <div class="border-b pb-2 mb-4 border-slate-100"><h4 class="text-lg font-bold text-slate-800">EPA 主題：血液檢體採集護理</h4></div>
-                                    <div class="grid grid-cols-1 gap-6 text-sm text-slate-700">
-                                        <div><span class="font-bold text-teal-600 block mb-1">(二) 任務描述</span>
-                                            <ul class="list-disc pl-5 space-y-1">
+                                <div id="ref-content-epa" class="block space-y-8">
+                                    <div class="border-b pb-4 mb-4 border-slate-100"><h4 class="text-2xl font-black text-slate-800">EPA 主題：血液檢體採集護理</h4></div>
+                                    <div class="grid grid-cols-1 gap-8 text-base text-slate-700 leading-relaxed">
+                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-crosshairs mr-2"></i>(二) 任務描述</span>
+                                            <ul class="list-disc pl-6 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
                                                 <li>核對醫囑並執行靜脈採血前準備。</li>
                                                 <li>向病人/家屬說明採集血液檢體的目的。</li>
                                                 <li>依靜脈採血技術作業標準完成採血步驟。</li>
@@ -684,135 +797,68 @@
                                                 <li class="text-orange-600 font-bold">限制：急救、病況不穩定、新生兒。</li>
                                             </ul>
                                         </div>
-                                        <div><span class="font-bold text-teal-600 block mb-1">(三) 風險</span>
-                                            <p>1. 採血部位血腫、檢體溶血。<br>2. 重複扎針增加痛楚與糾紛。<br>3. 延誤送檢影響診斷時效。</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-triangle-exclamation mr-2"></i>(三) 風險</span>
+                                                <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-red-800 text-sm">
+                                                    <p>1. 採血部位血腫、檢體溶血。<br>2. 重複扎針增加痛楚與糾紛。<br>3. 延誤送檢影響診斷時效。</p>
+                                                </div>
+                                            </div>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-star mr-2"></i>(四) 核心能力</span>
+                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">病人照顧 (V)、專業知識 (V)、人際關係與溝通技巧 (V)、專業素養 (V)。</p>
+                                            </div>
                                         </div>
-                                        <div><span class="font-bold text-teal-600 block mb-1">(四) 核心能力</span>
-                                            <p>病人照顧 (V)、專業知識 (V)、人際關係與溝通技巧 (V)、專業素養 (V)。</p>
-                                        </div>
-                                        <div><span class="font-bold text-teal-600 block mb-1">(五) 先備經驗、知能</span>
-                                            <ul class="list-disc pl-5">
+                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-layer-group mr-2"></i>(五) 先備經驗、知能</span>
+                                            <ul class="list-disc pl-6 bg-slate-50 p-4 rounded-xl border border-slate-100">
                                                 <li><strong>知能：</strong>採血流程、試管順序、檢驗醫學知識。</li>
                                                 <li><strong>技能：</strong>Barcode 辨識、護理資訊系統操作。</li>
                                                 <li><strong>態度：</strong>尊重隱私、合宜應對、接納指導。</li>
                                                 <li><strong>經驗：</strong>模具練習 1 次或觀摩臨床操作 1 次以上。</li>
                                             </ul>
                                         </div>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div><span class="font-bold text-teal-600 block mb-1">(六) 評估資訊</span>
-                                                <p>☑ 直接觀察 (2次) ☑ 筆試 (1次)</p>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i>(六) 評估資訊</span>
+                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">☑ 直接觀察 (2次) ☑ 筆試 (1次)</p>
                                             </div>
-                                            <div><span class="font-bold text-teal-600 block mb-1">(七) 獨立操作時機</span>
-                                                <p>培訓期三個月前需達 <span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-bold text-xs">Level 4</span> (可獨立執行)。</p>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-unlock mr-2"></i>(七) 獨立操作時機</span>
+                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">培訓期三個月前需達 <span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-bold text-sm">Level 4</span> (可獨立執行)。</p>
                                             </div>
-                                        </div>
-                                        <div><span class="font-bold text-teal-600 block mb-1">(八) 合格維持期限</span>
-                                            <p>達 Level 4 後，若半年未執行此技術，必須重新進行評核。</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- TAB 2: TRAINING STANDARD (GRID LAYOUT) -->
                                 <div id="ref-content-training" class="hidden">
-                                    <div class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-100 flex items-start gap-2 mb-6">
-                                        <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                                    <div class="mt-4 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-100 flex items-start gap-3 mb-6 shadow-sm">
+                                        <i class="fa-solid fa-circle-exclamation mt-0.5 text-lg"></i>
                                         <span><strong>注意：</strong>於第3個月評值結果未達 80% 者，單位須填寫「新進人員延長試用申請單」，並須訂立補學計劃 (至多再延長試用3個月為限)。</span>
                                     </div>
-                                    <div class="border-b pb-4 mb-6 border-slate-100">
-                                        <h4 class="text-lg font-bold text-slate-800 mb-2">護理新進人員訓練期程目標</h4>
-                                        <div class="flex flex-wrap gap-4 text-xs text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                            <div class="flex items-center gap-2">
-                                                <i class="fa-regular fa-clock text-teal-500"></i>
-                                                <span class="font-bold">評值時機：</span> □ 第2週 □ 第1個月 □ 第2個月 □ 第3個月
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <i class="fa-solid fa-star-half-stroke text-yellow-500"></i>
-                                                <span class="font-bold">評值說明：</span> 1(20%) - 5(100%)，各項需達 4分(80%) 方可通過
-                                            </div>
-                                        </div>
-                                        <div class="mt-3 text-center">
-                                            <span class="bg-indigo-100 text-indigo-800 text-sm px-4 py-1.5 rounded-full font-bold shadow-sm border border-indigo-200">
-                                                <i class="fa-solid fa-check-double mr-1"></i> 需完成：學員自評 + 臨床教師評值
-                                            </span>
-                                        </div>
-                                    </div>
                                     
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <!-- Card 1 -->
-                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
+                                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
+                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between text-lg">
                                                 <span><i class="fa-solid fa-brain mr-2"></i>工作知能</span>
                                                 <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
                                             </h5>
-                                            <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1.5">
+                                            <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2">
                                                 <li>單位常見疾病之護理</li>
                                                 <li>檢查治療之目的、準備及注意事項</li>
                                                 <li>常用藥物之作用、副作用</li>
                                                 <li>單位常用護理技術操作</li>
-                                                <li>常見臨床護理問題之處理</li>
-                                                <li>單位常用儀器之操作</li>
                                             </ul>
                                         </div>
 
                                         <!-- Card 2 -->
-                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
+                                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
+                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between text-lg">
                                                 <span><i class="fa-solid fa-heart mr-2"></i>工作態度</span>
                                                 <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
                                             </h5>
-                                            <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1.5">
+                                            <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2">
                                                 <li>具備人文素養 (關懷、同理、尊重)</li>
                                                 <li>誠實、勤勉、耐勞</li>
                                                 <li>具工作熱忱、處事積極、自我要求</li>
-                                                <li>不隨意遲到、早退、請假</li>
                                             </ul>
-                                        </div>
-
-                                        <!-- Card 3 -->
-                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
-                                                <span><i class="fa-solid fa-chart-line mr-2"></i>工作績效 (實務操作)</span>
-                                                <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
-                                            </h5>
-                                            <ul class="space-y-2 text-sm text-slate-600">
-                                                <li class="flex items-start gap-2"><span class="bg-slate-100 text-xs px-1.5 rounded font-bold text-slate-500">第2週</span> 指導下執行功能性護理</li>
-                                                <li class="flex items-start gap-2"><span class="bg-slate-100 text-xs px-1.5 rounded font-bold text-slate-500">第1月</span> 與教師共同照顧一組病人</li>
-                                                <li class="flex items-start gap-2"><span class="bg-slate-100 text-xs px-1.5 rounded font-bold text-slate-500">第2月</span> 指導下獨立照顧半組病人</li>
-                                                <li class="flex items-start gap-2"><span class="bg-slate-100 text-xs px-1.5 rounded font-bold text-slate-500">第3月</span> 指導下獨立照顧一組病人</li>
-                                            </ul>
-                                        </div>
-
-                                        <!-- Card 4 -->
-                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
-                                                <span><i class="fa-solid fa-people-arrows mr-2"></i>適應與溝通</span>
-                                                <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
-                                            </h5>
-                                            <div class="mb-2">
-                                                <div class="text-xs font-bold text-slate-400 mb-1">適應能力</div>
-                                                <ul class="list-disc pl-5 text-sm text-slate-600"><li>能適應工作環境、制度</li></ul>
-                                            </div>
-                                            <div>
-                                                <div class="text-xs font-bold text-slate-400 mb-1">溝通合作</div>
-                                                <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1">
-                                                    <li>具備團隊共事、協調溝通能力</li>
-                                                    <li>具備與病人/家屬適當溝通能力</li>
-                                                    <li>樂意與他人合作</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Card 5 -->
-                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-teal-300 transition group md:col-span-2">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between">
-                                                <span><i class="fa-solid fa-coins mr-2"></i>成本意識</span>
-                                                <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
-                                            </h5>
-                                            <div class="flex flex-wrap gap-4 text-sm text-slate-600">
-                                                <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> 能正確計價</span>
-                                                <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> 能適量取用衛材</span>
-                                                <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> 愛惜公物</span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -821,10 +867,10 @@
                     </div>`;
                 
                 // Optimized Step 3: Full Height Input
-                if (stepId === 3) return `<div class="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-6 text-lg focus:ring-0 border-0" placeholder="請在此輸入學員的主席摘要..." oninput="app.updateInput('${activeKey}','summary',this.value)">${g.students[activeKey].summary}</textarea></div></div>`;
+                if (stepId === 3) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed" placeholder="請在此輸入學員的主席摘要..." oninput="app.updateInput('${activeKey}','summary',this.value)">${g.students[activeKey].summary}</textarea></div></div>`;
                 
                 // 5. UPDATED Step 4: Display ARICH Descriptions
-                if (stepId === 4) return `<div class="flex flex-col h-full gap-4"><div class="grid grid-cols-4 gap-4 flex-shrink-0">${ARICH_CATS.map(cat => `<div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:shadow-md transition"><div class="w-10 h-10 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-lg mb-2"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-base mb-1">${cat.label}</div><div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div></div>`).join('')}</div><div class="flex flex-col flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-6 text-lg focus:ring-0 border-0" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea></div></div></div>`;
+                if (stepId === 4) return `<div class="flex flex-col h-full gap-6"><div class="grid grid-cols-4 gap-6 flex-shrink-0">${ARICH_CATS.map(cat => `<div class="glass-panel p-4 rounded-2xl border border-slate-200 text-center shadow-sm hover:shadow-lg transition hover:-translate-y-1"><div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-lg mb-1">${cat.label}</div><div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div></div>`).join('')}</div><div class="flex flex-col flex-1 glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea></div></div></div>`;
                 
                 // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL & AUTO RESULT
                 if (stepId === 5) { 
@@ -838,33 +884,33 @@
                     ];
                     
                     // Determine status message and color based on result (or default empty)
-                    let statusHtml = '<span class="text-slate-400 font-normal ml-2 text-sm">(請選擇等級以自動判定)</span>';
+                    let statusHtml = '<span class="text-slate-400 font-normal ml-3 text-sm">(請選擇等級以自動判定)</span>';
                     if (s.trustLevel) {
                         const isPass = s.trustLevel >= 4; // Auto logic: 4+ is Pass
                         statusHtml = isPass 
-                            ? '<span class="ml-3 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold border border-green-200"><i class="fa-solid fa-check-circle mr-1"></i> PASS 可信賴</span>'
-                            : '<span class="ml-3 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold border border-red-200"><i class="fa-solid fa-circle-exclamation mr-1"></i> FAIL 未通過</span>';
+                            ? '<span class="ml-4 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-bold border border-green-200 shadow-sm"><i class="fa-solid fa-check-circle mr-1.5"></i> PASS 可信賴</span>'
+                            : '<span class="ml-4 px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-bold border border-red-200 shadow-sm"><i class="fa-solid fa-circle-exclamation mr-1.5"></i> FAIL 未通過</span>';
                     }
 
                     return `
-                    <div class="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div>
+                    <div class="flex flex-col h-full glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
                         
                         <!-- Trust Level Selection (Auto Decides Result) -->
-                        <div class="p-4 bg-slate-50 border-b border-slate-100 flex-shrink-0">
-                            <div class="flex justify-between items-center mb-3">
-                                <h4 class="font-bold text-slate-700 text-sm flex items-center">
+                        <div class="p-6 bg-slate-50/50 border-b border-slate-100 flex-shrink-0">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="font-bold text-slate-700 text-base flex items-center">
                                     <i class="fa-solid fa-layer-group text-teal-600 mr-2"></i> 信賴程度 (Entrustment Level)
                                     ${statusHtml}
                                 </h4>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
                                 ${levels.map(item => {
                                     const isSel = s.trustLevel === item.l;
-                                    const colorClass = isSel ? 'bg-teal-600 text-white border-teal-600 shadow-md ring-2 ring-teal-200' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:border-teal-300';
-                                    return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-3 py-2 rounded-lg border text-sm transition flex flex-col justify-center min-h-[60px] ${colorClass}">
-                                        <div class="font-bold text-xs opacity-80 mb-0.5">Level ${item.l}</div>
-                                        <div class="font-bold leading-tight text-xs lg:text-sm">${item.t}</div>
+                                    const colorClass = isSel ? 'bg-teal-600 text-white border-teal-600 shadow-md ring-4 ring-teal-100 scale-105' : 'bg-white border-slate-200 text-slate-600 hover:bg-white hover:border-teal-300 hover:shadow-md';
+                                    return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-4 py-3 rounded-xl border text-sm transition-all duration-200 flex flex-col justify-center min-h-[80px] ${colorClass}">
+                                        <div class="font-bold text-xs opacity-70 mb-1 tracking-wider uppercase">Level ${item.l}</div>
+                                        <div class="font-bold leading-tight text-sm">${item.t}</div>
                                     </button>`
                                 }).join('')}
                             </div>
@@ -873,22 +919,22 @@
                         <!-- Text Areas -->
                         <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 min-h-0">
                             <div class="flex flex-col h-full overflow-hidden">
-                                <div class="bg-slate-50 px-4 py-2 text-sm font-bold text-slate-500 border-b border-slate-100">決策原因</div>
-                                <textarea class="flex-1 w-full p-4 border-0 focus:ring-0 resize-none" placeholder="請說明原因..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea>
+                                <div class="bg-slate-50/50 px-6 py-3 text-sm font-bold text-slate-500 border-b border-slate-100 flex items-center gap-2"><i class="fa-solid fa-comment-dots"></i> 決策原因</div>
+                                <textarea class="flex-1 w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent" placeholder="請說明原因..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea>
                             </div>
                             <div class="flex flex-col h-full overflow-hidden">
-                                <div class="bg-slate-50 px-4 py-2 text-sm font-bold text-slate-500 border-b border-slate-100">輔導方案</div>
-                                <textarea class="flex-1 w-full p-4 border-0 focus:ring-0 resize-none" placeholder="請輸入輔導計畫..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea>
+                                <div class="bg-slate-50/50 px-6 py-3 text-sm font-bold text-slate-500 border-b border-slate-100 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> 輔導方案</div>
+                                <textarea class="flex-1 w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent" placeholder="請輸入輔導計畫..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea>
                             </div>
                         </div>
                     </div>`; 
                 }
                 
                 // Optimized Step 6: Full Height Input
-                if (stepId === 6) return `<div class="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-6 text-lg focus:ring-0 border-0" placeholder="請輸入會議紀錄與共識..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${g.students[activeKey].meetingNote}</textarea></div></div>`;
+                if (stepId === 6) return `<div class="flex flex-col h-full glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed" placeholder="請輸入會議紀錄與共識..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${g.students[activeKey].meetingNote}</textarea></div></div>`;
                 
                 // Optimized Step 7: Split View (Side by Side)
-                if (stepId === 7) return `<div class="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div><div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 overflow-hidden">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div class="flex flex-col h-full overflow-hidden"><div class="p-4 bg-slate-50 border-b border-slate-100 flex-shrink-0"><h5 class="font-bold text-slate-800 text-base mb-2 flex items-center gap-2"><span class="bg-white border border-slate-200 w-6 h-6 flex items-center justify-center rounded text-xs">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-5 text-xs text-slate-500 space-y-0.5">${items.map(i => `<li>${i}</li>`).join('')}</ul></div><div class="flex-1 flex flex-col min-h-0"><div class="flex-1 flex flex-col border-b border-slate-100"><div class="px-4 py-2 bg-white text-xs font-bold text-teal-600">實際觀察</div><textarea class="flex-1 w-full p-4 text-base border-0 focus:ring-0 resize-none" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div class="flex-1 flex flex-col"><div class="px-4 py-2 bg-white text-xs font-bold text-orange-500">挑戰與限制</div><textarea class="flex-1 w-full p-4 text-base border-0 focus:ring-0 resize-none" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
+                if (stepId === 7) return `<div class="flex flex-col h-full glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 overflow-hidden">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div class="flex flex-col h-full overflow-hidden"><div class="p-5 bg-slate-50/50 border-b border-slate-100 flex-shrink-0"><h5 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-3"><span class="bg-white border border-slate-200 w-8 h-8 flex items-center justify-center rounded-lg text-sm shadow-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-6 text-sm text-slate-500 space-y-1">${items.map(i => `<li>${i}</li>`).join('')}</ul></div><div class="flex-1 flex flex-col min-h-0"><div class="flex-1 flex flex-col border-b border-slate-100"><div class="px-5 py-2 bg-white/40 text-xs font-bold text-teal-600 tracking-wider">實際觀察</div><textarea class="flex-1 w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div class="flex-1 flex flex-col"><div class="px-5 py-2 bg-white/40 text-xs font-bold text-orange-500 tracking-wider">挑戰與限制</div><textarea class="flex-1 w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
             }
 
             renderRemediation() {
@@ -929,7 +975,7 @@
                     containerMobile.innerHTML = '';
                     s.remediationPlan.forEach((item, idx) => {
                         const card = document.createElement('div');
-                        card.className = "bg-white p-4 rounded-xl border border-slate-200 shadow-sm";
+                        card.className = "glass-panel p-4 rounded-xl border border-slate-200 shadow-sm";
                         card.innerHTML = `
                             <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
                                 <span class="font-bold text-indigo-600 text-sm">項目 ${idx + 1}</span>
@@ -975,25 +1021,28 @@
                 
                 ADAPT_STEPS.forEach(step => {
                     const card = document.createElement('div');
-                    card.className = "bg-white p-6 rounded-2xl border border-slate-200 shadow-sm";
+                    card.className = "glass-panel p-8 rounded-3xl border border-slate-200 shadow-md hover:shadow-lg transition duration-300";
                     const smoothVal = s.adaptLog[`${step.id}_smooth`];
                     
                     card.innerHTML = `
-                        <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex flex-col md:flex-row gap-8">
                             <div class="md:w-1/3 flex-shrink-0">
-                                <h4 class="text-xl font-bold text-slate-800 mb-1">${step.label}</h4>
-                                <p class="text-sm text-slate-500 mb-4">${step.desc}</p>
-                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">執行狀況</div>
-                                    <div class="flex gap-2">
-                                        <button onclick="app.updateAdaptItem('${step.id}_smooth', true)" class="flex-1 py-2 rounded-lg text-sm font-bold transition-all ${smoothVal===true ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}"><i class="fa-solid fa-check mr-1"></i> 落實</button>
-                                        <button onclick="app.updateAdaptItem('${step.id}_smooth', false)" class="flex-1 py-2 rounded-lg text-sm font-bold transition-all ${smoothVal===false ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}"><i class="fa-solid fa-xmark mr-1"></i> 未落實</button>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-black text-lg shadow-sm">${step.id}</div>
+                                    <h4 class="text-2xl font-bold text-slate-800">${step.label.split('(')[0]}</h4>
+                                </div>
+                                <p class="text-sm text-slate-500 mb-6 pl-13 leading-relaxed">${step.desc}</p>
+                                <div class="bg-slate-50/80 p-5 rounded-2xl border border-slate-100">
+                                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">執行狀況</div>
+                                    <div class="flex gap-3">
+                                        <button onclick="app.updateAdaptItem('${step.id}_smooth', true)" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all ${smoothVal===true ? 'bg-green-100 text-green-700 border border-green-200 shadow-sm' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}"><i class="fa-solid fa-check mr-1.5"></i> 落實</button>
+                                        <button onclick="app.updateAdaptItem('${step.id}_smooth', false)" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all ${smoothVal===false ? 'bg-red-100 text-red-700 border border-red-200 shadow-sm' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}"><i class="fa-solid fa-xmark mr-1.5"></i> 未落實</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="md:w-2/3 flex flex-col">
-                                <label class="text-sm font-bold text-slate-600 mb-2">觀察紀錄 / 回饋重點</label>
-                                <textarea class="flex-1 w-full p-4 rounded-xl border border-slate-200 focus:ring-0 text-base resize-none bg-slate-50 focus:bg-white transition-colors" placeholder="請記錄回饋對話的重點..." oninput="app.updateAdaptItem('${step.id}_note', this.value)">${s.adaptLog[`${step.id}_note`] || ''}</textarea>
+                                <label class="text-sm font-bold text-slate-600 mb-3 flex items-center gap-2"><i class="fa-regular fa-comment-dots text-orange-400"></i> 觀察紀錄 / 回饋重點</label>
+                                <textarea class="flex-1 w-full p-5 rounded-2xl border border-slate-200 focus:ring-0 text-lg resize-none bg-slate-50/50 focus:bg-white transition-colors leading-relaxed" placeholder="請記錄回饋對話的重點..." oninput="app.updateAdaptItem('${step.id}_note', this.value)">${s.adaptLog[`${step.id}_note`] || ''}</textarea>
                             </div>
                         </div>
                     `;
@@ -1011,13 +1060,13 @@
                 if (tab === 'epa') {
                     epaContent.classList.remove('hidden');
                     trainingContent.classList.add('hidden');
-                    epaTab.className = "flex-1 py-3 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white transition-colors";
-                    trainingTab.className = "flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors";
+                    epaTab.className = "flex-1 py-4 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white/60 transition-colors";
+                    trainingTab.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors";
                 } else {
                     epaContent.classList.add('hidden');
                     trainingContent.classList.remove('hidden');
-                    epaTab.className = "flex-1 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors";
-                    trainingTab.className = "flex-1 py-3 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white transition-colors";
+                    epaTab.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors";
+                    trainingTab.className = "flex-1 py-4 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white/60 transition-colors";
                 }
             }
 
