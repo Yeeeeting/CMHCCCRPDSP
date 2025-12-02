@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.17 (穩定修復版)</title>
+    <title>CCC實務工作坊演練平台 V5.19 (標題更新版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -162,7 +162,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-bold text-slate-800 leading-tight">CCC實務工作坊演練平台</h1>
-                    <div class="text-sm text-slate-500 font-medium tracking-wider">CCC & REMEDIATION V5.17</div>
+                    <div class="text-sm text-slate-500 font-medium tracking-wider">CCC X REMEDIATION X Structured Feedback</div>
                 </div>
             </div>
             <div class="flex items-center gap-4">
@@ -826,7 +826,7 @@
                 // 5. UPDATED Step 4: Display ARICH Descriptions
                 if (stepId === 4) return `<div class="flex flex-col h-full gap-4"><div class="grid grid-cols-4 gap-4 flex-shrink-0">${ARICH_CATS.map(cat => `<div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:shadow-md transition"><div class="w-10 h-10 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-lg mb-2"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-base mb-1">${cat.label}</div><div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div></div>`).join('')}</div><div class="flex flex-col flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-6 text-lg focus:ring-0 border-0" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea></div></div></div>`;
                 
-                // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL
+                // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL & AUTO RESULT
                 if (stepId === 5) { 
                     const s = g.students[activeKey];
                     const levels = [
@@ -837,15 +837,27 @@
                         { l: 5, t: "可對其他人進行教學" }
                     ];
                     
+                    // Determine status message and color based on result (or default empty)
+                    let statusHtml = '<span class="text-slate-400 font-normal ml-2 text-sm">(請選擇等級以自動判定)</span>';
+                    if (s.trustLevel) {
+                        const isPass = s.trustLevel >= 4; // Auto logic: 4+ is Pass
+                        statusHtml = isPass 
+                            ? '<span class="ml-3 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold border border-green-200"><i class="fa-solid fa-check-circle mr-1"></i> PASS 可信賴</span>'
+                            : '<span class="ml-3 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold border border-red-200"><i class="fa-solid fa-circle-exclamation mr-1"></i> FAIL 未通過</span>';
+                    }
+
                     return `
                     <div class="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                         <div class="bg-white px-6 border-b border-slate-200">${this.getTabsHTML(activeKey)}</div>
                         
-                        <!-- Trust Level Selection -->
+                        <!-- Trust Level Selection (Auto Decides Result) -->
                         <div class="p-4 bg-slate-50 border-b border-slate-100 flex-shrink-0">
-                            <h4 class="font-bold text-slate-700 text-sm mb-3 flex items-center gap-2">
-                                <i class="fa-solid fa-layer-group text-teal-600"></i> 信賴程度 (Entrustment Level)
-                            </h4>
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="font-bold text-slate-700 text-sm flex items-center">
+                                    <i class="fa-solid fa-layer-group text-teal-600 mr-2"></i> 信賴程度 (Entrustment Level)
+                                    ${statusHtml}
+                                </h4>
+                            </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                                 ${levels.map(item => {
                                     const isSel = s.trustLevel === item.l;
@@ -855,17 +867,6 @@
                                         <div class="font-bold leading-tight text-xs lg:text-sm">${item.t}</div>
                                     </button>`
                                 }).join('')}
-                            </div>
-                        </div>
-
-                        <!-- Decision Result -->
-                        <div class="p-4 border-b border-slate-100 flex-shrink-0">
-                            <div class="flex items-center gap-4">
-                                <h4 class="font-bold text-slate-800 text-lg whitespace-nowrap">信賴決策結果：</h4>
-                                <div class="flex gap-3 flex-1">
-                                    <button class="flex-1 py-3 rounded-lg border-2 font-bold text-lg transition ${s.result===true?'border-green-500 bg-green-50 text-green-700':'border-slate-200 text-slate-400 hover:border-slate-300'}" onclick="app.setResult(true)">PASS 可信賴</button>
-                                    <button class="flex-1 py-3 rounded-lg border-2 font-bold text-lg transition ${s.result===false?'border-red-500 bg-red-50 text-red-700':'border-slate-200 text-slate-400 hover:border-slate-300'}" onclick="app.setResult(false)">FAIL 未通過</button>
-                                </div>
                             </div>
                         </div>
 
@@ -1026,9 +1027,15 @@
             updateData(student, field, value) { this.updateInput(student, field, value); }
             updateObs(key, value) { this.groups[this.activeGroupId - 1].observerData[key] = value; }
             setResult(r) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].result = r; this.renderCCC(); }
-            // NEW METHOD for Trust Level
+            // NEW METHOD for Trust Level & Auto Result
             setTrustLevel(level) {
-                this.groups[this.activeGroupId - 1].students[this.groups[this.activeGroupId - 1].activeStudentTab].trustLevel = level;
+                const group = this.groups[this.activeGroupId - 1];
+                const student = group.students[group.activeStudentTab];
+                student.trustLevel = level;
+                
+                // AUTO LOGIC: Level 4, 5 => Pass; 1, 2, 3 => Fail
+                student.result = (level >= 4);
+                
                 this.renderCCC();
             }
             
@@ -1099,7 +1106,7 @@
                 else { 
                     this.showModal({ 
                         title: "無法結束演練", 
-                        message: "請確認<span class='font-bold text-red-600'>兩位學員</span>皆已完成信賴決策(Pass/Fail)後再送出。", 
+                        message: "請確認<span class='font-bold text-red-600'>兩位學員</span>皆已完成信賴決策(Pass/Fail)後再送出。<br><span class='text-xs text-slate-400'>(請點選信賴等級以自動判定)</span>", 
                         type: 'warning' 
                     }); 
                 }
