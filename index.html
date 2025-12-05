@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.22 (時尚背景與Logo優化版)</title>
+    <title>CCC實務工作坊演練平台 V5.27 (信賴等級細緻版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -293,7 +293,7 @@
                     <i class="fa-solid fa-clipboard-list mr-2"></i> 補強計畫
                 </button>
                 <button onclick="app.switchModule('adapt')" id="tab-adapt" class="nav-pill text-slate-500">
-                    <i class="fa-solid fa-comments mr-2"></i> ADAPT 回饋
+                    <i class="fa-solid fa-comments mr-2"></i> 結構化回饋
                 </button>
             </div>
         </div>
@@ -464,8 +464,8 @@
                         <i class="fa-solid fa-arrow-left text-lg"></i>
                     </button>
                     <div>
-                        <h2 class="font-bold text-slate-800 text-2xl" id="adapt-group-title">第 1 組 ADAPT</h2>
-                        <p class="text-sm text-slate-500 font-bold tracking-wide text-orange-500">FEEDBACK & COACHING</p>
+                        <h2 class="font-bold text-slate-800 text-2xl" id="adapt-group-title">第 1 組 結構化回饋</h2>
+                        <p class="text-sm text-slate-500 font-bold tracking-wide text-orange-500">STRUCTURED FEEDBACK</p>
                     </div>
                 </div>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar" id="adapt-tabs-container"></div>
@@ -629,7 +629,7 @@
                     descEl.innerText = "針對學員缺失設計具體行動方案";
                     titleClass.add('text-indigo-900');
                 } else {
-                    titleEl.innerText = "ADAPT 回饋模組演練";
+                    titleEl.innerText = "結構化回饋模組";
                     descEl.innerText = "紀錄回饋流程是否順暢";
                     titleClass.add('text-adapt');
                 }
@@ -750,7 +750,7 @@
                 
                 if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><p class="text-sm text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
                 
-                // 3. UPDATED STEP 2: Compact Reference Card (Fixed Layout)
+                // 3. UPDATED STEP 2: Single View Layout (UPDATED CONTENT)
                 if (stepId === 2) return `
                     <div class="flex flex-col items-center justify-start h-full pb-4 lg:pb-8">
                         
@@ -766,99 +766,68 @@
                                 </div>
                             </div>
                             <div class="flex gap-4">
-                                <button class="px-6 py-3 rounded-xl border border-blue-200 font-bold text-blue-700 bg-blue-50/50 shadow-sm hover:bg-blue-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1kFyY6sXyQqTZZauE3kU75CHUx_a9SViC/view?usp=drive_link','_blank')">
+                                <button class="px-6 py-3 rounded-xl border border-blue-200 font-bold text-blue-700 bg-blue-50/50 shadow-sm hover:bg-blue-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=drive_link','_blank')">
                                     <i class="fa-regular fa-folder-open text-lg"></i> 王大明資料
                                 </button>
-                                <button class="px-6 py-3 rounded-xl border border-pink-200 font-bold text-pink-700 bg-pink-50/50 shadow-sm hover:bg-pink-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1DpmGdfgwJRTxE7sSLwUB6wvR5Mep_Abu/view?usp=drive_link','_blank')">
+                                <button class="px-6 py-3 rounded-xl border border-pink-200 font-bold text-pink-700 bg-pink-50/50 shadow-sm hover:bg-pink-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">
                                     <i class="fa-regular fa-folder-open text-lg"></i> 李小美資料
                                 </button>
                             </div>
                         </div>
 
-                        <!-- 4. ENHANCED REFERENCE TABS -->
+                        <!-- SINGLE VIEW: EPA Reference (NEW CONTENT) -->
                         <div class="glass-panel rounded-2xl border border-slate-200 text-left w-full max-w-5xl shadow-lg flex flex-col flex-1 overflow-hidden min-h-0">
-                            <div class="flex border-b border-slate-200 bg-slate-50/50 flex-shrink-0">
-                                <button onclick="app.switchRefTab('epa')" id="ref-tab-epa" class="flex-1 py-4 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white/60 transition-colors"><i class="fa-solid fa-list-check mr-2"></i> EPA 規範詳情</button>
-                                <button onclick="app.switchRefTab('training')" id="ref-tab-training" class="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors"><i class="fa-solid fa-clipboard-list mr-2"></i> 護理新進人員訓練期程目標</button>
+                            <div class="flex border-b border-slate-200 bg-slate-50/50 flex-shrink-0 px-6 py-4 items-center gap-2">
+                                <i class="fa-solid fa-paperclip text-teal-600"></i>
+                                <h4 class="text-lg font-bold text-slate-800">附檔資料：護理職類可信賴專業活動評量 Entrustable Professional Activities (EPAs)</h4>
                             </div>
                             
                             <div class="flex-1 overflow-y-auto p-8 bg-white/80">
-                                <!-- TAB 1: EPA CONTENT -->
-                                <div id="ref-content-epa" class="block space-y-8">
-                                    <div class="border-b pb-4 mb-4 border-slate-100"><h4 class="text-2xl font-black text-slate-800">EPA 主題：血液檢體採集護理</h4></div>
+                                <div class="block space-y-8">
+                                    <div class="border-b pb-4 mb-4 border-slate-100"><h4 class="text-2xl font-black text-slate-800">EPA 主題：住院病患的照護與衛教</h4></div>
                                     <div class="grid grid-cols-1 gap-8 text-base text-slate-700 leading-relaxed">
                                         <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-crosshairs mr-2"></i>(二) 任務描述</span>
                                             <ul class="list-disc pl-6 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                <li>核對醫囑並執行靜脈採血前準備。</li>
-                                                <li>向病人/家屬說明採集血液檢體的目的。</li>
-                                                <li>依靜脈採血技術作業標準完成採血步驟。</li>
-                                                <li>依病人個別性提供相關衛教指導，並完成紀錄。</li>
-                                                <li>能與病人/家屬、醫療團隊進行雙向溝通。</li>
-                                                <li class="text-orange-600 font-bold">限制：急救、病況不穩定、新生兒。</li>
+                                                <li><strong>疾病知識：</strong>熟悉常見內外科病理生理、檢查與治療要點；掌握高警訊藥與院內政策、感染管制原則。</li>
+                                                <li><strong>臨床照護：</strong>進行整體評估、擬定與執行護理計畫並持續調整；落實用藥與物品管理、病安措施；規劃出院準備與轉介。</li>
+                                                <li><strong>溝通衛教：</strong>對病人/家屬進行有效衛教與教學回饋；清楚交班並與跨專業團隊協作與適時求助；能處理高壓溝通情境。</li>
+                                                <li class="text-orange-600 font-bold">適用限制：排除ICU、兒科/產科/精神科等需額外專科訓練之情境。</li>
                                             </ul>
                                         </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-triangle-exclamation mr-2"></i>(三) 風險</span>
                                                 <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-red-800 text-sm">
-                                                    <p>1. 採血部位血腫、檢體溶血。<br>2. 重複扎針增加痛楚與糾紛。<br>3. 延誤送檢影響診斷時效。</p>
+                                                    <p>病安事件(用藥錯誤、感染、跌倒、壓瘡)、溝通失誤引起申訴、照護斷裂與再入院、法遵與紀錄不全。</p>
                                                 </div>
                                             </div>
                                             <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-star mr-2"></i>(四) 核心能力</span>
-                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">病人照顧 (V)、專業知識 (V)、人際關係與溝通技巧 (V)、專業素養 (V)。</p>
+                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">醫學知識、病人照護、人際溝通。</p>
                                             </div>
                                         </div>
-                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-layer-group mr-2"></i>(五) 先備經驗、知能</span>
+                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-layer-group mr-2"></i>(五) 先備要件</span>
                                             <ul class="list-disc pl-6 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                <li><strong>知能：</strong>採血流程、試管順序、檢驗醫學知識。</li>
-                                                <li><strong>技能：</strong>Barcode 辨識、護理資訊系統操作。</li>
-                                                <li><strong>態度：</strong>尊重隱私、合宜應對、接納指導。</li>
-                                                <li><strong>經驗：</strong>模具練習 1 次或觀摩臨床操作 1 次以上。</li>
+                                                <li><strong>知識：</strong>常見內外科疾病照護、用藥安全與高警訊藥、感染管制、衛教與成人學習原則、院內政策。</li>
+                                                <li><strong>技能：</strong>系統評估、護理計畫、衛教、用藥與物品管控、文件與通報、跨專業溝通。</li>
+                                                <li><strong>態度：</strong>以病人為中心、病安意識、主動求助、尊重與同理。</li>
                                             </ul>
                                         </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i>(六) 評估資訊</span>
-                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">☑ 直接觀察 (2次) ☑ 筆試 (1次)</p>
+                                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                                    <p>☑ 筆試：每訓練期 ≥1次</p>
+                                                    <p>☑ 短期臨床觀察 (ad-hoc EPA)：每訓練期 ≥3次</p>
+                                                    <p>☑ 360度評量：每訓練期 ≥1次 (評核者須含病房護長/臨床教師/學員自評)</p>
+                                                </div>
                                             </div>
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-unlock mr-2"></i>(七) 獨立操作時機</span>
-                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">培訓期三個月前需達 <span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-bold text-sm">Level 4</span> (可獨立執行)。</p>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-unlock mr-2"></i>(七) 獨立操作時機 (授權標準)</span>
+                                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                                    <p>完成病房核⼼訓練；⾄少2 週並獨⽴照護≥5 名病⼈；⾄少3 件出院準備/轉介實作。</p>
+                                                    <p class="mt-2 font-bold text-teal-800">達成授權⾄Level 3c（間接監督、必要時請教師確認）以上。</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <!-- TAB 2: TRAINING STANDARD (GRID LAYOUT) -->
-                                <div id="ref-content-training" class="hidden">
-                                    <div class="mt-4 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-100 flex items-start gap-3 mb-6 shadow-sm">
-                                        <i class="fa-solid fa-circle-exclamation mt-0.5 text-lg"></i>
-                                        <span><strong>注意：</strong>於第3個月評值結果未達 80% 者，單位須填寫「新進人員延長試用申請單」，並須訂立補學計劃 (至多再延長試用3個月為限)。</span>
-                                    </div>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <!-- Card 1 -->
-                                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between text-lg">
-                                                <span><i class="fa-solid fa-brain mr-2"></i>工作知能</span>
-                                                <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
-                                            </h5>
-                                            <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2">
-                                                <li>單位常見疾病之護理</li>
-                                                <li>檢查治療之目的、準備及注意事項</li>
-                                                <li>常用藥物之作用、副作用</li>
-                                                <li>單位常用護理技術操作</li>
-                                            </ul>
-                                        </div>
-
-                                        <!-- Card 2 -->
-                                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-300 transition group">
-                                            <h5 class="font-bold text-teal-700 mb-3 pb-2 border-b border-slate-100 flex items-center justify-between text-lg">
-                                                <span><i class="fa-solid fa-heart mr-2"></i>工作態度</span>
-                                                <span class="text-[10px] bg-slate-100 text-slate-400 px-2 py-0.5 rounded group-hover:bg-teal-50 group-hover:text-teal-600 transition">需自評/師評</span>
-                                            </h5>
-                                            <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2">
-                                                <li>具備人文素養 (關懷、同理、尊重)</li>
-                                                <li>誠實、勤勉、耐勞</li>
-                                                <li>具工作熱忱、處事積極、自我要求</li>
-                                            </ul>
+                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clock-rotate-left mr-2"></i>(八) 信賴等級維持期限</span>
+                                            <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">離開臨床工作 6-12 個月：返崗需通過 1 次 ad-hoc 與 1 次 360 度評量維持原層級；>12 個月：完整重新評估。</p>
                                         </div>
                                     </div>
                                 </div>
@@ -876,17 +845,20 @@
                 if (stepId === 5) { 
                     const s = g.students[activeKey];
                     const levels = [
-                        { l: 1, t: "學習者在旁觀察" },
-                        { l: 2, t: "教師在旁指導，必要時協助" },
-                        { l: 3, t: "教師事後重點確認" },
-                        { l: 4, t: "可獨立執行" },
-                        { l: 5, t: "可對其他人進行教學" }
+                        { l: 1, label: "Level 1", t: "只看不做" },
+                        { l: 2, label: "Level 2a", t: "直接監督，逐步協助" },
+                        { l: 3, label: "Level 2b", t: "直接監督，必要協助" },
+                        { l: 4, label: "Level 3a", t: "間接監督，逐項確認" },
+                        { l: 5, label: "Level 3b", t: "間接監督，重點確認" },
+                        { l: 6, label: "Level 3c", t: "間接監督，必要確認" },
+                        { l: 7, label: "Level 4", t: "獨⽴執⾏" }
                     ];
                     
                     // Determine status message and color based on result (or default empty)
                     let statusHtml = '<span class="text-slate-400 font-normal ml-3 text-sm">(請選擇等級以自動判定)</span>';
                     if (s.trustLevel) {
-                        const isPass = s.trustLevel >= 4; // Auto logic: 4+ is Pass
+                        // New Logic: Level 3c (ID 6) and above is PASS
+                        const isPass = s.trustLevel >= 6; 
                         statusHtml = isPass 
                             ? '<span class="ml-4 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-bold border border-green-200 shadow-sm"><i class="fa-solid fa-check-circle mr-1.5"></i> PASS 可信賴</span>'
                             : '<span class="ml-4 px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-bold border border-red-200 shadow-sm"><i class="fa-solid fa-circle-exclamation mr-1.5"></i> FAIL 未通過</span>';
@@ -904,13 +876,13 @@
                                     ${statusHtml}
                                 </h4>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
                                 ${levels.map(item => {
                                     const isSel = s.trustLevel === item.l;
                                     const colorClass = isSel ? 'bg-teal-600 text-white border-teal-600 shadow-md ring-4 ring-teal-100 scale-105' : 'bg-white border-slate-200 text-slate-600 hover:bg-white hover:border-teal-300 hover:shadow-md';
-                                    return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-4 py-3 rounded-xl border text-sm transition-all duration-200 flex flex-col justify-center min-h-[80px] ${colorClass}">
-                                        <div class="font-bold text-xs opacity-70 mb-1 tracking-wider uppercase">Level ${item.l}</div>
-                                        <div class="font-bold leading-tight text-sm">${item.t}</div>
+                                    return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-3 py-3 rounded-xl border text-sm transition-all duration-200 flex flex-col justify-center min-h-[80px] ${colorClass}">
+                                        <div class="font-bold text-xs opacity-70 mb-1 tracking-wider uppercase">${item.label}</div>
+                                        <div class="font-bold leading-tight text-xs">${item.t}</div>
                                     </button>`
                                 }).join('')}
                             </div>
@@ -1013,7 +985,7 @@
                 if (adaptTabsContainer) adaptTabsContainer.innerHTML = damingBtn + xiaomeiBtn;
                 
                 const adaptGroupTitle = document.getElementById('adapt-group-title');
-                if (adaptGroupTitle) adaptGroupTitle.innerText = `第 ${g.id} 組 ADAPT`;
+                if (adaptGroupTitle) adaptGroupTitle.innerText = `第 ${g.id} 組 結構化回饋`;
 
                 const s = g.students[key];
                 const content = document.getElementById('adapt-content');
@@ -1082,8 +1054,8 @@
                 const student = group.students[group.activeStudentTab];
                 student.trustLevel = level;
                 
-                // AUTO LOGIC: Level 4, 5 => Pass; 1, 2, 3 => Fail
-                student.result = (level >= 4);
+                // AUTO LOGIC: Level 3c (ID 6) and above => Pass
+                student.result = (level >= 6);
                 
                 this.renderCCC();
             }
