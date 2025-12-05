@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.27 (信賴等級細緻版)</title>
+    <title>CCC實務工作坊演練平台 V5.34 (樣式修正版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -795,12 +795,12 @@
                                             </ul>
                                         </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-triangle-exclamation mr-2"></i>(三) 風險</span>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-triangle-exclamation mr-2"></i>(三) 任務失敗風險</span>
                                                 <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-red-800 text-sm">
                                                     <p>病安事件(用藥錯誤、感染、跌倒、壓瘡)、溝通失誤引起申訴、照護斷裂與再入院、法遵與紀錄不全。</p>
                                                 </div>
                                             </div>
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-star mr-2"></i>(四) 核心能力</span>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-star mr-2"></i>(四) 對應之核心能力</span>
                                                 <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">醫學知識、病人照護、人際溝通。</p>
                                             </div>
                                         </div>
@@ -812,22 +812,22 @@
                                             </ul>
                                         </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i>(六) 評估資訊</span>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i>(六) 評估進展所需相關資訊</span>
                                                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                                                     <p>☑ 筆試：每訓練期 ≥1次</p>
                                                     <p>☑ 短期臨床觀察 (ad-hoc EPA)：每訓練期 ≥3次</p>
                                                     <p>☑ 360度評量：每訓練期 ≥1次 (評核者須含病房護長/臨床教師/學員自評)</p>
                                                 </div>
                                             </div>
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-unlock mr-2"></i>(七) 獨立操作時機 (授權標準)</span>
+                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-unlock mr-2"></i>(七) 期待能獨立操作的時機 (授權標準)</span>
                                                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                    <p>完成病房核⼼訓練；⾄少2 週並獨⽴照護≥5 名病⼈；⾄少3 件出院準備/轉介實作。</p>
-                                                    <p class="mt-2 font-bold text-teal-800">達成授權⾄Level 3c（間接監督、必要時請教師確認）以上。</p>
+                                                    <p>完成病房核心訓練；至少2週並獨立照護 ≥5名病人；至少3件出院準備/轉介實作。</p>
+                                                    <p class="mt-2 font-bold text-teal-800">達成授權至 Level 3c (間接監督、必要時請教師確認) 以上。</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clock-rotate-left mr-2"></i>(八) 信賴等級維持期限</span>
-                                            <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">離開臨床工作 6-12 個月：返崗需通過 1 次 ad-hoc 與 1 次 360 度評量維持原層級；>12 個月：完整重新評估。</p>
+                                            <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">離開臨床⼯作 6–12 個⽉：返崗需通過 1 次 ad-hoc 與 1 次 360 度評量維持原層級；>12 個⽉：完整重新評估。</p>
                                         </div>
                                     </div>
                                 </div>
@@ -841,17 +841,18 @@
                 // 5. UPDATED Step 4: Display ARICH Descriptions
                 if (stepId === 4) return `<div class="flex flex-col h-full gap-6"><div class="grid grid-cols-4 gap-6 flex-shrink-0">${ARICH_CATS.map(cat => `<div class="glass-panel p-4 rounded-2xl border border-slate-200 text-center shadow-sm hover:shadow-lg transition hover:-translate-y-1"><div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-lg mb-1">${cat.label}</div><div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div></div>`).join('')}</div><div class="flex flex-col flex-1 glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea></div></div></div>`;
                 
-                // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL & AUTO RESULT
+                // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL & AUTO RESULT (7 Levels)
                 if (stepId === 5) { 
                     const s = g.students[activeKey];
+                    // Updated Level Definitions - STRICTLY LOWERCASE & REMOVED UPPERCASE CSS CLASS
                     const levels = [
                         { l: 1, label: "Level 1", t: "只看不做" },
                         { l: 2, label: "Level 2a", t: "直接監督，逐步協助" },
-                        { l: 3, label: "Level 2b", t: "直接監督，必要協助" },
-                        { l: 4, label: "Level 3a", t: "間接監督，逐項確認" },
-                        { l: 5, label: "Level 3b", t: "間接監督，重點確認" },
-                        { l: 6, label: "Level 3c", t: "間接監督，必要確認" },
-                        { l: 7, label: "Level 4", t: "獨⽴執⾏" }
+                        { l: 3, label: "Level 2b", t: "直接監督，必要時協助" },
+                        { l: 4, label: "Level 3a", t: "間接監督，事後逐項確認" },
+                        { l: 5, label: "Level 3b", t: "間接監督，事後重點確認" },
+                        { l: 6, label: "Level 3c", t: "間接監督，必要時確認 (通過門檻)" },
+                        { l: 7, label: "Level 4", t: "獨立執行" }
                     ];
                     
                     // Determine status message and color based on result (or default empty)
@@ -876,12 +877,14 @@
                                     ${statusHtml}
                                 </h4>
                             </div>
+                            <!-- 7 Levels Grid -->
                             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
                                 ${levels.map(item => {
                                     const isSel = s.trustLevel === item.l;
                                     const colorClass = isSel ? 'bg-teal-600 text-white border-teal-600 shadow-md ring-4 ring-teal-100 scale-105' : 'bg-white border-slate-200 text-slate-600 hover:bg-white hover:border-teal-300 hover:shadow-md';
+                                    // REMOVED 'uppercase' class from the label div below
                                     return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-3 py-3 rounded-xl border text-sm transition-all duration-200 flex flex-col justify-center min-h-[80px] ${colorClass}">
-                                        <div class="font-bold text-xs opacity-70 mb-1 tracking-wider uppercase">${item.label}</div>
+                                        <div class="font-bold text-xs opacity-70 mb-1 tracking-wider">${item.label}</div>
                                         <div class="font-bold leading-tight text-xs">${item.t}</div>
                                     </button>`
                                 }).join('')}
@@ -1268,11 +1271,13 @@
                                 if (typeof reasonText !== 'string') reasonText = ""; // Double check
 
                                 s.trustLevel = null; // Reset first
-                                const levelMatch = reasonText.match(/^\[Level (\d)-/);
+                                // UPDATED REGEX to handle new lowercase format as well
+                                const levelMatch = reasonText.match(/^\[Level (\d[a-z]?)-/i); 
                                 if (levelMatch) {
-                                    s.trustLevel = parseInt(levelMatch[1]);
-                                    // Optional: strip the prefix for display if desired, but keeping it is safer for sync consistency
-                                    // reasonText = reasonText.replace(/^\[Level \d-[^\]]+\] /, ""); 
+                                    // We need to map back to our internal 1-7 index
+                                    const levelStr = levelMatch[1].toLowerCase();
+                                    const levelMap = { '1': 1, '2a': 2, '2b': 3, '3a': 4, '3b': 5, '3c': 6, '4': 7 };
+                                    s.trustLevel = levelMap[levelStr] || null;
                                 }
                                 s.reason = reasonText;
 
@@ -1374,15 +1379,6 @@
 
             // --- 寫入資料 (POST) ---
             sendDataToGoogleSheet(group, type) {
-                // 如果正在背景同步，暫時先鎖住不讓寫入衝突 (或者可以讓寫入優先)
-                // 這裡採用簡單策略：使用者觸發的寫入也會設定 isSyncing，防止同時觸發背景同步
-                if (this.isSyncing) {
-                    console.log('Wait for previous sync to finish...');
-                    // Optional: return; to strictly block, but better to just race it or queue it. 
-                    // For now, we proceed but set flag.
-                }
-                this.isSyncing = true;
-
                 let sheetName = "";
                 let rows = [];
                 const timestamp = new Date().toISOString();
@@ -1405,10 +1401,12 @@
                         // Append Trust Level to Reason if selected
                         let finalReason = s.reason;
                         if (s.trustLevel) {
-                            const levels = ["觀察", "指導", "確認", "獨立", "教學"];
+                            // UPDATED LEVELS ARRAY for correct logging (matching the 7-level structure)
+                            const levels = ["Level 1", "Level 2a", "Level 2b", "Level 3a", "Level 3b", "Level 3c", "Level 4"];
                             // Avoid double prefixing if already present
-                            if (!finalReason.startsWith(`[Level ${s.trustLevel}`)) {
-                                finalReason = `[Level ${s.trustLevel}-${levels[s.trustLevel-1]}] ` + finalReason;
+                            // Regex checks for start with [Level X] or [Level Xx] case insensitive
+                            if (!/^\[Level \d[a-z]?\]/i.test(finalReason)) {
+                                finalReason = `[${levels[s.trustLevel-1]}] ` + finalReason;
                             }
                         }
 
@@ -1452,10 +1450,7 @@
                      });
                 }
 
-                if (rows.length === 0) {
-                    this.isSyncing = false;
-                    return;
-                }
+                if (rows.length === 0) return;
 
                 const payload = { sheet: sheetName, data: rows };
                 
@@ -1467,7 +1462,6 @@
 
                 fetch(API_URL, {
                     method: 'POST',
-                    mode: 'cors', // Explicitly set mode
                     redirect: 'follow',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
@@ -1481,12 +1475,8 @@
                         }
                     }
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert("資料傳送發生錯誤，請檢查網路連線。");
-                })
+                .catch((error) => console.error('Error:', error))
                 .finally(() => {
-                    this.isSyncing = false;
                     if(syncIcon) syncIcon.classList.remove('sync-spin');
                     if(syncText) syncText.innerText = "已儲存";
                     setTimeout(() => { if(syncText) syncText.innerText = "就緒"; }, 2000);
