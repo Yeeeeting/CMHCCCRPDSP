@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.34 (樣式修正版)</title>
+    <title>CCC實務工作坊演練平台 V5.38 (名單順序修正版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -242,6 +242,14 @@
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
         }
+        
+        /* New: Scrollable Table Wrapper for Modal */
+        .table-scroll-wrapper {
+            max-height: 60vh;
+            overflow-y: auto;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden text-slate-800 theme-ccc">
@@ -272,6 +280,11 @@
                 </div>
             </div>
             <div class="flex items-center gap-5">
+                <!-- NEW: Group List Button at the very top -->
+                <button onclick="app.showGroupListModal()" class="flex items-center gap-2 text-sm font-bold text-teal-700 bg-white/60 hover:bg-white/80 border border-teal-200/50 backdrop-blur-md px-4 py-2 rounded-full shadow-sm transition-all cursor-pointer">
+                    <i class="fa-solid fa-users-viewfinder"></i> 分組名單
+                </button>
+                
                 <!-- Auto Sync Status -->
                 <div id="sync-status" class="text-slate-400 text-sm flex items-center gap-2 transition-colors font-medium bg-white/50 px-3 py-1 rounded-full" title="雲端同步狀態">
                     <i class="fa-solid fa-cloud"></i>
@@ -304,20 +317,28 @@
         <!-- Views injected here -->
     </main>
 
-    <!-- Modal -->
+    <!-- Modal (General Purpose) -->
     <div id="custom-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="app.closeModal()"></div>
-        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg transform transition-all scale-100 flex flex-col items-center text-center animate-fade-in" id="modal-content">
-            <div id="modal-icon" class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6 text-4xl flex-shrink-0">
-                <i class="fa-solid fa-info"></i>
+        <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-3xl transform transition-all scale-100 flex flex-col max-h-[90vh]" id="modal-content">
+            
+            <!-- Header (Icon & Title) -->
+            <div class="flex flex-col items-center text-center mb-6 flex-shrink-0" id="modal-header">
+                <div id="modal-icon" class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-4 text-4xl shadow-sm text-slate-500">
+                    <i class="fa-solid fa-info"></i>
+                </div>
+                <h3 id="modal-title" class="text-3xl font-bold text-slate-800">提示</h3>
             </div>
-            <div class="w-full mb-8">
-                 <h3 id="modal-title" class="text-3xl font-bold text-slate-800 mb-4">提示</h3>
+
+            <!-- Body (Scrollable) -->
+            <div class="w-full mb-8 overflow-y-auto flex-1 pr-2 custom-scrollbar" id="modal-body-container">
                  <div id="modal-message" class="text-slate-600 text-xl leading-relaxed text-left">內容</div>
             </div>
-            <div class="flex gap-4 w-full" id="modal-actions">
-                <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg">取消</button>
-                <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 hover:bg-teal-700 text-lg">確定</button>
+
+            <!-- Footer (Buttons) -->
+            <div class="flex gap-4 w-full mt-auto pt-4 border-t border-slate-100" id="modal-actions">
+                <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg transition">取消</button>
+                <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 hover:bg-teal-700 text-lg transition">確定</button>
             </div>
         </div>
     </div>
@@ -396,7 +417,7 @@
                 <div class="flex gap-2 overflow-x-auto no-scrollbar" id="rem-tabs-container"></div>
             </div>
             
-            <div class="flex-1 overflow-y-auto p-4 lg:p-8 flex flex-col">
+            <div class="flex-1 overflow-y-auto p-4 lg:p-6 flex flex-col">
                 <!-- CCC Reference Block (Collapsible style) -->
                 <div class="mb-6 bg-white/80 backdrop-blur border border-indigo-100 rounded-2xl shadow-sm p-6 relative flex-shrink-0">
                     <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500 rounded-l-2xl"></div>
@@ -750,7 +771,7 @@
                 
                 if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><p class="text-sm text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
                 
-                // 3. UPDATED STEP 2: Single View Layout (UPDATED CONTENT)
+                // 3. UPDATED STEP 2: Single View Layout
                 if (stepId === 2) return `
                     <div class="flex flex-col items-center justify-start h-full pb-4 lg:pb-8">
                         
@@ -775,7 +796,7 @@
                             </div>
                         </div>
 
-                        <!-- SINGLE VIEW: EPA Reference (NEW CONTENT) -->
+                        <!-- SINGLE VIEW: EPA Reference -->
                         <div class="glass-panel rounded-2xl border border-slate-200 text-left w-full max-w-5xl shadow-lg flex flex-col flex-1 overflow-hidden min-h-0">
                             <div class="flex border-b border-slate-200 bg-slate-50/50 flex-shrink-0 px-6 py-4 items-center gap-2">
                                 <i class="fa-solid fa-paperclip text-teal-600"></i>
@@ -844,7 +865,7 @@
                 // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL & AUTO RESULT (7 Levels)
                 if (stepId === 5) { 
                     const s = g.students[activeKey];
-                    // Updated Level Definitions - STRICTLY LOWERCASE & REMOVED UPPERCASE CSS CLASS
+                    // Updated Level Definitions - STRICTLY LOWERCASE & NO UPPERCASE CLASS
                     const levels = [
                         { l: 1, label: "Level 1", t: "只看不做" },
                         { l: 2, label: "Level 2a", t: "直接監督，逐步協助" },
@@ -1063,6 +1084,51 @@
                 this.renderCCC();
             }
             
+            // New Method: Show Group List Modal
+            showGroupListModal() {
+                const modalTitle = document.getElementById('modal-title');
+                const modalIcon = document.getElementById('modal-icon');
+                const modalMessage = document.getElementById('modal-message');
+                const modalActions = document.getElementById('modal-actions');
+                const modal = document.getElementById('custom-modal');
+
+                modalTitle.innerText = "分組名單";
+                modalIcon.innerHTML = '<i class="fa-solid fa-users-viewfinder text-teal-600"></i>';
+                modalIcon.className = "w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center mb-4 text-3xl shadow-sm";
+                
+                // Hide default actions, we just need a close button
+                modalActions.innerHTML = '<button onclick="app.closeModal()" class="w-full py-3 rounded-xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition">關閉</button>';
+
+                // Table Content
+                modalMessage.innerHTML = `
+                    <div class="table-scroll-wrapper">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 font-bold uppercase sticky top-0 shadow-sm">
+                                <tr>
+                                    <th class="px-4 py-3">組別</th>
+                                    <th class="px-4 py-3">成員</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 1 組</td><td class="px-4 py-3"><strong>藥劑部</strong>: 黃淑芬(組長), 陳家豪, 林信伶<br><strong>放射腫瘤部</strong>: 蕭時玲<br><strong>電腦斷層</strong>: 吳世釧<br><strong>臨床病理</strong>: 林家榛<br><strong>耳鼻喉部</strong>: 陳力瑀</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 2 組</td><td class="px-4 py-3"><strong>護理部</strong>: 邱旅揚, 江惠英(副部長), 吳佩珊, 林琪馨<br><strong>4A</strong>: 徐富美<br><strong>8C</strong>: 陶菁<br><strong>急診</strong>: 魏妙芬<br><strong>3B</strong>: 邱怡菁<br><strong>門診</strong>: 郭惠婷<br><strong>5B</strong>: 鄭君婷<br><strong>8B</strong>: 謝雅玲</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 3 組</td><td class="px-4 py-3"><strong>3B</strong>: 謝佳效<br><strong>12A</strong>: 謝淑娟<br><strong>門診</strong>: 蔡素蕊<br><strong>呼吸照護</strong>: 蘇敬惠<br><strong>4A</strong>: 郭麗玲<br><strong>營養科</strong>: 劉美媛<br><strong>耳鼻喉</strong>: 楊晴嵐<br><strong>復健部</strong>: 羅蓓怡</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 4 組</td><td class="px-4 py-3"><strong>呼吸治療科</strong>: 梁懿珊(組長), 高佳瑜, 鄭愛琴<br><strong>泌尿外科</strong>: 林才揚<br><strong>麻醉部</strong>: 林耀聰, 洪國全</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 5 組</td><td class="px-4 py-3"><strong>復健部</strong>: 劉天慧(組長), 陳璟綺, 蔡宜庭<br><strong>精神醫學</strong>: 楊仁豪<br><strong>耳鼻喉</strong>: 簡佑安<br><strong>職業醫學</strong>: 王俞鈞, 郭婉吟</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 6 組</td><td class="px-4 py-3"><strong>臨床技能中心</strong>: 蔡長志<br><strong>骨科部</strong>: 林威廷<br><strong>中醫部</strong>: 王瑜婷<br><strong>耳鼻喉</strong>: 蘇偉翔<br><strong>急診</strong>: 陳伯格<br><strong>神經外科</strong>: 陳志偉<br><strong>精神醫學</strong>: 林健禾<br><strong>婦產部</strong>: 温仁育<br><strong>急診</strong>: 李國彰</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 7 組</td><td class="px-4 py-3"><strong>一般科</strong>: 郭妍伶<br><strong>牙科部</strong>: 陳冠良<br><strong>放射診斷</strong>: 謝賜吉<br><strong>兒科部</strong>: 黃筱倫<br><strong>麻醉部</strong>: 洪意茵<br><strong>家醫部</strong>: 黃建元<br><strong>急診</strong>: 王嘉地<br><strong>耳鼻喉</strong>: 劉璟鋒<br><strong>放射腫瘤</strong>: 何聖佑</td></tr>
+                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 8 組</td><td class="px-4 py-3"><strong>復健部</strong>: 王鈺霖<br><strong>解剖病理</strong>: 朱彰堯<br><strong>整形外科</strong>: 陳俊嘉<br><strong>耳鼻喉</strong>: 沈至軒</td></tr>
+                            </tbody>
+                        </table>
+                    </div>`;
+
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.querySelector('#modal-content').classList.add('scale-100');
+                    modal.querySelector('#modal-content').classList.remove('opacity-0');
+                }, 10);
+            }
+
             addRemediationRow() { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.push({deficit:'',competency:'',action:'',assessment:'',goal:'',deadline:''}); this.renderRemediation(); }
             updateRemRow(index, field, value) { this.groups[this.activeGroupId - 1].students[this.groups[this.activeGroupId - 1].activeStudentTab].remediationPlan[index][field] = value; }
             deleteRemRow(index) { if(confirm('刪除此項目?')) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.splice(index,1); this.renderRemediation(); } }
@@ -1087,23 +1153,35 @@
                 titleEl.innerHTML = title;
                 msgEl.innerHTML = message;
                 
+                // Reset actions if overwritten by Group List Modal
                 if (type === 'success') { 
                     iconContainer.innerHTML = '<i class="fa-solid fa-check text-green-600 text-xl"></i>'; 
                     iconContainer.className = "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4 shadow-sm"; 
-                    btnConfirm.className = "bg-green-600 text-white hover:bg-green-700 flex-1 py-3 rounded-xl text-base font-bold shadow-lg transition"; 
+                    
+                    const actionsHtml = `
+                        <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg transition">取消</button>
+                        <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 hover:bg-teal-700 text-lg transition">確定</button>
+                    `;
+                    document.getElementById('modal-actions').innerHTML = actionsHtml;
                 } 
                 else if (type === 'warning') { 
                     iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-600 text-xl"></i>'; 
                     iconContainer.className = "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4 shadow-sm"; 
-                    btnConfirm.className = "bg-yellow-600 text-white hover:bg-yellow-700 flex-1 py-3 rounded-xl text-base font-bold shadow-lg transition"; 
+
+                    const actionsHtml = `
+                        <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg transition">取消</button>
+                        <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-yellow-600 text-white font-bold shadow-lg shadow-yellow-600/20 hover:bg-yellow-700 text-lg transition">確定</button>
+                    `;
+                    document.getElementById('modal-actions').innerHTML = actionsHtml;
                 }
 
                 if (onConfirm) { 
-                    btnCancel.classList.remove('hidden'); 
-                    btnConfirm.onclick = () => { this.closeModal(); onConfirm(); }; 
+                    document.getElementById('modal-btn-cancel').classList.remove('hidden'); 
+                    document.getElementById('modal-btn-confirm').onclick = () => { this.closeModal(); onConfirm(); }; 
+                    document.getElementById('modal-btn-cancel').onclick = () => this.closeModal();
                 } else { 
-                    btnCancel.classList.add('hidden'); 
-                    btnConfirm.onclick = () => this.closeModal(); 
+                    document.getElementById('modal-btn-cancel').classList.add('hidden'); 
+                    document.getElementById('modal-btn-confirm').onclick = () => this.closeModal(); 
                 }
                 
                 modal.classList.remove('hidden'); 
