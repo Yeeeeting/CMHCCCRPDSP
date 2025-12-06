@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.49 (UI 一致化版)</title>
+    <title>CCC實務工作坊演練平台 V5.51 (觀察員紀錄修復版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -1286,7 +1286,7 @@
             updateAdaptItem(field, value) { const g = this.groups[this.activeGroupId - 1]; g.students[g.activeStudentTab].adaptLog[field] = value; if (typeof value === 'boolean') this.renderAdapt(); }
             updateInput(student, field, value) { this.groups[this.activeGroupId - 1].students[student][field] = value; }
             updateData(student, field, value) { this.updateInput(student, field, value); }
-            updateObs(key, value) { this.groups[this.activeGroupId - 1].observerData[key] = value; }
+            updateObs(student, field, value) { this.groups[this.activeGroupId - 1].observerData[`${student}-${field}`] = value; } // FIXED
             setResult(r) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].result = r; this.renderCCC(); }
             // NEW METHOD for Trust Level & Auto Result
             setTrustLevel(level) {
