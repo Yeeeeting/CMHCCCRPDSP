@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CCC實務工作坊演練平台 V5.38 (名單順序修正版)</title>
+    <title>CCC實務工作坊演練平台 V5.49 (UI 一致化版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -250,6 +250,27 @@
             border-radius: 0.75rem;
             border: 1px solid #e2e8f0;
         }
+        
+        /* Custom Scrollbar for inner content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.5);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.8);
+        }
+        
+        /* Role Content Formatting */
+        .role-content strong { color: #0f766e; font-weight: 800; display: block; margin-top: 0.5rem; margin-bottom: 0.2rem; }
+        .role-content ul { padding-left: 1.2rem; list-style-type: disc; margin-bottom: 0.5rem; }
+        .role-content li { margin-bottom: 0.2rem; }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden text-slate-800 theme-ccc">
@@ -366,11 +387,15 @@
             <!-- Sidebar -->
             <div class="hidden lg:flex flex-col w-60 bg-white/90 backdrop-blur-md border-r border-slate-200/60 overflow-hidden shadow-lg flex-shrink-0 h-full z-20">
                 <div class="p-5 sidebar-header flex justify-between items-start shadow-md">
-                    <div>
-                        <div class="text-[10px] font-bold tracking-widest opacity-80 mb-1">GROUP</div>
-                        <h2 class="text-xl font-black" id="group-title-sidebar">第 1 組</h2>
+                    <div class="flex items-center gap-3">
+                         <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-teal-600 shadow-sm transition-all" title="返回儀表板">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <div class="text-[10px] font-bold tracking-widest opacity-80 mb-1">GROUP</div>
+                            <h2 class="text-xl font-black" id="group-title-sidebar">第 1 組</h2>
+                        </div>
                     </div>
-                    <button onclick="app.loadDashboard()" class="text-xs bg-white/20 hover:bg-white/30 border border-white/30 px-2 py-1 rounded text-white transition flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i></button>
                 </div>
                 <div class="flex-1 overflow-y-auto p-2" id="desktop-step-list"></div>
             </div>
@@ -379,7 +404,11 @@
                 <!-- Top Bar -->
                 <div class="px-8 py-5 border-b border-slate-100 bg-white/80 backdrop-blur-md flex-shrink-0 flex justify-between items-center z-10 shadow-sm">
                     <div>
-                        <div class="lg:hidden mb-1"><button onclick="app.loadDashboard()" class="text-xs font-bold text-slate-400 flex items-center gap-1"><i class="fa-solid fa-arrow-left"></i> 回總表</button></div>
+                        <div class="lg:hidden mb-3">
+                             <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-teal-600 shadow-sm transition-all" title="返回儀表板">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                        </div>
                         <h2 class="text-3xl font-bold text-slate-800 leading-tight" id="current-step-title"></h2>
                         <p class="text-base text-slate-500 font-medium mt-1" id="current-step-desc"></p>
                     </div>
@@ -390,7 +419,7 @@
                 </div>
                 
                 <!-- Content Scroll Area -->
-                <div class="flex-1 overflow-y-auto p-8" id="step-content"></div>
+                <div class="flex-1 overflow-y-auto p-8 flex flex-col" id="step-content"></div>
                 
                 <!-- Mobile Action Bar -->
                 <div class="mobile-action-bar lg:hidden flex-shrink-0">
@@ -406,8 +435,8 @@
             <!-- Header Area -->
             <div class="bg-white/90 backdrop-blur-md px-8 py-5 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
                 <div class="flex items-center gap-4">
-                    <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0 transition">
-                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-teal-600 shadow-sm transition-all" title="返回儀表板">
+                        <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div>
                         <h2 class="font-bold text-slate-800 text-2xl" id="rem-group-title">第 1 組計畫</h2>
@@ -481,8 +510,8 @@
             <!-- Header Area -->
             <div class="bg-white/90 backdrop-blur-md px-8 py-5 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
                 <div class="flex items-center gap-4">
-                    <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 flex-shrink-0 transition">
-                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-teal-600 shadow-sm transition-all" title="返回儀表板">
+                        <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div>
                         <h2 class="font-bold text-slate-800 text-2xl" id="adapt-group-title">第 1 組 結構化回饋</h2>
@@ -527,15 +556,50 @@
             { id: 'T',  label: 'T - Teach (重點教學)', desc: '給予關鍵知識點或技巧指導 (Teachable moment)。' }
         ];
 
-        // 1. UPDATED ROLES (Added Recorder)
+        // 1. UPDATED ROLES (Detailed Formatted HTML)
         const ROLES = [
-            { name: "CCC主席", count: 1, icon: "fa-gavel", desc: "經驗豐富的PGY資深臨床教師，熟悉訓練計畫。任務是促進討論、統整觀點並引導決策流程。需確保各方意見被充分聆聽，營造安全開放氛圍，協助建立共識並提出總結性建議。" },
-            { name: "紀錄者", count: 1, icon: "fa-pen-to-square", desc: "負責完整紀錄整場會議的討論過程，包含各委員的觀點、決策依據以及最終共識，確保會議資訊不遺漏，做為後續追蹤與回饋的重要參考。" },
-            { name: "護理部教學負責人", count: 1, icon: "fa-clipboard-user", desc: "任職滿10年，透過教學系統掌握每位學員狀況。雖未直接共事，但知悉兩位學員皆發生異常事件，且臨床端已對其提出回饋。" },
-            { name: "病房資深臨床教師", count: 1, icon: "fa-user-tie", desc: "20年經驗，負責臨床學習與生活輔導。肯定王大明的知識與效率，但擔憂其團隊連結，要求完成改善計畫才予通過；認為李小美穩健但保守，傾向建議讓她進入下一階段。" },
-            { name: "病房護理長", count: 1, icon: "fa-user-nurse", desc: "任職逾10年，重視規範落實。認為王大明雖主動但有規範遵循警訊，未見改善證據前難以信賴；肯定李小美認真可靠、交班完整，能力值得肯定。" },
-            { name: "病房新任臨床教師", count: 1, icon: "fa-id-badge", desc: "新加入的指導教師（學姐）。首次參與CCC。認為王大明技術優但互動較命令式，能力足以授權；認為李小美動機強但能力尚未達預期，建議多給時間學習。" },
-            { name: "觀察員", count: "N", icon: "fa-eye", desc: "請依「臨床能力委員會討論過程-觀察表」客觀旁觀並紀錄：會議流程、委員發言重點與決策形成過程。會後請回饋所觀察到的優勢與可改進之處。" }
+            { 
+                name: "CCC主席", 
+                count: 1, 
+                icon: "fa-gavel", 
+                desc: "<div class='role-content'><strong>【角色身份】</strong>經驗豐富的 PGY 資深臨床教師，熟悉二年期新進護理師訓練計畫。<strong>【主要任務】</strong><ul class='list-disc'><li>促進討論、統整觀點並引導決策流程。</li><li>確保各方意見被充分聆聽與表達。</li><li>營造安全開放的對話氛圍，鼓勵充分討論。</li><li>協助建立共識，提出具體的總結性建議。</li></ul></div>" 
+            },
+            { 
+                name: "會議記錄者", 
+                count: 1, 
+                icon: "fa-pen-to-square", 
+                desc: "<div class='role-content'><strong>【角色身份】</strong>護理部教學行政人員，熟悉 CCC 會議紀錄格式。<br><span class='text-xs text-slate-400'>*不參與臨床教學或進度管理。</span><strong>【主要任務】</strong><ul class='list-disc'><li>客觀、忠實地記錄會議內容。</li><li>專注記錄委員對兩位學員（王大明、李小美）的討論重點：包含優點、待改進處、異常事件檢討。</li><li>記錄最後宣告的決議結果，確保與發言一致。</li></ul></div>" 
+            },
+            { 
+                name: "護理部教學負責人", 
+                count: 1, 
+                icon: "fa-clipboard-user", 
+                desc: "<div class='role-content'><strong>【角色身份】</strong>任職滿 10 年，長期關注學員進度。與學員無直接臨床共事，但透過系統掌握狀況。<strong>【掌握資訊】</strong><ul class='list-disc'><li>知悉兩位學員（王大明、李小美）皆發生異常事件。</li><li>護理長與臨床教師已反映狀況，並已提出回饋。</li></ul></div>" 
+            },
+            { 
+                name: "病房資深臨床教師", 
+                count: 1, 
+                icon: "fa-user-tie", 
+                desc: "<div class='role-content'><strong>【角色身份】</strong>20 年經驗，負責 PGY 臨床學習與生活輔導。主要以床邊教學與個別談話進行引導。<strong>【學員觀點】</strong><ul class='list-disc'><li><strong>王大明：</strong>知識/技術/效率佳，但團隊連結與求助時機需加強。針對異常事件（管制藥、溝通），要求完成改善計畫並經抽查後，才考慮通過。</li><li><strong>李小美：</strong>穩健遵循 SOP，誠實回報且願請益。雖判讀保守，但建議讓她進入下一階段訓練。</li></ul></div>" 
+            },
+            { 
+                name: "病房護理長", 
+                count: 1, 
+                icon: "fa-user-nurse", 
+                desc: "<div class='role-content'><strong>【角色身份】</strong>護理長 >10 年。重視規範落實，積極建立同儕互助與安全文化。<strong>【學員觀點】</strong><ul class='list-disc'><li><strong>王大明：</strong>主動學習快，能獨立完成任務。但異常事件暴露規範與團隊責任警訊。期待看到藥物歸位與醫病溝通的改善證據，否則難以信賴。</li><li><strong>李小美：</strong>認真可靠、交班完整、樂於修正並能尋求協助。整體能力值得肯定。</li></ul></div>" 
+            },
+            { 
+                name: "病房新任臨床教師", 
+                count: 1, 
+                icon: "fa-id-badge", 
+                desc: "<div class='role-content'><strong>【角色身份】</strong>新任 PGY 指導教師（學姐）。首次參與 CCC。負責床邊教學與評核。<strong>【學員觀點】</strong><ul class='list-disc'><li><strong>王大明：</strong>技術效率優於同儕，禮貌溝通順暢。雖對同儕偶有命令語氣且互動少，但認為能力足以給予信賴授權。</li><li><strong>李小美：</strong>動機強、記錄確實。流程穩健但整體能力尚未達預期，建議給予更多時間學習後再行評核。</li></ul></div>" 
+            },
+            { 
+                name: "觀察員", 
+                count: "N", 
+                icon: "fa-eye", 
+                desc: "<div class='role-content'><strong>【主要任務】</strong><ul class='list-disc'><li>依「臨床能力委員會討論過程-觀察表」客觀旁觀。</li><li>記錄：會議流程、委員發言重點、決策形成過程。</li><li>會後回饋所觀察到的優勢與可改進之處。</li></ul></div>" 
+            }
         ];
 
         const OBSERVER_ITEMS = {
@@ -568,8 +632,6 @@
                 this.secondsElapsed = 0;
                 
                 this.initTimer();
-                this.switchModule('ccc');
-                
                 // Initialize Data Fetch & Auto-Refresh
                 this.fetchDataFromGoogleSheet(false); // Initial load (with overlay)
                 
@@ -577,6 +639,9 @@
                 setInterval(() => {
                     this.fetchDataFromGoogleSheet(true); // Background load
                 }, 30000);
+
+                // DEFAULT LOAD: Start with CCC Module directly in Group 1 (Demo Requirement)
+                this.switchModule('ccc');
             }
 
             initTimer() {
@@ -596,7 +661,10 @@
 
             switchModule(mod) {
                 this.currentModule = mod;
-                this.activeGroupId = null;
+                // Reset active group ID unless we are in CCC mode where we want auto-entry
+                if (mod !== 'ccc') {
+                    this.activeGroupId = null;
+                }
                 
                 // Switch Theme Classes
                 document.body.classList.remove('theme-ccc', 'theme-remediation', 'theme-adapt');
@@ -623,7 +691,14 @@
                 if(mod === 'remediation') icon.className = `w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
                 if(mod === 'adapt') icon.className = `w-16 h-16 rounded-2xl bg-adapt text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
 
-                this.loadDashboard();
+                // Logic to handle CCC Auto-Entry
+                if (mod === 'ccc') {
+                    // Default to Group 1 if no group is selected
+                    const targetGroup = this.activeGroupId || 1;
+                    this.loadGroup(targetGroup);
+                } else {
+                    this.loadDashboard();
+                }
             }
 
             loadDashboard() {
@@ -720,6 +795,11 @@
             renderCCC() {
                 const g = this.groups[this.activeGroupId - 1];
                 document.getElementById('group-title-sidebar').innerText = `第 ${g.id} 組`;
+                
+                // AUTO-PROGRESS LOGIC
+                // If cccStep is 0 (unstarted), keep it 0. If > 0, it renders automatically.
+                // No special logic needed here because g.cccStep preserves state.
+                
                 const renderSteps = (containerId, isMobile) => {
                     const container = document.getElementById(containerId);
                     container.innerHTML = '';
@@ -738,7 +818,19 @@
                 const step = CCC_STEPS[g.cccStep];
                 document.getElementById('current-step-title').innerText = step.title;
                 document.getElementById('current-step-desc').innerText = step.desc;
-                document.getElementById('step-content').innerHTML = this.getCCCContentHTML(g.cccStep + 1);
+                
+                // Dynamic padding adjustment for Step 2 to maximize space
+                const contentContainer = document.getElementById('step-content');
+                // Ensure flex-col is always there (FIX for disappeared inputs)
+                contentContainer.className = "flex-1 overflow-y-auto flex flex-col";
+                
+                if (g.cccStep === 1) { // Index 1 is Step 2
+                    contentContainer.classList.add('p-0');
+                } else {
+                    contentContainer.classList.add('p-8');
+                }
+                
+                contentContainer.innerHTML = this.getCCCContentHTML(g.cccStep + 1);
 
                 // Handle Buttons
                 const btnText = (g.cccStep === 6) ? '返回儀表板' : (g.cccStep === 5) ? '完成演練' : '下一步 <i class="fa-solid fa-arrow-right ml-2"></i>';
@@ -769,86 +861,169 @@
                 const g = this.groups[this.activeGroupId - 1];
                 const activeKey = g.activeStudentTab;
                 
-                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><p class="text-sm text-slate-600 leading-relaxed">${r.desc}</p></div>`).join('')}</div>`;
+                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1 flex flex-col h-full"><div class="flex items-center gap-4 mb-4 flex-shrink-0"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><div class="flex-1 overflow-y-auto max-h-[300px] custom-scrollbar pr-2 text-sm text-slate-600 leading-relaxed text-justify">${r.desc}</div></div>`).join('')}</div>`;
                 
-                // 3. UPDATED STEP 2: Single View Layout
+                // 3. UPDATED STEP 2: Maximized EPA View (Merged Header Strategy)
                 if (stepId === 2) return `
-                    <div class="flex flex-col items-center justify-start h-full pb-4 lg:pb-8">
-                        
-                        <!-- Compact Header Block -->
-                        <div class="glass-panel flex flex-col md:flex-row items-center justify-between p-6 rounded-2xl border border-slate-200 shadow-sm w-full max-w-5xl mb-6 flex-shrink-0">
-                            <div class="flex items-center gap-5 mb-4 md:mb-0">
-                                <div class="w-14 h-14 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0 shadow-inner">
-                                    <i class="fa-solid fa-book-open text-2xl"></i>
-                                </div>
-                                <div class="text-center md:text-left">
-                                    <h3 class="text-xl font-bold text-slate-800">請參閱學習歷程檔案</h3>
-                                    <p class="text-sm text-slate-500 mt-1">請委員點擊下方按鈕或參閱紙本資料</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <button class="px-6 py-3 rounded-xl border border-blue-200 font-bold text-blue-700 bg-blue-50/50 shadow-sm hover:bg-blue-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=drive_link','_blank')">
-                                    <i class="fa-regular fa-folder-open text-lg"></i> 王大明資料
-                                </button>
-                                <button class="px-6 py-3 rounded-xl border border-pink-200 font-bold text-pink-700 bg-pink-50/50 shadow-sm hover:bg-pink-100 transition text-sm flex items-center gap-2" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">
-                                    <i class="fa-regular fa-folder-open text-lg"></i> 李小美資料
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- SINGLE VIEW: EPA Reference -->
-                        <div class="glass-panel rounded-2xl border border-slate-200 text-left w-full max-w-5xl shadow-lg flex flex-col flex-1 overflow-hidden min-h-0">
-                            <div class="flex border-b border-slate-200 bg-slate-50/50 flex-shrink-0 px-6 py-4 items-center gap-2">
-                                <i class="fa-solid fa-paperclip text-teal-600"></i>
-                                <h4 class="text-lg font-bold text-slate-800">附檔資料：護理職類可信賴專業活動評量 Entrustable Professional Activities (EPAs)</h4>
-                            </div>
+                    <div class="flex flex-col h-full w-full overflow-hidden">
+                        <!-- Single Block (Content with Integrated Header) -->
+                        <div class="flex-1 bg-white/90 backdrop-blur-sm shadow-md flex flex-col overflow-hidden relative">
                             
-                            <div class="flex-1 overflow-y-auto p-8 bg-white/80">
-                                <div class="block space-y-8">
-                                    <div class="border-b pb-4 mb-4 border-slate-100"><h4 class="text-2xl font-black text-slate-800">EPA 主題：住院病患的照護與衛教</h4></div>
-                                    <div class="grid grid-cols-1 gap-8 text-base text-slate-700 leading-relaxed">
-                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-crosshairs mr-2"></i>(二) 任務描述</span>
-                                            <ul class="list-disc pl-6 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                <li><strong>疾病知識：</strong>熟悉常見內外科病理生理、檢查與治療要點；掌握高警訊藥與院內政策、感染管制原則。</li>
-                                                <li><strong>臨床照護：</strong>進行整體評估、擬定與執行護理計畫並持續調整；落實用藥與物品管理、病安措施；規劃出院準備與轉介。</li>
-                                                <li><strong>溝通衛教：</strong>對病人/家屬進行有效衛教與教學回饋；清楚交班並與跨專業團隊協作與適時求助；能處理高壓溝通情境。</li>
-                                                <li class="text-orange-600 font-bold">適用限制：排除ICU、兒科/產科/精神科等需額外專科訓練之情境。</li>
-                                            </ul>
+                            <!-- Integrated Header: Title + Buttons -->
+                            <div class="px-6 py-3 border-b border-slate-200 bg-white flex justify-between items-center flex-shrink-0 z-10 gap-4 shadow-sm">
+                                <!-- Title Left -->
+                                <div class="flex items-center gap-4 overflow-hidden">
+                                    <div class="w-10 h-10 rounded-lg bg-teal-600 text-white flex items-center justify-center shadow-md flex-shrink-0">
+                                        <i class="fa-solid fa-book-open text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-black text-slate-800 leading-tight">查閱學習歷程檔案</h3>
+                                        <div class="flex items-center gap-2 text-xs text-slate-500 font-bold mt-0.5">
+                                            <span class="px-2 py-0.5 rounded bg-teal-100 text-teal-800 border border-teal-200">EPA 標準</span>
+                                            <span class="truncate max-w-[200px] md:max-w-xs">主題：住院病患的照護與衛教</span>
                                         </div>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-triangle-exclamation mr-2"></i>(三) 任務失敗風險</span>
-                                                <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-red-800 text-sm">
-                                                    <p>病安事件(用藥錯誤、感染、跌倒、壓瘡)、溝通失誤引起申訴、照護斷裂與再入院、法遵與紀錄不全。</p>
+                                    </div>
+                                </div>
+                                <!-- Buttons Right -->
+                                <div class="flex gap-2 flex-shrink-0">
+                                    <button class="px-3 py-2 rounded-lg border border-blue-200 font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition shadow-sm flex items-center gap-2 text-sm" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=drive_link','_blank')">
+                                        <i class="fa-regular fa-folder-open"></i> <span class="hidden md:inline">王大明</span>
+                                    </button>
+                                    <button class="px-3 py-2 rounded-lg border border-pink-200 font-bold text-pink-700 bg-pink-50 hover:bg-pink-100 transition shadow-sm flex items-center gap-2 text-sm" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">
+                                        <i class="fa-regular fa-folder-open"></i> <span class="hidden md:inline">李小美</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Scrollable Content -->
+                            <div class="flex-1 overflow-y-auto p-5 bg-slate-50/50 custom-scrollbar">
+                                <div class="max-w-7xl mx-auto space-y-4">
+                                    
+                                    <!-- 1. 任務描述 (Tight Layout) -->
+                                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                        <h5 class="text-teal-700 font-black text-sm mb-3 flex items-center gap-2 uppercase tracking-wide">
+                                            <i class="fa-solid fa-crosshairs"></i> 任務描述
+                                        </h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <span class="block text-[10px] font-bold text-slate-400 mb-0.5 uppercase">Knowledge</span>
+                                                <strong class="text-slate-800 text-sm block mb-1">疾病知識</strong>
+                                                <p class="text-slate-600 text-xs leading-relaxed">熟悉常見內外科病理生理、檢查與治療要點；掌握高警訊藥與院內政策。</p>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <span class="block text-[10px] font-bold text-slate-400 mb-0.5 uppercase">Skill</span>
+                                                <strong class="text-slate-800 text-sm block mb-1">臨床照護</strong>
+                                                <p class="text-slate-600 text-xs leading-relaxed">整體評估、擬定與執行護理計畫；落實用藥與物品管理；規劃出院準備。</p>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                                <span class="block text-[10px] font-bold text-slate-400 mb-0.5 uppercase">Attitude</span>
+                                                <strong class="text-slate-800 text-sm block mb-1">溝通衛教</strong>
+                                                <p class="text-slate-600 text-xs leading-relaxed">有效衛教與回饋；清楚交班並與團隊協作；能處理高壓溝通情境。</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 p-2 bg-orange-50 border border-orange-100 rounded flex items-center gap-2 text-orange-800 text-[11px] font-bold">
+                                            <i class="fa-solid fa-circle-exclamation text-orange-600"></i>
+                                            <span>限制：排除 ICU、兒科、產科、精神科等需額外專科訓練之特殊情境。</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Grid Layout for Details -->
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                        
+                                        <!-- 2. 風險 (Compact) -->
+                                        <div class="bg-red-50/40 p-4 rounded-xl border border-red-100 shadow-sm flex flex-col">
+                                            <h5 class="text-red-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
+                                                <i class="fa-solid fa-triangle-exclamation"></i> 失敗風險
+                                            </h5>
+                                            <div class="grid grid-cols-1 gap-2 flex-1">
+                                                <div class="flex items-center gap-2 bg-white px-3 py-2 rounded border border-red-100 shadow-sm">
+                                                    <span class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">1</span>
+                                                    <span class="text-slate-700 font-bold text-xs">病安事件 (用藥/感染/跌倒)</span>
+                                                </div>
+                                                <div class="flex items-center gap-2 bg-white px-3 py-2 rounded border border-red-100 shadow-sm">
+                                                    <span class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">2</span>
+                                                    <span class="text-slate-700 font-bold text-xs">溝通失誤引起申訴</span>
+                                                </div>
+                                                <div class="flex items-center gap-2 bg-white px-3 py-2 rounded border border-red-100 shadow-sm">
+                                                    <span class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">3</span>
+                                                    <span class="text-slate-700 font-bold text-xs">法遵與紀錄不全、照護斷裂</span>
                                                 </div>
                                             </div>
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-star mr-2"></i>(四) 對應之核心能力</span>
-                                                <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">醫學知識、病人照護、人際溝通。</p>
+                                        </div>
+
+                                        <!-- 3. 核心能力 (Compact) -->
+                                        <div class="bg-blue-50/40 p-4 rounded-xl border border-blue-100 shadow-sm flex flex-col">
+                                            <h5 class="text-blue-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
+                                                <i class="fa-solid fa-star"></i> 對應核心能力
+                                            </h5>
+                                            <div class="flex flex-wrap gap-2 mb-3">
+                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">醫學知識</span>
+                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">病人照護</span>
+                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">人際溝通技能</span>
+                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">制度下之臨床工作</span>
+                                            </div>
+                                            <div class="mt-auto pt-2 border-t border-blue-100">
+                                                <p class="text-slate-600 text-[11px] leading-relaxed">
+                                                    <strong class="text-slate-500">先備要件：</strong>常見內外科疾病照護知識、系統性評估技能、衛教技巧，並具備以病人為中心與主動求助之態度。
+                                                </p>
                                             </div>
                                         </div>
-                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-layer-group mr-2"></i>(五) 先備要件</span>
-                                            <ul class="list-disc pl-6 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                <li><strong>知識：</strong>常見內外科疾病照護、用藥安全與高警訊藥、感染管制、衛教與成人學習原則、院內政策。</li>
-                                                <li><strong>技能：</strong>系統評估、護理計畫、衛教、用藥與物品管控、文件與通報、跨專業溝通。</li>
-                                                <li><strong>態度：</strong>以病人為中心、病安意識、主動求助、尊重與同理。</li>
-                                            </ul>
-                                        </div>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clipboard-check mr-2"></i>(六) 評估進展所需相關資訊</span>
-                                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                    <p>☑ 筆試：每訓練期 ≥1次</p>
-                                                    <p>☑ 短期臨床觀察 (ad-hoc EPA)：每訓練期 ≥3次</p>
-                                                    <p>☑ 360度評量：每訓練期 ≥1次 (評核者須含病房護長/臨床教師/學員自評)</p>
+
+                                        <!-- 4. 評量資訊 (Compact) -->
+                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                            <h5 class="text-slate-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
+                                                <i class="fa-solid fa-clipboard-check text-slate-400"></i> 評量所需資訊
+                                            </h5>
+                                            <div class="space-y-2">
+                                                <div class="flex justify-between items-center px-3 py-1.5 bg-slate-50 rounded border border-slate-100">
+                                                    <span class="font-bold text-slate-600 text-xs">筆試</span>
+                                                    <span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border">每期 ≥1次</span>
+                                                </div>
+                                                <div class="flex justify-between items-center px-3 py-1.5 bg-slate-50 rounded border border-slate-100">
+                                                    <span class="font-bold text-slate-600 text-xs">DOPS / ad-hoc EPA</span>
+                                                    <span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border">每期 ≥3次</span>
+                                                </div>
+                                                <div class="flex justify-between items-center px-3 py-1.5 bg-slate-50 rounded border border-slate-100">
+                                                    <span class="font-bold text-slate-600 text-xs">360度評量</span>
+                                                    <span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border">每期 ≥1次</span>
                                                 </div>
                                             </div>
-                                            <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-unlock mr-2"></i>(七) 期待能獨立操作的時機 (授權標準)</span>
-                                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                    <p>完成病房核心訓練；至少2週並獨立照護 ≥5名病人；至少3件出院準備/轉介實作。</p>
-                                                    <p class="mt-2 font-bold text-teal-800">達成授權至 Level 3c (間接監督、必要時請教師確認) 以上。</p>
+                                        </div>
+
+                                        <!-- 5. 授權標準 (Highlight - Compact) -->
+                                        <div class="bg-gradient-to-br from-teal-50 to-white p-4 rounded-xl border-2 border-teal-100 shadow-sm relative overflow-hidden flex flex-col justify-between">
+                                            <div class="absolute top-0 right-0 w-16 h-16 bg-teal-100 rounded-full blur-xl opacity-50 -mr-4 -mt-4"></div>
+                                            <div>
+                                                <h5 class="text-teal-800 font-black text-sm mb-2 flex items-center gap-2 relative z-10 uppercase tracking-wide">
+                                                    <i class="fa-solid fa-unlock"></i> 授權標準
+                                                </h5>
+                                                <ul class="space-y-1.5 mb-3 relative z-10 text-xs">
+                                                    <li class="flex items-start gap-1.5 text-slate-700 font-medium"><i class="fa-solid fa-check text-teal-500 mt-0.5 text-[10px]"></i> 完成病房核心訓練課程</li>
+                                                    <li class="flex items-start gap-1.5 text-slate-700 font-medium"><i class="fa-solid fa-check text-teal-500 mt-0.5 text-[10px]"></i> 獨立照護 ≥5名病人 (2週)</li>
+                                                    <li class="flex items-start gap-1.5 text-slate-700 font-medium"><i class="fa-solid fa-check text-teal-500 mt-0.5 text-[10px]"></i> 完成 ≥3件出院準備/轉介</li>
+                                                </ul>
+                                            </div>
+                                            <div class="bg-teal-600 text-white p-2.5 rounded-lg text-center shadow-md relative z-10 mt-1">
+                                                <div class="flex justify-between items-center">
+                                                    <div class="text-left">
+                                                        <div class="text-[9px] opacity-80 font-bold tracking-wider">TARGET</div>
+                                                        <div class="text-lg font-black leading-none">Level 3c</div>
+                                                    </div>
+                                                    <div class="text-right text-[10px] font-medium opacity-90 max-w-[120px] leading-tight">間接監督<br>必要時請教師確認</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div><span class="font-bold text-teal-700 block mb-2 text-lg"><i class="fa-solid fa-clock-rotate-left mr-2"></i>(八) 信賴等級維持期限</span>
-                                            <p class="bg-slate-50 p-4 rounded-xl border border-slate-100">離開臨床⼯作 6–12 個⽉：返崗需通過 1 次 ad-hoc 與 1 次 360 度評量維持原層級；>12 個⽉：完整重新評估。</p>
+
+                                    </div>
+
+                                    <!-- 6. Maintenance Period (Full Width) -->
+                                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                        <h5 class="text-slate-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
+                                            <i class="fa-solid fa-clock-rotate-left text-slate-400"></i> 信賴等級維持期限
+                                        </h5>
+                                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-600 leading-relaxed">
+                                            <span class="font-bold text-slate-700">離開臨床⼯作 6–12 個⽉：</span>返崗需通過 1 次 ad-hoc 與 1 次 360 度評量維持原層級；<br>
+                                            <span class="font-bold text-slate-700">> 12 個⽉：</span>完整重新評估。
                                         </div>
                                     </div>
                                 </div>
@@ -859,10 +1034,27 @@
                 // Optimized Step 3: Full Height Input
                 if (stepId === 3) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed" placeholder="請在此輸入學員的主席摘要..." oninput="app.updateInput('${activeKey}','summary',this.value)">${g.students[activeKey].summary}</textarea></div></div>`;
                 
-                // 5. UPDATED Step 4: Display ARICH Descriptions
-                if (stepId === 4) return `<div class="flex flex-col h-full gap-6"><div class="grid grid-cols-4 gap-6 flex-shrink-0">${ARICH_CATS.map(cat => `<div class="glass-panel p-4 rounded-2xl border border-slate-200 text-center shadow-sm hover:shadow-lg transition hover:-translate-y-1"><div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3"><i class="fa-solid ${cat.icon}"></i></div><div class="font-bold text-slate-800 text-lg mb-1">${cat.label}</div><div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div></div>`).join('')}</div><div class="flex flex-col flex-1 glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea></div></div></div>`;
+                // 5. UPDATED Step 4: Display ARICH Descriptions + Fixed Height Input (Scrollable)
+                if (stepId === 4) return `
+                    <div class="flex flex-col gap-6">
+                        <div class="grid grid-cols-4 gap-6 flex-shrink-0">
+                            ${ARICH_CATS.map(cat => `
+                                <div class="glass-panel p-4 rounded-2xl border border-slate-200 text-center shadow-sm hover:shadow-lg transition hover:-translate-y-1">
+                                    <div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3"><i class="fa-solid ${cat.icon}"></i></div>
+                                    <div class="font-bold text-slate-800 text-lg mb-1">${cat.label}</div>
+                                    <div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm mt-6">
+                            <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
+                            <div class="p-0 relative">
+                                <textarea class="w-full p-8 text-xl focus:ring-0 border-0 h-96 resize-none" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea>
+                            </div>
+                        </div>
+                    </div>`;
                 
-                // Optimized Step 5: Decision & Plan (Split View) with TRUST LEVEL & AUTO RESULT (7 Levels)
+                // Optimized Step 5: Decision & Plan (Scrollable Stacked Layout)
                 if (stepId === 5) { 
                     const s = g.students[activeKey];
                     // Updated Level Definitions - STRICTLY LOWERCASE & NO UPPERCASE CLASS
@@ -887,11 +1079,11 @@
                     }
 
                     return `
-                    <div class="flex flex-col h-full glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm">
                         <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
                         
                         <!-- Trust Level Selection (Auto Decides Result) -->
-                        <div class="p-6 bg-slate-50/50 border-b border-slate-100 flex-shrink-0">
+                        <div class="p-6 bg-slate-50/50 border-b border-slate-100">
                             <div class="flex justify-between items-center mb-4">
                                 <h4 class="font-bold text-slate-700 text-base flex items-center">
                                     <i class="fa-solid fa-layer-group text-teal-600 mr-2"></i> 信賴程度 (Entrustment Level)
@@ -903,7 +1095,6 @@
                                 ${levels.map(item => {
                                     const isSel = s.trustLevel === item.l;
                                     const colorClass = isSel ? 'bg-teal-600 text-white border-teal-600 shadow-md ring-4 ring-teal-100 scale-105' : 'bg-white border-slate-200 text-slate-600 hover:bg-white hover:border-teal-300 hover:shadow-md';
-                                    // REMOVED 'uppercase' class from the label div below
                                     return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-3 py-3 rounded-xl border text-sm transition-all duration-200 flex flex-col justify-center min-h-[80px] ${colorClass}">
                                         <div class="font-bold text-xs opacity-70 mb-1 tracking-wider">${item.label}</div>
                                         <div class="font-bold leading-tight text-xs">${item.t}</div>
@@ -912,25 +1103,50 @@
                             </div>
                         </div>
 
-                        <!-- Text Areas -->
-                        <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-100 min-h-0">
-                            <div class="flex flex-col h-full overflow-hidden">
+                        <!-- Text Areas (Fixed Height Grid) -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
+                            <div class="flex flex-col">
                                 <div class="bg-slate-50/50 px-6 py-3 text-sm font-bold text-slate-500 border-b border-slate-100 flex items-center gap-2"><i class="fa-solid fa-comment-dots"></i> 決策原因</div>
-                                <textarea class="flex-1 w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent" placeholder="請說明原因..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea>
+                                <textarea class="w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent h-80" placeholder="請說明原因..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea>
                             </div>
-                            <div class="flex flex-col h-full overflow-hidden">
+                            <div class="flex flex-col">
                                 <div class="bg-slate-50/50 px-6 py-3 text-sm font-bold text-slate-500 border-b border-slate-100 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> 輔導方案</div>
-                                <textarea class="flex-1 w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent" placeholder="請輸入輔導計畫..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea>
+                                <textarea class="w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent h-80" placeholder="請輸入輔導計畫..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea>
                             </div>
                         </div>
                     </div>`; 
                 }
                 
                 // Optimized Step 6: Full Height Input
-                if (stepId === 6) return `<div class="flex flex-col h-full glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed" placeholder="請輸入會議紀錄與共識..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${g.students[activeKey].meetingNote}</textarea></div></div>`;
+                if (stepId === 6) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed min-h-[400px]" placeholder="請輸入會議紀錄與共識..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${g.students[activeKey].meetingNote}</textarea></div></div>`;
                 
-                // Optimized Step 7: Split View (Side by Side)
-                if (stepId === 7) return `<div class="flex flex-col h-full glass-panel rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 overflow-hidden">${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `<div class="flex flex-col h-full overflow-hidden"><div class="p-5 bg-slate-50/50 border-b border-slate-100 flex-shrink-0"><h5 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-3"><span class="bg-white border border-slate-200 w-8 h-8 flex items-center justify-center rounded-lg text-sm shadow-sm">${catIdx+1}</span> ${category}</h5><ul class="list-disc pl-6 text-sm text-slate-500 space-y-1">${items.map(i => `<li>${i}</li>`).join('')}</ul></div><div class="flex-1 flex flex-col min-h-0"><div class="flex-1 flex flex-col border-b border-slate-100"><div class="px-5 py-2 bg-white/40 text-xs font-bold text-teal-600 tracking-wider">實際觀察</div><textarea class="flex-1 w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea></div><div class="flex-1 flex flex-col"><div class="px-5 py-2 bg-white/40 text-xs font-bold text-orange-500 tracking-wider">挑戰與限制</div><textarea class="flex-1 w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea></div></div></div>`).join('')}</div></div>`;
+                // Optimized Step 7: 2-Column Grid (Scrollable)
+                if (stepId === 7) return `
+                    <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                            ${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `
+                                <div class="flex flex-col">
+                                    <div class="p-5 bg-slate-50/50 border-b border-slate-100">
+                                        <h5 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-3">
+                                            <span class="bg-white border border-slate-200 w-8 h-8 flex items-center justify-center rounded-lg text-sm shadow-sm">${catIdx+1}</span> ${category}
+                                        </h5>
+                                        <ul class="list-disc pl-6 text-sm text-slate-500 space-y-1">
+                                            ${items.map(i => `<li>${i}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                    <div class="flex flex-col border-b border-slate-100">
+                                        <div class="px-5 py-2 bg-white/40 text-xs font-bold text-teal-600 tracking-wider">實際觀察</div>
+                                        <textarea class="w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent h-64" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="px-5 py-2 bg-white/40 text-xs font-bold text-orange-500 tracking-wider">挑戰與限制</div>
+                                        <textarea class="w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent h-64" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>`;
             }
 
             renderRemediation() {
@@ -1078,7 +1294,7 @@
                 const student = group.students[group.activeStudentTab];
                 student.trustLevel = level;
                 
-                // AUTO LOGIC: Level 3c (ID 6) and above => Pass
+                // AUTO LOGIC: Level 3c (ID 6) and above is PASS
                 student.result = (level >= 6);
                 
                 this.renderCCC();
@@ -1264,9 +1480,7 @@
                 fetch(API_URL, {
                     method: 'GET',
                     mode: 'cors', // Explicitly set mode
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8'
-                    }
+                    // headers: { 'Content-Type': 'text/plain;charset=utf-8' } // REMOVED
                 })
                 .then(res => {
                     if (!res.ok) {
