@@ -30,252 +30,70 @@
             background-size: cover;
         }
 
-        /* === 1. 時尚背景主題 (Fashion Backgrounds) === */
-        /* CCC - Teal Theme */
-        body.theme-ccc {
-            background: radial-gradient(circle at 0% 0%, #f0fdfa 0%, #f8fafc 60%);
-        }
-        /* Remediation - Indigo Theme */
-        body.theme-remediation {
-            background: radial-gradient(circle at 0% 0%, #eef2ff 0%, #f8fafc 60%);
-        }
-        /* ADAPT - Orange Theme */
-        body.theme-adapt {
-            background: radial-gradient(circle at 0% 0%, #fff7ed 0%, #f8fafc 60%);
-        }
+        /* === 主題背景設定 === */
+        body.theme-ccc { background: radial-gradient(circle at 0% 0%, #f0fdfa 0%, #f8fafc 60%); }
+        body.theme-remediation { background: radial-gradient(circle at 0% 0%, #eef2ff 0%, #f8fafc 60%); }
+        body.theme-adapt { background: radial-gradient(circle at 0% 0%, #fff7ed 0%, #f8fafc 60%); }
 
-        /* === 2. 強化版 Header 背景 (Styled Header) === */
-        .header-container {
-            position: relative;
-            z-index: 50;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.05);
-            transition: all 0.5s ease;
-        }
+        /* === Header === */
+        .header-container { position: relative; z-index: 50; border-bottom: 1px solid rgba(255,255,255,0.3); box-shadow: 0 4px 20px -5px rgba(0,0,0,0.05); transition: all 0.5s ease; }
+        .header-bg-layer { position: absolute; inset: 0; z-index: -1; transition: opacity 0.5s ease; overflow: hidden; }
+        body.theme-ccc .header-bg-layer { background: linear-gradient(120deg, #ccfbf1 0%, #ffffff 100%); }
+        body.theme-remediation .header-bg-layer { background: linear-gradient(120deg, #e0e7ff 0%, #ffffff 100%); }
+        body.theme-adapt .header-bg-layer { background: linear-gradient(120deg, #ffedd5 0%, #ffffff 100%); }
 
-        /* Header 背景層 - 使用絕對定位實現流暢切換與裝飾 */
-        .header-bg-layer {
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            transition: opacity 0.5s ease;
-            overflow: hidden;
-        }
-
-        /* CCC Header Style */
-        body.theme-ccc .header-bg-layer {
-            background: linear-gradient(120deg, #ccfbf1 0%, #ffffff 100%);
-        }
-        /* 裝飾圓圈 */
-        body.theme-ccc .header-bg-layer::before {
-            content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
-        }
-
-        /* Remediation Header Style */
-        body.theme-remediation .header-bg-layer {
-            background: linear-gradient(120deg, #e0e7ff 0%, #ffffff 100%);
-        }
-        body.theme-remediation .header-bg-layer::before {
-            content: ''; position: absolute; top: -100px; right: 20%; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
-        }
-
-        /* ADAPT Header Style */
-        body.theme-adapt .header-bg-layer {
-            background: linear-gradient(120deg, #ffedd5 0%, #ffffff 100%);
-        }
-        body.theme-adapt .header-bg-layer::before {
-            content: ''; position: absolute; bottom: -50px; right: -20px; width: 250px; height: 250px;
-            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
-        }
-
-        /* === 3. Watermark Logo (放大並增加透明度) === */
+        /* === 浮水印 === */
         .bg-watermark {
-            position: fixed;
-            bottom: -5%;
-            right: -5%;
-            width: 65vh; /* 加大尺寸 */
-            height: 65vh;
+            position: fixed; bottom: -5%; right: -5%; width: 65vh; height: 65vh;
             background-image: url('https://raw.githubusercontent.com/Yeeeeting/CMHCCCRPDSP/main/LOGO-BLUE.png');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            opacity: 0.08; /* 稍微增加不透明度使其更明顯 */
-            z-index: 0;
-            pointer-events: none;
-            transform: rotate(-10deg);
-            filter: grayscale(10%);
-            transition: all 0.8s ease;
+            background-repeat: no-repeat; background-position: center; background-size: contain;
+            opacity: 0.08; z-index: 0; pointer-events: none; transform: rotate(-10deg); filter: grayscale(10%); transition: all 0.8s ease;
         }
-        
-        /* ADAPT 模式下浮水印微調 */
-        body.theme-adapt .bg-watermark {
-            transform: rotate(0deg) scale(1.05);
-            opacity: 0.07;
-        }
+        body.theme-adapt .bg-watermark { transform: rotate(0deg) scale(1.05); opacity: 0.07; }
 
-        /* === Utilities === */
+        /* === 通用元件 === */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 4px; }
+        textarea:focus, input:focus { outline: none; border-color: var(--primary-indigo); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background-color: #fff; }
 
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { -moz-appearance: textfield; }
-
-        /* === Components === */
+        /* Dashboard Card */
         .dashboard-card {
-            background: rgba(255, 255, 255, 0.7); /* 增加透明感 */
-            backdrop-filter: blur(12px);
-            border-radius: 24px; /* 更圓潤 */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02); border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; z-index: 10;
         }
-        .dashboard-card:active { transform: scale(0.98); }
-        @media (min-width: 768px) {
-            .dashboard-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
-                border-color: rgba(255, 255, 255, 1);
-                background: rgba(255, 255, 255, 0.9);
-            }
-        }
+        .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08); background: rgba(255, 255, 255, 0.9); }
 
-        /* Step Navigation */
-        .step-scroll-container { display: flex; overflow-x: auto; gap: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 20; }
-        .step-pill { flex: 0 0 auto; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.9rem; font-weight: 600; color: #64748b; background: #f1f5f9; border: 1px solid #e2e8f0; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
-        .step-pill.active { background: #0f766e; color: white; border-color: #0f766e; box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2); }
-
-        /* Sidebar */
-        .sidebar-header { background-color: #115e59; color: white; }
-        .sidebar-item { padding: 0.85rem 1.25rem; border-left: 4px solid transparent; cursor: pointer; transition: all 0.2s ease; }
-        .sidebar-item:hover { background-color: #f8fafc; }
-        .sidebar-item.active { background-color: #f0fdfa; border-left-color: #0d9488; }
-        .sidebar-item .label { font-size: 0.65rem; font-weight: 800; letter-spacing: 0.05em; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.1rem; }
-        .sidebar-item.active .label { color: #2dd4bf; }
-        .sidebar-item .title { font-size: 0.9rem; font-weight: 700; color: #334155; }
-        .sidebar-item.active .title { color: #0f766e; }
-
-        /* Optimized Inputs */
-        textarea, input[type="text"] { 
-            font-size: 1rem !important; 
-            border-radius: 12px; 
-            border: 1px solid #cbd5e1; 
-            padding: 12px; 
-            width: 100%; 
-            transition: all 0.2s; 
-            line-height: 1.5;
-            background-color: rgba(255, 255, 255, 0.6); /* 輸入框也帶一點透明 */
-        }
-        textarea:focus, input:focus { 
-            outline: none; 
-            border-color: var(--primary-indigo); 
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); 
-            background-color: #fff;
-        }
-        .textarea-fill {
-            height: 100%;
-            min-height: 150px;
-            resize: none;
-        }
-        .auto-expand { 
-            min-height: 100px; 
-            overflow-y: hidden;
-            resize: none; 
-        }
-
-        /* Mobile Action Bar */
-        .mobile-action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 12px 20px; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 40; border-top: 1px solid #f1f5f9; display: flex; gap: 12px; }
-        @media (min-width: 1024px) { .mobile-action-bar { position: static; box-shadow: none; border-top: none; padding: 0; background: transparent; } }
-
-        /* Nav Pills */
+        /* Navigation */
         .nav-pill { position: relative; padding: 0.8rem 1.5rem; font-weight: 700; font-size: 1rem; color: #64748b; transition: color 0.3s; cursor: pointer; white-space: nowrap; }
         .nav-pill.active { color: #0f172a; }
         .nav-pill.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 4px; background: currentColor; border-radius: 3px 3px 0 0; }
 
-        /* Tables */
-        .rem-table th { background-color: #f8fafc; color: #475569; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; padding: 1rem; border-bottom: 2px solid #e2e8f0; white-space: nowrap; text-align: left; }
-        .rem-table td { padding: 1rem; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
-        .rem-table textarea { min-height: 80px; resize: vertical; }
+        /* Sidebar & Steps */
+        .sidebar-item { padding: 0.85rem 1.25rem; border-left: 4px solid transparent; cursor: pointer; transition: all 0.2s ease; }
+        .sidebar-item:hover { background-color: #f8fafc; }
+        .sidebar-item.active { background-color: #f0fdfa; border-left-color: #0d9488; }
+        .step-pill { flex: 0 0 auto; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.9rem; font-weight: 600; color: #64748b; background: #f1f5f9; border: 1px solid #e2e8f0; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
+        .step-pill.active { background: #0f766e; color: white; border-color: #0f766e; }
 
-        /* Training Standard Table */
-        .std-table th { background-color: #f1f5f9; color: #334155; font-size: 0.8rem; padding: 8px; border: 1px solid #cbd5e1; white-space: nowrap; }
-        .std-table td { padding: 8px; border: 1px solid #e2e8f0; font-size: 0.9rem; vertical-align: middle; }
-        .std-table .cat-header { background-color: #f8fafc; font-weight: bold; color: #0f766e; }
-        
-        /* Animations */
-        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Loading Overlay */
-        #loading-overlay {
-            position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 999;
-            display: flex; flex-col; align-items: center; justify-content: center;
-            transition: opacity 0.3s;
-        }
-        .spinner {
-            width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #0d9488; border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        /* Loading */
+        #loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.3s; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #0d9488; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Sync Status Icon Animation */
         .sync-spin { animation: spin 1.5s linear infinite; }
 
-        /* ADAPT Custom Colors */
+        /* ADAPT Custom */
         .text-adapt { color: #ED7D31; }
         .bg-adapt { background-color: #ED7D31; }
-        .border-adapt { border-color: #ED7D31; }
         .hover-bg-adapt:hover { background-color: #d06015; }
-        
-        button { font-size: 1rem; }
-        
-        /* Glass effect for main containers */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-        }
-        
-        /* New: Scrollable Table Wrapper for Modal */
-        .table-scroll-wrapper {
-            max-height: 60vh;
-            overflow-y: auto;
-            border-radius: 0.75rem;
-            border: 1px solid #e2e8f0;
-        }
-        
-        /* Custom Scrollbar for inner content */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.5);
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 116, 139, 0.8);
-        }
-        
-        /* Role Content Formatting */
-        .role-content strong { color: #0f766e; font-weight: 800; display: block; margin-top: 0.5rem; margin-bottom: 0.2rem; }
-        .role-content ul { padding-left: 1.2rem; list-style-type: disc; margin-bottom: 0.5rem; }
-        .role-content li { margin-bottom: 0.2rem; }
     </style>
 </head>
 <body class="flex flex-col h-screen overflow-hidden text-slate-800 theme-ccc">
 
-    <!-- Watermark Background (放大且更明顯) -->
     <div class="bg-watermark"></div>
 
     <!-- Loading Overlay -->
@@ -285,13 +103,11 @@
         <div class="text-sm text-slate-400 mt-2">請稍候，正在讀取最新的演練進度</div>
     </div>
 
-    <!-- Header (全新背景設計) -->
+    <!-- Header -->
     <header class="header-container flex-shrink-0">
-        <div class="header-bg-layer"></div> <!-- 動態背景層 -->
-        
+        <div class="header-bg-layer"></div>
         <div class="w-full px-6 h-24 flex items-center justify-between relative z-10">
             <div class="flex items-center gap-5">
-                <!-- 放大 Logo 容器與圖示 -->
                 <div id="app-icon" class="w-16 h-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105">
                     <i class="fa-solid fa-user-doctor text-4xl"></i>
                 </div>
@@ -301,10 +117,8 @@
                 </div>
             </div>
             <div class="flex items-center gap-5">
-                <!-- Auto Sync Status -->
-                <div id="sync-status" class="text-slate-400 text-sm flex items-center gap-2 transition-colors font-medium bg-white/50 px-3 py-1 rounded-full" title="雲端同步狀態">
-                    <i class="fa-solid fa-cloud"></i>
-                    <span id="sync-text">就緒</span>
+                <div id="sync-status" class="text-slate-400 text-sm flex items-center gap-2 transition-colors font-medium bg-white/50 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-cloud"></i> <span id="sync-text">就緒</span>
                 </div>
                 <div class="bg-white/80 backdrop-blur-md px-6 py-3 rounded-full text-2xl font-mono font-bold text-slate-700 border border-slate-200/60 flex items-center gap-3 shadow-sm">
                     <i class="fa-regular fa-clock text-slate-400"></i> <span id="global-timer">00:00</span>
@@ -312,7 +126,7 @@
             </div>
         </div>
         
-        <!-- Tab Navigation (透明背景) -->
+        <!-- Tab Navigation -->
         <div class="bg-white/40 backdrop-blur-md border-t border-white/50">
             <div class="w-full px-6 flex gap-6 overflow-x-auto no-scrollbar py-1">
                 <button onclick="app.switchModule('ccc')" id="tab-ccc" class="nav-pill active text-teal-800 border-teal-600">
@@ -322,7 +136,7 @@
                     <i class="fa-solid fa-clipboard-list mr-2"></i> 補強計畫
                 </button>
                 <button onclick="app.switchModule('adapt')" id="tab-adapt" class="nav-pill text-slate-500">
-                    <i class="fa-solid fa-comments mr-2"></i> 結構化回饋
+                    <i class="fa-solid fa-comments mr-2"></i> 結構性回饋
                 </button>
             </div>
         </div>
@@ -333,25 +147,19 @@
         <!-- Views injected here -->
     </main>
 
-    <!-- Modal (General Purpose) -->
+    <!-- Modal -->
     <div id="custom-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="app.closeModal()"></div>
         <div class="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-3xl transform transition-all scale-100 flex flex-col max-h-[90vh]" id="modal-content">
-            
-            <!-- Header (Icon & Title) -->
             <div class="flex flex-col items-center text-center mb-6 flex-shrink-0" id="modal-header">
                 <div id="modal-icon" class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-4 text-4xl shadow-sm text-slate-500">
                     <i class="fa-solid fa-info"></i>
                 </div>
                 <h3 id="modal-title" class="text-3xl font-bold text-slate-800">提示</h3>
             </div>
-
-            <!-- Body (Scrollable) -->
             <div class="w-full mb-8 overflow-y-auto flex-1 pr-2 custom-scrollbar" id="modal-body-container">
                  <div id="modal-message" class="text-slate-600 text-xl leading-relaxed text-left">內容</div>
             </div>
-
-            <!-- Footer (Buttons) -->
             <div class="flex gap-4 w-full mt-auto pt-4 border-t border-slate-100" id="modal-actions">
                 <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg transition">取消</button>
                 <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 hover:bg-teal-700 text-lg transition">確定</button>
@@ -379,11 +187,10 @@
     <template id="tpl-ccc-group">
         <div class="flex flex-col lg:flex-row h-full w-full fade-in overflow-hidden">
             <div class="lg:hidden step-scroll-container flex-shrink-0" id="mobile-step-list"></div>
-            <!-- Sidebar -->
             <div class="hidden lg:flex flex-col w-60 bg-white/90 backdrop-blur-md border-r border-slate-200/60 overflow-hidden shadow-lg flex-shrink-0 h-full z-20">
-                <div class="p-5 sidebar-header flex justify-between items-start shadow-md">
+                <div class="p-5 sidebar-header flex justify-between items-start shadow-md bg-teal-800 text-white">
                     <div class="flex items-center gap-3">
-                         <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-teal-600 shadow-sm transition-all" title="返回儀表板">
+                         <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition" title="返回儀表板">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
                         <div>
@@ -394,9 +201,7 @@
                 </div>
                 <div class="flex-1 overflow-y-auto p-2" id="desktop-step-list"></div>
             </div>
-            <!-- Main Content Area -->
             <div class="flex-1 flex flex-col bg-white/50 backdrop-blur-sm h-full relative overflow-hidden">
-                <!-- Top Bar -->
                 <div class="px-8 py-5 border-b border-slate-100 bg-white/80 backdrop-blur-md flex-shrink-0 flex justify-between items-center z-10 shadow-sm">
                     <div>
                         <div class="lg:hidden mb-3">
@@ -407,16 +212,11 @@
                         <h2 class="text-3xl font-bold text-slate-800 leading-tight" id="current-step-title"></h2>
                         <p class="text-base text-slate-500 font-medium mt-1" id="current-step-desc"></p>
                     </div>
-                    <!-- Action Button (Desktop) -->
                     <div class="hidden lg:block">
                         <button id="next-step-btn-desktop" class="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-teal-600/30 hover:bg-teal-700 hover:-translate-y-0.5 transition flex items-center gap-2 text-lg">下一步 <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
-                
-                <!-- Content Scroll Area -->
                 <div class="flex-1 overflow-y-auto p-8 flex flex-col" id="step-content"></div>
-                
-                <!-- Mobile Action Bar -->
                 <div class="mobile-action-bar lg:hidden flex-shrink-0">
                      <button id="next-step-btn-mobile" class="w-full bg-teal-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-teal-600/20 active:scale-95 transition flex items-center justify-center gap-2 text-lg">下一步 <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
@@ -427,7 +227,6 @@
     <!-- 3. REMEDIATION GROUP VIEW -->
     <template id="tpl-remediation-group">
         <div class="w-full h-full flex flex-col fade-in overflow-hidden">
-            <!-- Header Area -->
             <div class="bg-white/90 backdrop-blur-md px-8 py-5 border-b border-slate-200 flex justify-between items-center flex-shrink-0 shadow-sm z-10">
                 <div class="flex items-center gap-4">
                     <button onclick="app.loadDashboard()" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-teal-600 shadow-sm transition-all" title="返回儀表板">
@@ -442,14 +241,12 @@
             </div>
             
             <div class="flex-1 overflow-y-auto p-4 lg:p-6 flex flex-col">
-                <!-- CCC Reference Block (Collapsible style) -->
                 <div class="mb-6 bg-white/80 backdrop-blur border border-indigo-100 rounded-2xl shadow-sm p-6 relative flex-shrink-0">
                     <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500 rounded-l-2xl"></div>
                     <h3 class="font-bold text-slate-700 text-xl mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-info text-indigo-500"></i> CCC 參考資訊</h3>
                     <div id="rem-ccc-reference"></div>
                 </div>
 
-                <!-- Table Container -->
                 <div class="bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-white/50 flex-1 flex flex-col overflow-hidden min-h-[400px]">
                     <div class="p-5 border-b border-slate-200 bg-white/50 flex justify-between items-center flex-shrink-0">
                         <h4 class="font-bold text-slate-800 flex items-center gap-2 text-xl">
@@ -460,25 +257,23 @@
                         </button>
                     </div>
                     
-                    <!-- Desktop Table View -->
                     <div class="hidden lg:block overflow-auto flex-1">
-                        <table class="w-full rem-table min-w-[1200px]">
+                        <table class="w-full rem-table min-w-[1200px] text-left">
                             <thead class="sticky top-0 z-10 shadow-sm">
                                 <tr>
-                                    <th class="w-[20%]">缺失/問題</th>
-                                    <th class="w-[15%]">核心能力</th>
-                                    <th class="w-[20%]">行動計畫</th>
-                                    <th class="w-[15%]">評量方法</th>
-                                    <th class="w-[15%]">目標</th>
-                                    <th class="w-[10%]">期限</th>
-                                    <th class="w-[5%]"></th>
+                                    <th class="w-[20%] p-4 bg-slate-50 border-b-2 border-slate-200 text-slate-600 font-bold">缺失/問題</th>
+                                    <th class="w-[15%] p-4 bg-slate-50 border-b-2 border-slate-200 text-slate-600 font-bold">核心能力</th>
+                                    <th class="w-[20%] p-4 bg-slate-50 border-b-2 border-slate-200 text-slate-600 font-bold">行動計畫</th>
+                                    <th class="w-[15%] p-4 bg-slate-50 border-b-2 border-slate-200 text-slate-600 font-bold">評量方法</th>
+                                    <th class="w-[15%] p-4 bg-slate-50 border-b-2 border-slate-200 text-slate-600 font-bold">目標</th>
+                                    <th class="w-[10%] p-4 bg-slate-50 border-b-2 border-slate-200 text-slate-600 font-bold">期限</th>
+                                    <th class="w-[5%] p-4 bg-slate-50 border-b-2 border-slate-200"></th>
                                 </tr>
                             </thead>
                             <tbody id="rem-table-body-desktop"></tbody>
                         </table>
                     </div>
 
-                    <!-- Mobile Card View -->
                     <div class="lg:hidden p-4 space-y-4 overflow-y-auto flex-1" id="rem-list-mobile"></div>
 
                     <div id="rem-empty-state" class="text-center py-20 hidden bg-transparent flex-1 flex flex-col justify-center items-center">
@@ -490,7 +285,6 @@
                 </div>
             </div>
 
-            <!-- Footer Actions -->
             <div class="bg-white/90 backdrop-blur border-t border-slate-200 p-6 flex justify-end gap-4 flex-shrink-0 z-20">
                 <button onclick="app.completeRemediation()" class="w-full lg:w-auto bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold shadow-lg shadow-indigo-600/30 hover:bg-indigo-700 hover:-translate-y-0.5 transition flex items-center justify-center gap-2 text-lg">
                     提交計畫 <i class="fa-solid fa-paper-plane"></i>
@@ -499,7 +293,7 @@
         </div>
     </template>
 
-    <!-- 4. ADAPT GROUP VIEW -->
+    <!-- 4. STRUCTURED FEEDBACK GROUP VIEW (Updated per PDF) -->
     <template id="tpl-adapt-group">
         <div class="w-full h-full flex flex-col fade-in overflow-hidden">
             <!-- Header Area -->
@@ -509,21 +303,41 @@
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div>
-                        <h2 class="font-bold text-slate-800 text-2xl" id="adapt-group-title">第 1 組 結構化回饋</h2>
+                        <h2 class="font-bold text-slate-800 text-2xl" id="adapt-group-title">第 1 組 結構性回饋技巧</h2>
                         <p class="text-sm text-slate-500 font-bold tracking-wide text-orange-500">STRUCTURED FEEDBACK</p>
                     </div>
                 </div>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar" id="adapt-tabs-container"></div>
+                <!-- Mobile Only Tab Switcher -->
+                <div class="lg:hidden flex gap-2 overflow-x-auto no-scrollbar" id="adapt-tabs-container"></div>
             </div>
             
-            <div class="flex-1 overflow-y-auto p-4 lg:p-8">
-                <div class="space-y-8 max-w-6xl mx-auto" id="adapt-content"></div>
+            <div class="flex-1 overflow-y-auto p-4 lg:p-8 bg-slate-50/50">
+                <div class="max-w-7xl mx-auto h-full flex flex-col">
+                    
+                    <!-- Instruction Card -->
+                    <div class="mb-6 bg-white p-6 rounded-2xl border border-orange-100 shadow-sm flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-lg mb-1">演練記錄說明</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed">
+                                請根據演練過程，記錄兩位學員（王大明、李小美）在回饋對話中所運用的技巧，以及觀察到的限制與挑戰。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Area -->
+                    <div id="adapt-content" class="flex-1">
+                        <!-- Content will be injected by JS -->
+                    </div>
+                </div>
             </div>
 
             <!-- Footer Actions -->
             <div class="bg-white/90 backdrop-blur border-t border-slate-200 p-6 flex justify-end gap-4 flex-shrink-0 z-20">
                  <button onclick="app.completeAdapt()" class="w-full lg:w-auto bg-adapt hover-bg-adapt text-white px-10 py-4 rounded-xl font-bold shadow-lg shadow-[#ed7d31]/30 transition hover:-translate-y-0.5 flex items-center justify-center gap-2 text-lg">
-                    提交 ADAPT 紀錄 <i class="fa-solid fa-check-circle"></i>
+                    提交回饋紀錄 <i class="fa-solid fa-paper-plane"></i>
                  </button>
             </div>
         </div>
@@ -543,66 +357,16 @@
             { id: 7, title: "觀察員紀錄", duration: 0, desc: "觀察員填寫回饋表單", label: "觀察員專區" }
         ];
 
-        const ADAPT_STEPS = [
-            { id: 'A1', label: 'A - Ask (詢問自評)', desc: '詢問學員對自己表現的看法，引導自我反思。' },
-            { id: 'D',  label: 'D - Discuss (討論觀點)', desc: '針對具體行為進行討論，確認雙方認知一致。' },
-            { id: 'A2', label: 'A - Ask (詢問理解)', desc: '詢問學員對問題的理解或解決方案的想法。' },
-            { id: 'P',  label: 'P - Plan (擬定計畫)', desc: '共同制定具體可行的改善計畫。' },
-            { id: 'T',  label: 'T - Teach (重點教學)', desc: '給予關鍵知識點或技巧指導 (Teachable moment)。' }
-        ];
-
-        // 1. UPDATED ROLES (Detailed Formatted HTML)
         const ROLES = [
-            { 
-                name: "CCC主席", 
-                count: 1, 
-                icon: "fa-gavel", 
-                desc: "<div class='role-content'><strong>【角色身份】</strong>經驗豐富的 PGY 資深臨床教師，熟悉二年期新進護理師訓練計畫。<strong>【主要任務】</strong><ul class='list-disc'><li>促進討論、統整觀點並引導決策流程。</li><li>確保各方意見被充分聆聽與表達。</li><li>營造安全開放的對話氛圍，鼓勵充分討論。</li><li>協助建立共識，提出具體的總結性建議。</li></ul></div>" 
-            },
-            { 
-                name: "會議記錄者", 
-                count: 1, 
-                icon: "fa-pen-to-square", 
-                desc: "<div class='role-content'><strong>【角色身份】</strong>護理部教學行政人員，熟悉 CCC 會議紀錄格式。<br><span class='text-xs text-slate-400'>*不參與臨床教學或進度管理。</span><strong>【主要任務】</strong><ul class='list-disc'><li>客觀、忠實地記錄會議內容。</li><li>專注記錄委員對兩位學員（王大明、李小美）的討論重點：包含優點、待改進處、異常事件檢討。</li><li>記錄最後宣告的決議結果，確保與發言一致。</li></ul></div>" 
-            },
-            { 
-                name: "護理部教學負責人", 
-                count: 1, 
-                icon: "fa-clipboard-user", 
-                desc: "<div class='role-content'><strong>【角色身份】</strong>任職滿 10 年，長期關注學員進度。與學員無直接臨床共事，但透過系統掌握狀況。<strong>【掌握資訊】</strong><ul class='list-disc'><li>知悉兩位學員（王大明、李小美）皆發生異常事件。</li><li>護理長與臨床教師已反映狀況，並已提出回饋。</li></ul></div>" 
-            },
-            { 
-                name: "病房資深臨床教師", 
-                count: 1, 
-                icon: "fa-user-tie", 
-                desc: "<div class='role-content'><strong>【角色身份】</strong>20 年經驗，負責 PGY 臨床學習與生活輔導。主要以床邊教學與個別談話進行引導。<strong>【學員觀點】</strong><ul class='list-disc'><li><strong>王大明：</strong>知識/技術/效率佳，但團隊連結與求助時機需加強。針對異常事件（管制藥、溝通），要求完成改善計畫並經抽查後，才考慮通過。</li><li><strong>李小美：</strong>穩健遵循 SOP，誠實回報且願請益。雖判讀保守，但建議讓她進入下一階段訓練。</li></ul></div>" 
-            },
-            { 
-                name: "病房護理長", 
-                count: 1, 
-                icon: "fa-user-nurse", 
-                desc: "<div class='role-content'><strong>【角色身份】</strong>護理長 >10 年。重視規範落實，積極建立同儕互助與安全文化。<strong>【學員觀點】</strong><ul class='list-disc'><li><strong>王大明：</strong>主動學習快，能獨立完成任務。但異常事件暴露規範與團隊責任警訊。期待看到藥物歸位與醫病溝通的改善證據，否則難以信賴。</li><li><strong>李小美：</strong>認真可靠、交班完整、樂於修正並能尋求協助。整體能力值得肯定。</li></ul></div>" 
-            },
-            { 
-                name: "病房新任臨床教師", 
-                count: 1, 
-                icon: "fa-id-badge", 
-                desc: "<div class='role-content'><strong>【角色身份】</strong>新任 PGY 指導教師（學姐）。首次參與 CCC。負責床邊教學與評核。<strong>【學員觀點】</strong><ul class='list-disc'><li><strong>王大明：</strong>技術效率優於同儕，禮貌溝通順暢。雖對同儕偶有命令語氣且互動少，但認為能力足以給予信賴授權。</li><li><strong>李小美：</strong>動機強、記錄確實。流程穩健但整體能力尚未達預期，建議給予更多時間學習後再行評核。</li></ul></div>" 
-            },
-            { 
-                name: "觀察員", 
-                count: "N", 
-                icon: "fa-eye", 
-                desc: "<div class='role-content'><strong>【主要任務】</strong><ul class='list-disc'><li>依「臨床能力委員會討論過程-觀察表」客觀旁觀。</li><li>記錄：會議流程、委員發言重點、決策形成過程。</li><li>會後回饋所觀察到的優勢與可改進之處。</li></ul></div>" 
-            }
+            { name: "CCC主席", count: 1, icon: "fa-gavel", desc: "<div class='role-content'><strong>【角色身份】</strong>經驗豐富的 PGY 資深臨床教師...</div>" },
+            { name: "會議記錄者", count: 1, icon: "fa-pen-to-square", desc: "<div class='role-content'><strong>【角色身份】</strong>護理部教學行政人員...</div>" },
+            { name: "護理部教學負責人", count: 1, icon: "fa-clipboard-user", desc: "<div class='role-content'><strong>【角色身份】</strong>任職滿 10 年...</div>" },
+            { name: "病房資深臨床教師", count: 1, icon: "fa-user-tie", desc: "<div class='role-content'><strong>【角色身份】</strong>20 年經驗，負責 PGY...</div>" },
+            { name: "病房護理長", count: 1, icon: "fa-user-nurse", desc: "<div class='role-content'><strong>【角色身份】</strong>護理長 >10 年...</div>" },
+            { name: "病房新任臨床教師", count: 1, icon: "fa-id-badge", desc: "<div class='role-content'><strong>【角色身份】</strong>新任 PGY 指導教師...</div>" },
+            { name: "觀察員", count: "N", icon: "fa-eye", desc: "<div class='role-content'><strong>【主要任務】</strong>依「臨床能力委員會討論過程-觀察表」...</div>" }
         ];
 
-        const OBSERVER_ITEMS = {
-            "會議程序": ["主席有說明會議的目的與重點", "適當引導發言順序為「由幼至長」", "討論的過程展現意見的「多樣性」", "意見衝突時的處理機制"],
-            "決策過程": ["決策考慮學員的專業素養 (ARICH)", "決策主要依據具體之「客觀事證」", "不受限於「階級」與「和諧」之框架", "達到「共享心智模式」之師培目的"]
-        };
-
-        // 2. UPDATED ARICH DEFINITIONS
         const ARICH_CATS = [
             { id: 'integrity', label: '誠信', icon: 'fa-scale-balanced', desc: '誠實與仁慈' },
             { id: 'reliability', label: '可靠性', icon: 'fa-shield-halved', desc: '盡責與穩定' },
@@ -610,16 +374,31 @@
             { id: 'agency', label: '行動力', icon: 'fa-person-running', desc: '積極主動' }
         ];
 
+        const OBSERVER_ITEMS = {
+            "會議程序": ["主席有說明會議的目的與重點", "適當引導發言順序為「由幼至長」", "討論的過程展現意見的「多樣性」", "意見衝突時的處理機制"],
+            "決策過程": ["決策考慮學員的專業素養 (ARICH)", "決策主要依據具體之「客觀事證」", "不受限於「階級」與「和諧」之框架", "達到「共享心智模式」之師培目的"]
+        };
+
         class App {
             constructor() {
                 this.currentModule = 'ccc';
-                this.isSyncing = false; // New: Sync Lock
+                this.isSyncing = false;
                 this.groups = Array.from({ length: 8 }, (_, i) => ({
                     id: i + 1,
                     cccStep: 0, cccCompleted: false, remCompleted: false, adaptCompleted: false,
                     students: {
-                        daming: { name: "王大明", result: null, reason: "", plan: "", summary: "", qualityNote: "", meetingNote: "", remediationPlan: [], adaptLog: {}, trustLevel: null },
-                        xiaomei: { name: "李小美", result: null, reason: "", plan: "", summary: "", qualityNote: "", meetingNote: "", remediationPlan: [], adaptLog: {}, trustLevel: null }
+                        daming: { 
+                            name: "王大明", result: null, reason: "", plan: "", summary: "", qualityNote: "", meetingNote: "", 
+                            remediationPlan: [], 
+                            feedbackTechniques: "", challengesLimits: "", // UPDATED for new ADAPT
+                            trustLevel: null 
+                        },
+                        xiaomei: { 
+                            name: "李小美", result: null, reason: "", plan: "", summary: "", qualityNote: "", meetingNote: "", 
+                            remediationPlan: [], 
+                            feedbackTechniques: "", challengesLimits: "", // UPDATED for new ADAPT
+                            trustLevel: null 
+                        }
                     },
                     activeStudentTab: 'daming', observerData: {}
                 }));
@@ -627,15 +406,8 @@
                 this.secondsElapsed = 0;
                 
                 this.initTimer();
-                // Initialize Data Fetch & Auto-Refresh
-                this.fetchDataFromGoogleSheet(false); // Initial load (with overlay)
-                
-                // Auto-refresh every 30 seconds (Increased from 10s to avoid Server Busy)
-                setInterval(() => {
-                    this.fetchDataFromGoogleSheet(true); // Background load
-                }, 30000);
-
-                // DEFAULT LOAD: Start with CCC Module directly in Group 1 (Demo Requirement)
+                this.fetchDataFromGoogleSheet(false);
+                setInterval(() => { this.fetchDataFromGoogleSheet(true); }, 30000);
                 this.switchModule('ccc');
             }
 
@@ -648,47 +420,30 @@
                 }, 1000);
             }
 
-            // Auto-resize textarea helper
-            autoResize(el) {
-                el.style.height = 'auto';
-                el.style.height = (el.scrollHeight) + 'px';
-            }
-
             switchModule(mod) {
                 this.currentModule = mod;
-                // Reset active group ID unless we are in CCC mode where we want auto-entry
-                if (mod !== 'ccc') {
-                    this.activeGroupId = null;
-                }
-                
-                // Switch Theme Classes
+                if (mod !== 'ccc') this.activeGroupId = null;
                 document.body.classList.remove('theme-ccc', 'theme-remediation', 'theme-adapt');
                 document.body.classList.add(`theme-${mod}`);
-                
-                // Reset Classes
                 ['ccc', 'remediation', 'adapt'].forEach(m => {
                     const el = document.getElementById(`tab-${m}`);
                     if(m === mod) {
                         el.classList.add('active');
-                        // Dynamic Color per module
-                        if(mod === 'ccc') { el.classList.add('text-teal-800', 'border-teal-600'); document.documentElement.style.setProperty('--primary-color', '#0d9488'); }
-                        if(mod === 'remediation') { el.classList.add('text-indigo-800', 'border-indigo-600'); document.documentElement.style.setProperty('--primary-color', '#4f46e5'); }
-                        if(mod === 'adapt') { el.classList.add('text-[#d06015]', 'border-[#d06015]'); document.documentElement.style.setProperty('--primary-color', '#ed7d31'); }
+                        if(mod === 'ccc') { el.classList.add('text-teal-800', 'border-teal-600'); }
+                        if(mod === 'remediation') { el.classList.add('text-indigo-800', 'border-indigo-600'); }
+                        if(mod === 'adapt') { el.classList.add('text-[#d06015]', 'border-[#d06015]'); }
                     } else {
                         el.classList.remove('active', 'text-teal-800', 'border-teal-600', 'text-indigo-800', 'border-indigo-600', 'text-[#d06015]', 'border-[#d06015]');
                         el.classList.add('text-slate-500');
                     }
                 });
-
+                
                 const icon = document.getElementById('app-icon');
-                // Updated icon classes for larger size
                 if(mod === 'ccc') icon.className = `w-16 h-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
                 if(mod === 'remediation') icon.className = `w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
                 if(mod === 'adapt') icon.className = `w-16 h-16 rounded-2xl bg-adapt text-white flex items-center justify-center shadow-lg transition-colors duration-500 transform hover:scale-105`;
 
-                // Logic to handle CCC Auto-Entry
                 if (mod === 'ccc') {
-                    // Default to Group 1 if no group is selected
                     const targetGroup = this.activeGroupId || 1;
                     this.loadGroup(targetGroup);
                 } else {
@@ -707,8 +462,6 @@
                 const titleEl = document.getElementById('dashboard-title');
                 const descEl = document.getElementById('dashboard-desc');
                 const titleClass = document.getElementById('dashboard-title').classList;
-                
-                // Clear prev title colors
                 titleClass.remove('text-teal-900', 'text-indigo-900', 'text-adapt');
 
                 if(this.currentModule === 'ccc') {
@@ -720,8 +473,8 @@
                     descEl.innerText = "針對學員缺失設計具體行動方案";
                     titleClass.add('text-indigo-900');
                 } else {
-                    titleEl.innerText = "結構化回饋模組";
-                    descEl.innerText = "紀錄回饋流程是否順暢";
+                    titleEl.innerText = "結構性回饋模組";
+                    descEl.innerText = "記錄回饋技巧與觀察重點";
                     titleClass.add('text-adapt');
                 }
 
@@ -739,15 +492,15 @@
                 if(this.currentModule === 'ccc') {
                     barColor = "bg-teal-500";
                     if (g.cccCompleted) { progress = 100; statusColor = "bg-green-500"; statusText = "已完成"; } 
-                    else if (g.cccStep > 0 || this.hasEnteredData(g)) { progress = Math.min(90, (g.cccStep / 6) * 100); statusColor = "bg-yellow-400"; statusText = "進行中"; }
+                    else if (g.cccStep > 0) { progress = Math.min(90, (g.cccStep / 6) * 100); statusColor = "bg-yellow-400"; statusText = "進行中"; }
                 } else if(this.currentModule === 'remediation') {
                     barColor = "bg-indigo-500";
                     if (g.remCompleted) { progress = 100; statusColor = "bg-green-500"; statusText = "完成"; }
-                    else if (g.students.daming.remediationPlan.length > 0 || g.students.xiaomei.remediationPlan.length > 0) { progress = 50; statusColor = "bg-yellow-400"; statusText = "進行中"; }
+                    else if (g.students.daming.remediationPlan.length > 0) { progress = 50; statusColor = "bg-yellow-400"; statusText = "進行中"; }
                 } else {
                     barColor = "bg-adapt";
                     if (g.adaptCompleted) { progress = 100; statusColor = "bg-green-500"; statusText = "完成"; }
-                    else if (Object.keys(g.students.daming.adaptLog).length > 0 || Object.keys(g.students.xiaomei.adaptLog).length > 0) { progress = 50; statusColor = "bg-yellow-400"; statusText = "進行中"; }
+                    else if (g.students.daming.feedbackTechniques || g.students.xiaomei.feedbackTechniques) { progress = 50; statusColor = "bg-yellow-400"; statusText = "進行中"; }
                 }
 
                 div.innerHTML = `
@@ -764,8 +517,6 @@
                     </div>`;
                 return div;
             }
-            
-            hasEnteredData(group) { const s1=group.students.daming; const s2=group.students.xiaomei; return s1.summary||s1.reason||s1.plan||s1.qualityNote||s1.meetingNote||s1.result!==null || s2.summary||s2.reason||s2.plan||s2.qualityNote||s2.meetingNote||s2.result!==null; }
 
             loadGroup(id) {
                 this.activeGroupId = id;
@@ -773,27 +524,21 @@
                 container.innerHTML = '';
                 container.scrollTop = 0;
                 if (this.currentModule === 'ccc') {
-                    const tpl = document.getElementById('tpl-ccc-group');
-                    container.appendChild(tpl.content.cloneNode(true));
+                    container.appendChild(document.getElementById('tpl-ccc-group').content.cloneNode(true));
                     this.renderCCC();
                 } else if (this.currentModule === 'remediation') {
-                    const tpl = document.getElementById('tpl-remediation-group');
-                    container.appendChild(tpl.content.cloneNode(true));
+                    container.appendChild(document.getElementById('tpl-remediation-group').content.cloneNode(true));
                     this.renderRemediation();
                 } else {
-                    const tpl = document.getElementById('tpl-adapt-group');
-                    container.appendChild(tpl.content.cloneNode(true));
+                    container.appendChild(document.getElementById('tpl-adapt-group').content.cloneNode(true));
                     this.renderAdapt();
                 }
             }
 
+            // === CCC Logic ===
             renderCCC() {
                 const g = this.groups[this.activeGroupId - 1];
                 document.getElementById('group-title-sidebar').innerText = `第 ${g.id} 組`;
-                
-                // AUTO-PROGRESS LOGIC
-                // If cccStep is 0 (unstarted), keep it 0. If > 0, it renders automatically.
-                // No special logic needed here because g.cccStep preserves state.
                 
                 const renderSteps = (containerId, isMobile) => {
                     const container = document.getElementById(containerId);
@@ -814,405 +559,91 @@
                 document.getElementById('current-step-title').innerText = step.title;
                 document.getElementById('current-step-desc').innerText = step.desc;
                 
-                // Dynamic padding adjustment for Step 2 to maximize space
                 const contentContainer = document.getElementById('step-content');
-                // Ensure flex-col is always there (FIX for disappeared inputs)
-                contentContainer.className = "flex-1 overflow-y-auto flex flex-col";
-                
-                if (g.cccStep === 1) { // Index 1 is Step 2
-                    contentContainer.classList.add('p-0');
-                } else {
-                    contentContainer.classList.add('p-8');
-                }
-                
+                if (g.cccStep === 1) contentContainer.classList.add('p-0'); else contentContainer.classList.add('p-8');
                 contentContainer.innerHTML = this.getCCCContentHTML(g.cccStep + 1);
 
-                // Handle Buttons
                 const btnText = (g.cccStep === 6) ? '返回儀表板' : (g.cccStep === 5) ? '完成演練' : '下一步 <i class="fa-solid fa-arrow-right ml-2"></i>';
-                // Trigger auto-save on next
-                const btnAction = (g.cccStep === 6) ? () => this.loadDashboard() : (g.cccStep === 5) ? () => this.completeCCCGroupSimulation() : () => { 
-                    g.cccStep++; 
-                    this.renderCCC(); 
-                    this.sendDataToGoogleSheet(g, 'ccc');
-                };
+                const btnAction = (g.cccStep === 6) ? () => this.loadDashboard() : (g.cccStep === 5) ? () => this.completeCCCGroupSimulation() : () => { g.cccStep++; this.renderCCC(); this.sendDataToGoogleSheet(g, 'ccc'); };
                 
                 const btnDesktop = document.getElementById('next-step-btn-desktop');
                 const btnMobile = document.getElementById('next-step-btn-mobile');
-                
                 if (btnDesktop) { btnDesktop.innerHTML = btnText; btnDesktop.onclick = btnAction; }
                 if (btnMobile) { btnMobile.innerHTML = btnText; btnMobile.onclick = btnAction; }
-            }
-
-            getTabsHTML(activeKey, showLabel = false) {
-                const labelPrefix = showLabel ? "" : "";
-                const commonBtn = "px-6 py-2 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0";
-                const damingActive = "bg-blue-600 text-white shadow-lg transform -translate-y-1"; 
-                const xiaomeiActive = "bg-pink-600 text-white shadow-lg transform -translate-y-1";
-                const inactive = "bg-slate-100/80 text-slate-500 hover:bg-slate-200 hover:text-slate-700";
-                return `<div class="flex gap-3 border-b border-slate-200/50 mb-0 px-0 pt-2"><button onclick="app.switchStudentTab('daming')" class="${commonBtn} ${activeKey==='daming' ? damingActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="${commonBtn} ${activeKey==='xiaomei' ? xiaomeiActive : inactive}"><i class="fa-solid fa-user-nurse mr-2"></i> ${labelPrefix}李小美</button></div>`;
             }
 
             getCCCContentHTML(stepId) {
                 const g = this.groups[this.activeGroupId - 1];
                 const activeKey = g.activeStudentTab;
+                const s = g.students[activeKey];
                 
-                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 hover:-translate-y-1 flex flex-col h-full"><div class="flex items-center gap-4 mb-4 flex-shrink-0"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><div class="flex-1 overflow-y-auto max-h-[300px] custom-scrollbar pr-2 text-sm text-slate-600 leading-relaxed text-justify">${r.desc}</div></div>`).join('')}</div>`;
+                const getTabs = () => `<div class="flex gap-3 border-b border-slate-200/50 mb-0 px-0 pt-2"><button onclick="app.switchStudentTab('daming')" class="px-6 py-2 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0 ${activeKey==='daming'?'bg-blue-600 text-white shadow-lg transform -translate-y-1':'bg-slate-100/80 text-slate-500 hover:bg-slate-200'}">王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="px-6 py-2 rounded-t-xl font-bold transition-all text-base flex-1 md:flex-none flex items-center justify-center border-b-0 ${activeKey==='xiaomei'?'bg-pink-600 text-white shadow-lg transform -translate-y-1':'bg-slate-100/80 text-slate-500 hover:bg-slate-200'}">李小美</button></div>`;
+
+                if (stepId === 1) return `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${ROLES.map(r => `<div class="glass-panel p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition flex flex-col h-full"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-inner"><i class="fa-solid ${r.icon} text-xl"></i></div><div><h4 class="font-bold text-slate-800 text-lg">${r.name}</h4><span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-bold">人數: ${r.count}</span></div></div><div class="text-sm text-slate-600 leading-relaxed text-justify">${r.desc}</div></div>`).join('')}</div>`;
                 
-                // 3. UPDATED STEP 2: Maximized EPA View (Merged Header Strategy)
                 if (stepId === 2) return `
                     <div class="flex flex-col h-full w-full overflow-hidden">
-                        <!-- Single Block (Content with Integrated Header) -->
                         <div class="flex-1 bg-white/90 backdrop-blur-sm shadow-md flex flex-col overflow-hidden relative">
-                            
-                            <!-- Integrated Header: Title + Buttons -->
                             <div class="px-6 py-3 border-b border-slate-200 bg-white flex justify-between items-center flex-shrink-0 z-10 gap-4 shadow-sm">
-                                <!-- Title Left -->
-                                <div class="flex items-center gap-4 overflow-hidden">
-                                    <div class="w-10 h-10 rounded-lg bg-teal-600 text-white flex items-center justify-center shadow-md flex-shrink-0">
-                                        <i class="fa-solid fa-book-open text-lg"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-black text-slate-800 leading-tight">查閱學習歷程檔案</h3>
-                                        <div class="flex items-center gap-2 text-xs text-slate-500 font-bold mt-0.5">
-                                            <span class="px-2 py-0.5 rounded bg-teal-100 text-teal-800 border border-teal-200">EPA 標準</span>
-                                            <span class="truncate max-w-[200px] md:max-w-xs">主題：住院病患的照護與衛教</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Buttons Right -->
-                                <div class="flex gap-2 flex-shrink-0">
-                                    <button class="px-3 py-2 rounded-lg border border-blue-200 font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition shadow-sm flex items-center gap-2 text-sm" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=drive_link','_blank')">
-                                        <i class="fa-regular fa-folder-open"></i> <span class="hidden md:inline">王大明</span>
-                                    </button>
-                                    <button class="px-3 py-2 rounded-lg border border-pink-200 font-bold text-pink-700 bg-pink-50 hover:bg-pink-100 transition shadow-sm flex items-center gap-2 text-sm" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">
-                                        <i class="fa-regular fa-folder-open"></i> <span class="hidden md:inline">李小美</span>
-                                    </button>
-                                </div>
+                                <div class="flex items-center gap-4 overflow-hidden"><div class="w-10 h-10 rounded-lg bg-teal-600 text-white flex items-center justify-center shadow-md flex-shrink-0"><i class="fa-solid fa-book-open text-lg"></i></div><div><h3 class="text-base font-black text-slate-800 leading-tight">查閱學習歷程檔案</h3><div class="flex items-center gap-2 text-xs text-slate-500 font-bold mt-0.5"><span class="px-2 py-0.5 rounded bg-teal-100 text-teal-800 border border-teal-200">EPA 標準</span><span>主題：住院病患的照護與衛教</span></div></div></div>
+                                <div class="flex gap-2 flex-shrink-0"><button class="px-3 py-2 rounded-lg border border-blue-200 font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition shadow-sm text-sm" onclick="window.open('https://drive.google.com/file/d/1mNICzHyTto5aXcY2NJEOGlswkRq5GbXD/view?usp=drive_link','_blank')">王大明 檔案</button><button class="px-3 py-2 rounded-lg border border-pink-200 font-bold text-pink-700 bg-pink-50 hover:bg-pink-100 transition shadow-sm text-sm" onclick="window.open('https://drive.google.com/file/d/19TJ1wgrjWM-EO4jQWImYQrJS7Vzzru-7/view?usp=drive_link','_blank')">李小美 檔案</button></div>
                             </div>
-
-                            <!-- Scrollable Content -->
-                            <div class="flex-1 overflow-y-auto p-5 bg-slate-50/50 custom-scrollbar">
-                                <div class="max-w-7xl mx-auto space-y-4">
-                                    
-                                    <!-- 1. 任務描述 (Tight Layout) -->
-                                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                        <h5 class="text-teal-700 font-black text-sm mb-3 flex items-center gap-2 uppercase tracking-wide">
-                                            <i class="fa-solid fa-crosshairs"></i> 任務描述
-                                        </h5>
-                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <span class="block text-[10px] font-bold text-slate-400 mb-0.5 uppercase">Knowledge</span>
-                                                <strong class="text-slate-800 text-sm block mb-1">疾病知識</strong>
-                                                <p class="text-slate-600 text-xs leading-relaxed">熟悉常見內外科病理生理、檢查與治療要點；掌握高警訊藥與院內政策。</p>
-                                            </div>
-                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <span class="block text-[10px] font-bold text-slate-400 mb-0.5 uppercase">Skill</span>
-                                                <strong class="text-slate-800 text-sm block mb-1">臨床照護</strong>
-                                                <p class="text-slate-600 text-xs leading-relaxed">整體評估、擬定與執行護理計畫；落實用藥與物品管理；規劃出院準備。</p>
-                                            </div>
-                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                                                <span class="block text-[10px] font-bold text-slate-400 mb-0.5 uppercase">Attitude</span>
-                                                <strong class="text-slate-800 text-sm block mb-1">溝通衛教</strong>
-                                                <p class="text-slate-600 text-xs leading-relaxed">有效衛教與回饋；清楚交班並與團隊協作；能處理高壓溝通情境。</p>
-                                            </div>
-                                        </div>
-                                        <div class="mt-3 p-2 bg-orange-50 border border-orange-100 rounded flex items-center gap-2 text-orange-800 text-[11px] font-bold">
-                                            <i class="fa-solid fa-circle-exclamation text-orange-600"></i>
-                                            <span>限制：排除 ICU、兒科、產科、精神科等需額外專科訓練之特殊情境。</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Grid Layout for Details -->
-                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                        
-                                        <!-- 2. 風險 (Compact) -->
-                                        <div class="bg-red-50/40 p-4 rounded-xl border border-red-100 shadow-sm flex flex-col">
-                                            <h5 class="text-red-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
-                                                <i class="fa-solid fa-triangle-exclamation"></i> 失敗風險
-                                            </h5>
-                                            <div class="grid grid-cols-1 gap-2 flex-1">
-                                                <div class="flex items-center gap-2 bg-white px-3 py-2 rounded border border-red-100 shadow-sm">
-                                                    <span class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">1</span>
-                                                    <span class="text-slate-700 font-bold text-xs">病安事件 (用藥/感染/跌倒)</span>
-                                                </div>
-                                                <div class="flex items-center gap-2 bg-white px-3 py-2 rounded border border-red-100 shadow-sm">
-                                                    <span class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">2</span>
-                                                    <span class="text-slate-700 font-bold text-xs">溝通失誤引起申訴</span>
-                                                </div>
-                                                <div class="flex items-center gap-2 bg-white px-3 py-2 rounded border border-red-100 shadow-sm">
-                                                    <span class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-[10px] font-bold flex-shrink-0">3</span>
-                                                    <span class="text-slate-700 font-bold text-xs">法遵與紀錄不全、照護斷裂</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 3. 核心能力 (Compact) -->
-                                        <div class="bg-blue-50/40 p-4 rounded-xl border border-blue-100 shadow-sm flex flex-col">
-                                            <h5 class="text-blue-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
-                                                <i class="fa-solid fa-star"></i> 對應核心能力
-                                            </h5>
-                                            <div class="flex flex-wrap gap-2 mb-3">
-                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">醫學知識</span>
-                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">病人照護</span>
-                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">人際溝通技能</span>
-                                                <span class="px-2 py-1 bg-white rounded border border-blue-200 text-blue-800 text-xs font-bold shadow-sm">制度下之臨床工作</span>
-                                            </div>
-                                            <div class="mt-auto pt-2 border-t border-blue-100">
-                                                <p class="text-slate-600 text-[11px] leading-relaxed">
-                                                    <strong class="text-slate-500">先備要件：</strong>常見內外科疾病照護知識、系統性評估技能、衛教技巧，並具備以病人為中心與主動求助之態度。
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <!-- 4. 評量資訊 (Compact) -->
-                                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                            <h5 class="text-slate-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
-                                                <i class="fa-solid fa-clipboard-check text-slate-400"></i> 評量所需資訊
-                                            </h5>
-                                            <div class="space-y-2">
-                                                <div class="flex justify-between items-center px-3 py-1.5 bg-slate-50 rounded border border-slate-100">
-                                                    <span class="font-bold text-slate-600 text-xs">筆試</span>
-                                                    <span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border">每期 ≥1次</span>
-                                                </div>
-                                                <div class="flex justify-between items-center px-3 py-1.5 bg-slate-50 rounded border border-slate-100">
-                                                    <span class="font-bold text-slate-600 text-xs">DOPS / ad-hoc EPA</span>
-                                                    <span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border">每期 ≥3次</span>
-                                                </div>
-                                                <div class="flex justify-between items-center px-3 py-1.5 bg-slate-50 rounded border border-slate-100">
-                                                    <span class="font-bold text-slate-600 text-xs">360度評量</span>
-                                                    <span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border">每期 ≥1次</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- 5. 授權標準 (Highlight - Compact) -->
-                                        <div class="bg-gradient-to-br from-teal-50 to-white p-4 rounded-xl border-2 border-teal-100 shadow-sm relative overflow-hidden flex flex-col justify-between">
-                                            <div class="absolute top-0 right-0 w-16 h-16 bg-teal-100 rounded-full blur-xl opacity-50 -mr-4 -mt-4"></div>
-                                            <div>
-                                                <h5 class="text-teal-800 font-black text-sm mb-2 flex items-center gap-2 relative z-10 uppercase tracking-wide">
-                                                    <i class="fa-solid fa-unlock"></i> 授權標準
-                                                </h5>
-                                                <ul class="space-y-1.5 mb-3 relative z-10 text-xs">
-                                                    <li class="flex items-start gap-1.5 text-slate-700 font-medium"><i class="fa-solid fa-check text-teal-500 mt-0.5 text-[10px]"></i> 完成病房核心訓練課程</li>
-                                                    <li class="flex items-start gap-1.5 text-slate-700 font-medium"><i class="fa-solid fa-check text-teal-500 mt-0.5 text-[10px]"></i> 獨立照護 ≥5名病人 (2週)</li>
-                                                    <li class="flex items-start gap-1.5 text-slate-700 font-medium"><i class="fa-solid fa-check text-teal-500 mt-0.5 text-[10px]"></i> 完成 ≥3件出院準備/轉介</li>
-                                                </ul>
-                                            </div>
-                                            <div class="bg-teal-600 text-white p-2.5 rounded-lg text-center shadow-md relative z-10 mt-1">
-                                                <div class="flex justify-between items-center">
-                                                    <div class="text-left">
-                                                        <div class="text-[9px] opacity-80 font-bold tracking-wider">TARGET</div>
-                                                        <div class="text-lg font-black leading-none">Level 3c</div>
-                                                    </div>
-                                                    <div class="text-right text-[10px] font-medium opacity-90 max-w-[120px] leading-tight">間接監督<br>必要時請教師確認</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <!-- 6. Maintenance Period (Full Width) -->
-                                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                        <h5 class="text-slate-700 font-black text-sm mb-2 flex items-center gap-2 uppercase tracking-wide">
-                                            <i class="fa-solid fa-clock-rotate-left text-slate-400"></i> 信賴等級維持期限
-                                        </h5>
-                                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-600 leading-relaxed">
-                                            <span class="font-bold text-slate-700">離開臨床⼯作 6–12 個⽉：</span>返崗需通過 1 次 ad-hoc 與 1 次 360 度評量維持原層級；<br>
-                                            <span class="font-bold text-slate-700">> 12 個⽉：</span>完整重新評估。
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="flex-1 overflow-y-auto p-5 bg-slate-50/50 custom-scrollbar"><div class="max-w-7xl mx-auto space-y-4"><div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><h5 class="text-teal-700 font-black text-sm mb-3">任務描述</h5><div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs"><div class="bg-slate-50 p-3 rounded"><strong>疾病知識</strong><p>熟悉常見內外科病理...</p></div><div class="bg-slate-50 p-3 rounded"><strong>臨床照護</strong><p>整體評估、擬定計畫...</p></div><div class="bg-slate-50 p-3 rounded"><strong>溝通衛教</strong><p>有效衛教與回饋...</p></div></div></div><div class="bg-gradient-to-br from-teal-50 to-white p-4 rounded-xl border-2 border-teal-100 shadow-sm"><h5 class="text-teal-800 font-black text-sm mb-2">授權標準 (Level 3c)</h5><ul class="text-xs space-y-1"><li><i class="fa-solid fa-check text-teal-500"></i> 完成病房核心訓練課程</li><li><i class="fa-solid fa-check text-teal-500"></i> 獨立照護 ≥5名病人</li></ul></div></div></div>
                         </div>
                     </div>`;
-                
-                // Optimized Step 3: Full Height Input
-                if (stepId === 3) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed" placeholder="請在此輸入學員的主席摘要..." oninput="app.updateInput('${activeKey}','summary',this.value)">${g.students[activeKey].summary}</textarea></div></div>`;
-                
-                // 5. UPDATED Step 4: Display ARICH Descriptions + Fixed Height Input (Scrollable)
-                if (stepId === 4) return `
-                    <div class="flex flex-col gap-6">
-                        <div class="grid grid-cols-4 gap-6 flex-shrink-0">
-                            ${ARICH_CATS.map(cat => `
-                                <div class="glass-panel p-4 rounded-2xl border border-slate-200 text-center shadow-sm hover:shadow-lg transition hover:-translate-y-1">
-                                    <div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3"><i class="fa-solid ${cat.icon}"></i></div>
-                                    <div class="font-bold text-slate-800 text-lg mb-1">${cat.label}</div>
-                                    <div class="text-xs text-slate-500 px-2 leading-tight">${cat.desc}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm mt-6">
-                            <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
-                            <div class="p-0 relative">
-                                <textarea class="w-full p-8 text-xl focus:ring-0 border-0 h-96 resize-none" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${g.students[activeKey].qualityNote}</textarea>
-                            </div>
-                        </div>
-                    </div>`;
-                
-                // Optimized Step 5: Decision & Plan (Scrollable Stacked Layout)
-                if (stepId === 5) { 
-                    const s = g.students[activeKey];
-                    // Updated Level Definitions - STRICTLY LOWERCASE & NO UPPERCASE CLASS
-                    const levels = [
-                        { l: 1, label: "Level 1", t: "只看不做" },
-                        { l: 2, label: "Level 2a", t: "直接監督，逐步協助" },
-                        { l: 3, label: "Level 2b", t: "直接監督，必要時協助" },
-                        { l: 4, label: "Level 3a", t: "間接監督，事後逐項確認" },
-                        { l: 5, label: "Level 3b", t: "間接監督，事後重點確認" },
-                        { l: 6, label: "Level 3c", t: "間接監督，必要時確認 (通過門檻)" },
-                        { l: 7, label: "Level 4", t: "獨立執行" }
-                    ];
-                    
-                    // Determine status message and color based on result (or default empty)
-                    let statusHtml = '<span class="text-slate-400 font-normal ml-3 text-sm">(請選擇等級以自動判定)</span>';
-                    if (s.trustLevel) {
-                        // New Logic: Level 3c (ID 6) and above is PASS
-                        const isPass = s.trustLevel >= 6; 
-                        statusHtml = isPass 
-                            ? '<span class="ml-4 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-bold border border-green-200 shadow-sm"><i class="fa-solid fa-check-circle mr-1.5"></i> PASS 可信賴</span>'
-                            : '<span class="ml-4 px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-bold border border-red-200 shadow-sm"><i class="fa-solid fa-circle-exclamation mr-1.5"></i> FAIL 未通過</span>';
-                    }
 
-                    return `
-                    <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
-                        
-                        <!-- Trust Level Selection (Auto Decides Result) -->
-                        <div class="p-6 bg-slate-50/50 border-b border-slate-100">
-                            <div class="flex justify-between items-center mb-4">
-                                <h4 class="font-bold text-slate-700 text-base flex items-center">
-                                    <i class="fa-solid fa-layer-group text-teal-600 mr-2"></i> 信賴程度 (Entrustment Level)
-                                    ${statusHtml}
-                                </h4>
-                            </div>
-                            <!-- 7 Levels Grid -->
-                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-                                ${levels.map(item => {
-                                    const isSel = s.trustLevel === item.l;
-                                    const colorClass = isSel ? 'bg-teal-600 text-white border-teal-600 shadow-md ring-4 ring-teal-100 scale-105' : 'bg-white border-slate-200 text-slate-600 hover:bg-white hover:border-teal-300 hover:shadow-md';
-                                    return `<button onclick="app.setTrustLevel(${item.l})" class="text-left px-3 py-3 rounded-xl border text-sm transition-all duration-200 flex flex-col justify-center min-h-[80px] ${colorClass}">
-                                        <div class="font-bold text-xs opacity-70 mb-1 tracking-wider">${item.label}</div>
-                                        <div class="font-bold leading-tight text-xs">${item.t}</div>
-                                    </button>`
-                                }).join('')}
-                            </div>
-                        </div>
+                if (stepId === 3) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${getTabs()}</div><div class="flex-1 p-0 relative"><textarea class="w-full h-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed resize-none" placeholder="請在此輸入學員的主席摘要..." oninput="app.updateInput('${activeKey}','summary',this.value)">${s.summary}</textarea></div></div>`;
+                
+                if (stepId === 4) return `<div class="flex flex-col gap-6"><div class="grid grid-cols-4 gap-6 flex-shrink-0">${ARICH_CATS.map(c=>`<div class="glass-panel p-4 rounded-2xl border border-slate-200 text-center shadow-sm"><div class="w-12 h-12 mx-auto rounded-full bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3"><i class="fa-solid ${c.icon}"></i></div><div class="font-bold text-slate-800">${c.label}</div></div>`).join('')}</div><div class="glass-panel rounded-2xl border border-slate-200 shadow-sm"><div class="px-6 border-b border-slate-200 bg-white/50">${getTabs()}</div><div class="p-0 relative"><textarea class="w-full p-8 text-xl focus:ring-0 border-0 h-96 resize-none" placeholder="請記錄品質面向討論內容..." oninput="app.updateInput('${activeKey}', 'qualityNote', this.value)">${s.qualityNote}</textarea></div></div></div>`;
 
-                        <!-- Text Areas (Fixed Height Grid) -->
-                        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
-                            <div class="flex flex-col">
-                                <div class="bg-slate-50/50 px-6 py-3 text-sm font-bold text-slate-500 border-b border-slate-100 flex items-center gap-2"><i class="fa-solid fa-comment-dots"></i> 決策原因</div>
-                                <textarea class="w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent h-80" placeholder="請說明原因..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea>
-                            </div>
-                            <div class="flex flex-col">
-                                <div class="bg-slate-50/50 px-6 py-3 text-sm font-bold text-slate-500 border-b border-slate-100 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> 輔導方案</div>
-                                <textarea class="w-full p-6 text-lg border-0 focus:ring-0 resize-none bg-transparent h-80" placeholder="請輸入輔導計畫..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea>
-                            </div>
-                        </div>
-                    </div>`; 
+                if (stepId === 5) {
+                     const levels = [{l:1,t:"Level 1 只看不做"},{l:2,t:"Level 2a 直接監督，逐步協助"},{l:3,t:"Level 2b 直接監督，必要時協助"},{l:4,t:"Level 3a 間接監督，事後逐項確認"},{l:5,t:"Level 3b 間接監督，事後重點確認"},{l:6,t:"Level 3c 間接監督 (通過門檻)"},{l:7,t:"Level 4 獨立執行"}];
+                     let statusHtml = s.trustLevel ? (s.trustLevel>=6 ? '<span class="ml-4 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-bold">PASS</span>' : '<span class="ml-4 px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-bold">FAIL</span>') : '';
+                     return `<div class="glass-panel rounded-2xl border border-slate-200 shadow-sm"><div class="px-6 border-b border-slate-200 bg-white/50">${getTabs()}</div><div class="p-6 bg-slate-50/50 border-b border-slate-100"><h4 class="font-bold text-slate-700 mb-4">信賴程度 ${statusHtml}</h4><div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3">${levels.map(l=>`<button onclick="app.setTrustLevel(${l.l})" class="text-left px-3 py-3 rounded-xl border text-xs font-bold transition-all ${s.trustLevel===l.l?'bg-teal-600 text-white border-teal-600':'bg-white border-slate-200 text-slate-600 hover:bg-white hover:border-teal-300'}">${l.t}</button>`).join('')}</div></div><div class="grid grid-cols-2 divide-x divide-slate-100"><textarea class="p-6 text-lg border-0 resize-none h-80 bg-transparent" placeholder="決策原因..." oninput="app.updateInput('${activeKey}','reason',this.value)">${s.reason}</textarea><textarea class="p-6 text-lg border-0 resize-none h-80 bg-transparent" placeholder="輔導方案..." oninput="app.updateInput('${activeKey}','plan',this.value)">${s.plan}</textarea></div></div>`;
                 }
+
+                if (stepId === 6) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${getTabs()}</div><div class="flex-1 p-0 relative"><textarea class="w-full h-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed resize-none" placeholder="請輸入會議紀錄與共識..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${s.meetingNote}</textarea></div></div>`;
                 
-                // Optimized Step 6: Full Height Input
-                if (stepId === 6) return `<div class="glass-panel flex flex-col h-full rounded-2xl border border-slate-200 shadow-sm overflow-hidden"><div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div><div class="flex-1 p-0 relative"><textarea class="textarea-fill w-full p-8 text-xl focus:ring-0 border-0 bg-transparent leading-relaxed min-h-[400px]" placeholder="請輸入會議紀錄與共識..." oninput="app.updateInput('${activeKey}','meetingNote',this.value)">${g.students[activeKey].meetingNote}</textarea></div></div>`;
-                
-                // Optimized Step 7: 2-Column Grid (Scrollable)
-                if (stepId === 7) return `
-                    <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
-                            ${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `
-                                <div class="flex flex-col">
-                                    <div class="p-5 bg-slate-50/50 border-b border-slate-100">
-                                        <h5 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-3">
-                                            <span class="bg-white border border-slate-200 w-8 h-8 flex items-center justify-center rounded-lg text-sm shadow-sm">${catIdx+1}</span> ${category}
-                                        </h5>
-                                        <ul class="list-disc pl-6 text-sm text-slate-500 space-y-1">
-                                            ${items.map(i => `<li>${i}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                    <div class="flex flex-col border-b border-slate-100">
-                                        <div class="px-5 py-2 bg-white/40 text-xs font-bold text-teal-600 tracking-wider">實際觀察</div>
-                                        <textarea class="w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent h-64" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-actual', this.value)">${g.observerData[`${activeKey}-${category}-actual`] || ''}</textarea>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <div class="px-5 py-2 bg-white/40 text-xs font-bold text-orange-500 tracking-wider">挑戰與限制</div>
-                                        <textarea class="w-full p-5 text-base border-0 focus:ring-0 resize-none bg-transparent h-64" placeholder="請描述..." oninput="app.updateObs('${activeKey}', '${category}-limit', this.value)">${g.observerData[`${activeKey}-${category}-limit`] || ''}</textarea>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>`;
+                if (stepId === 7) return `<div class="glass-panel rounded-2xl border border-slate-200 shadow-sm"><div class="px-6 border-b border-slate-200 bg-white/50">${getTabs()}</div><div class="grid grid-cols-2 divide-x divide-slate-200">${Object.entries(OBSERVER_ITEMS).map(([cat,items])=>`<div class="flex flex-col"><div class="p-5 bg-slate-50/50 border-b border-slate-100"><h5 class="font-bold text-slate-800">${cat}</h5><ul class="list-disc pl-5 text-xs text-slate-500">${items.map(i=>`<li>${i}</li>`).join('')}</ul></div><textarea class="w-full p-5 text-sm h-64 border-0 resize-none bg-transparent" placeholder="實際觀察..." oninput="app.updateObs('${activeKey}','${cat}-actual',this.value)">${g.observerData[`${activeKey}-${cat}-actual`]||''}</textarea></div>`).join('')}</div></div>`;
             }
 
+            // === Remediation Logic ===
             renderRemediation() {
                 const g = this.groups[this.activeGroupId - 1];
                 const key = g.activeStudentTab;
-                const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all ${key==='daming' ? 'bg-blue-600 text-white shadow' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">王大明</button>`;
-                const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all ${key==='xiaomei' ? 'bg-pink-600 text-white shadow' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">李小美</button>`;
-                
-                const remTabsContainer = document.getElementById('rem-tabs-container');
-                if (remTabsContainer) remTabsContainer.innerHTML = damingBtn + xiaomeiBtn;
-                
-                const remGroupTitle = document.getElementById('rem-group-title');
-                if (remGroupTitle) remGroupTitle.innerText = `第 ${g.id} 組計畫`;
+                const container = document.getElementById('rem-tabs-container');
+                if(container) container.innerHTML = `<button onclick="app.switchStudentTab('daming')" class="px-4 py-2 rounded-lg text-sm font-bold ${key==='daming'?'bg-blue-600 text-white':'bg-slate-100 text-slate-500'}">王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="px-4 py-2 rounded-lg text-sm font-bold ${key==='xiaomei'?'bg-pink-600 text-white':'bg-slate-100 text-slate-500'}">李小美</button>`;
                 
                 const s = g.students[key];
-                const resultBadge = s.result === true ? '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold border border-green-200">PASS</span>' : s.result === false ? '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-bold border border-red-200">FAIL</span>' : '<span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-xs font-bold border border-slate-200">未定</span>';
-                
-                const refHTML = `<div class="flex items-center gap-3 mb-2"><span class="text-sm font-bold text-slate-500">CCC 決策：</span>${resultBadge}</div><div class="text-sm text-slate-600 grid grid-cols-2 gap-4"><div class="bg-slate-50 p-3 rounded border border-slate-100"><div class="font-bold mb-1 text-xs text-slate-400">原因</div>${s.reason || '-'}</div><div class="bg-slate-50 p-3 rounded border border-slate-100"><div class="font-bold mb-1 text-xs text-slate-400">輔導</div>${s.plan || '-'}</div></div>`;
-                
-                const cccRefContainer = document.getElementById('rem-ccc-reference');
-                if (cccRefContainer) cccRefContainer.innerHTML = refHTML;
-                
-                // Desktop Table
-                const containerDesktop = document.getElementById('rem-table-body-desktop');
-                if (containerDesktop) {
-                    containerDesktop.innerHTML = '';
+                const res = s.result === true ? 'PASS' : s.result === false ? 'FAIL' : '未定';
+                document.getElementById('rem-ccc-reference').innerHTML = `<div class="text-sm">CCC 決策: <span class="font-bold">${res}</span><br>原因: ${s.reason||'-'}<br>輔導: ${s.plan||'-'}</div>`;
+
+                const tbody = document.getElementById('rem-table-body-desktop');
+                if(tbody) {
+                    tbody.innerHTML = '';
                     s.remediationPlan.forEach((item, idx) => {
                         const tr = document.createElement('tr');
-                        tr.className = "group hover:bg-slate-50 transition-colors";
-                        tr.innerHTML = `<td><textarea class="bg-white focus:bg-indigo-50/30 p-2 border-slate-200 rounded text-sm w-full" oninput="app.updateRemRow(${idx},'deficit',this.value)">${item.deficit}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30 p-2 border-slate-200 rounded text-sm w-full" oninput="app.updateRemRow(${idx},'competency',this.value)">${item.competency}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30 p-2 border-slate-200 rounded text-sm w-full" oninput="app.updateRemRow(${idx},'action',this.value)">${item.action}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30 p-2 border-slate-200 rounded text-sm w-full" oninput="app.updateRemRow(${idx},'assessment',this.value)">${item.assessment}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30 p-2 border-slate-200 rounded text-sm w-full" oninput="app.updateRemRow(${idx},'goal',this.value)">${item.goal}</textarea></td><td><textarea class="bg-white focus:bg-indigo-50/30 p-2 border-slate-200 rounded text-sm w-full" oninput="app.updateRemRow(${idx},'deadline',this.value)">${item.deadline}</textarea></td><td class="align-middle text-center"><button onclick="app.deleteRemRow(${idx})" class="text-slate-300 hover:text-red-500"><i class="fa-solid fa-trash-can"></i></button></td>`;
-                        containerDesktop.appendChild(tr);
+                        tr.innerHTML = `<td><textarea class="w-full bg-white p-2 border rounded" oninput="app.updateRemRow(${idx},'deficit',this.value)">${item.deficit}</textarea></td><td><textarea class="w-full bg-white p-2 border rounded" oninput="app.updateRemRow(${idx},'competency',this.value)">${item.competency}</textarea></td><td><textarea class="w-full bg-white p-2 border rounded" oninput="app.updateRemRow(${idx},'action',this.value)">${item.action}</textarea></td><td><textarea class="w-full bg-white p-2 border rounded" oninput="app.updateRemRow(${idx},'assessment',this.value)">${item.assessment}</textarea></td><td><textarea class="w-full bg-white p-2 border rounded" oninput="app.updateRemRow(${idx},'goal',this.value)">${item.goal}</textarea></td><td><textarea class="w-full bg-white p-2 border rounded" oninput="app.updateRemRow(${idx},'deadline',this.value)">${item.deadline}</textarea></td><td class="text-center"><button onclick="app.deleteRemRow(${idx})" class="text-red-400"><i class="fa-solid fa-trash"></i></button></td>`;
+                        tbody.appendChild(tr);
                     });
                 }
-
-                // Mobile Cards
-                const containerMobile = document.getElementById('rem-list-mobile');
-                if (containerMobile) {
-                    containerMobile.innerHTML = '';
+                const mobileList = document.getElementById('rem-list-mobile');
+                if(mobileList) {
+                    mobileList.innerHTML = '';
                     s.remediationPlan.forEach((item, idx) => {
-                        const card = document.createElement('div');
-                        card.className = "glass-panel p-4 rounded-xl border border-slate-200 shadow-sm";
-                        card.innerHTML = `
-                            <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
-                                <span class="font-bold text-indigo-600 text-sm">項目 ${idx + 1}</span>
-                                <button onclick="app.deleteRemRow(${idx})" class="text-red-400 hover:text-red-600 text-sm"><i class="fa-solid fa-trash-can"></i> 刪除</button>
-                            </div>
-                            <div class="space-y-3">
-                                <div><label class="text-xs font-bold text-slate-400 block mb-1">缺失/問題</label><textarea class="w-full p-2 border border-slate-200 rounded text-sm" oninput="app.updateRemRow(${idx},'deficit',this.value)">${item.deficit}</textarea></div>
-                                <div><label class="text-xs font-bold text-slate-400 block mb-1">行動計畫</label><textarea class="w-full p-2 border border-slate-200 rounded text-sm" oninput="app.updateRemRow(${idx},'action',this.value)">${item.action}</textarea></div>
-                            </div>
-                        `;
-                        containerMobile.appendChild(card);
+                        mobileList.innerHTML += `<div class="bg-white p-4 rounded shadow mb-2"><div class="flex justify-between font-bold mb-2"><span>項目 ${idx+1}</span><button onclick="app.deleteRemRow(${idx})" class="text-red-500">刪除</button></div><textarea class="w-full border p-2 mb-2" placeholder="缺失" oninput="app.updateRemRow(${idx},'deficit',this.value)">${item.deficit}</textarea><textarea class="w-full border p-2" placeholder="行動計畫" oninput="app.updateRemRow(${idx},'action',this.value)">${item.action}</textarea></div>`;
                     });
                 }
-
-                // Empty State Logic
-                const emptyState = document.getElementById('rem-empty-state');
-                if (s.remediationPlan.length === 0) { 
-                    if (emptyState) emptyState.classList.remove('hidden');
-                    if (containerDesktop) containerDesktop.parentElement.classList.add('hidden'); 
-                } else {
-                    if (emptyState) emptyState.classList.add('hidden');
-                    if (containerDesktop) containerDesktop.parentElement.classList.remove('hidden');
-                }
+                const empty = document.getElementById('rem-empty-state');
+                if(empty) empty.classList.toggle('hidden', s.remediationPlan.length > 0);
             }
 
-            // ... (Adapt, API functions same logic but updated for full screen in Adapt template) ...
-            
+            // === UPDATED ADAPT Logic (PDF Style) ===
             renderAdapt() {
                 const g = this.groups[this.activeGroupId - 1];
                 const key = g.activeStudentTab;
+                
+                // 1. Mobile Tabs
                 const damingBtn = `<button onclick="app.switchStudentTab('daming')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all ${key==='daming' ? 'bg-blue-600 text-white shadow' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">王大明</button>`;
                 const xiaomeiBtn = `<button onclick="app.switchStudentTab('xiaomei')" class="px-4 py-2 rounded-lg text-sm font-bold transition-all ${key==='xiaomei' ? 'bg-pink-600 text-white shadow' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}">李小美</button>`;
                 
@@ -1220,557 +651,168 @@
                 if (adaptTabsContainer) adaptTabsContainer.innerHTML = damingBtn + xiaomeiBtn;
                 
                 const adaptGroupTitle = document.getElementById('adapt-group-title');
-                if (adaptGroupTitle) adaptGroupTitle.innerText = `第 ${g.id} 組 結構化回饋`;
+                if (adaptGroupTitle) adaptGroupTitle.innerText = `第 ${g.id} 組 結構性回饋技巧`;
 
-                const s = g.students[key];
                 const content = document.getElementById('adapt-content');
-                content.innerHTML = '';
                 
-                ADAPT_STEPS.forEach(step => {
-                    const card = document.createElement('div');
-                    card.className = "glass-panel p-8 rounded-3xl border border-slate-200 shadow-md hover:shadow-lg transition duration-300";
-                    const smoothVal = s.adaptLog[`${step.id}_smooth`];
-                    
-                    card.innerHTML = `
-                        <div class="flex flex-col md:flex-row gap-8">
-                            <div class="md:w-1/3 flex-shrink-0">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-black text-lg shadow-sm">${step.id}</div>
-                                    <h4 class="text-2xl font-bold text-slate-800">${step.label.split('(')[0]}</h4>
-                                </div>
-                                <p class="text-sm text-slate-500 mb-6 pl-13 leading-relaxed">${step.desc}</p>
-                                <div class="bg-slate-50/80 p-5 rounded-2xl border border-slate-100">
-                                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">執行狀況</div>
-                                    <div class="flex gap-3">
-                                        <button onclick="app.updateAdaptItem('${step.id}_smooth', true)" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all ${smoothVal===true ? 'bg-green-100 text-green-700 border border-green-200 shadow-sm' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}"><i class="fa-solid fa-check mr-1.5"></i> 落實</button>
-                                        <button onclick="app.updateAdaptItem('${step.id}_smooth', false)" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all ${smoothVal===false ? 'bg-red-100 text-red-700 border border-red-200 shadow-sm' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'}"><i class="fa-solid fa-xmark mr-1.5"></i> 未落實</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="md:w-2/3 flex flex-col">
-                                <label class="text-sm font-bold text-slate-600 mb-3 flex items-center gap-2"><i class="fa-regular fa-comment-dots text-orange-400"></i> 觀察紀錄 / 回饋重點</label>
-                                <textarea class="flex-1 w-full p-5 rounded-2xl border border-slate-200 focus:ring-0 text-lg resize-none bg-slate-50/50 focus:bg-white transition-colors leading-relaxed" placeholder="請記錄回饋對話的重點..." oninput="app.updateAdaptItem('${step.id}_note', this.value)">${s.adaptLog[`${step.id}_note`] || ''}</textarea>
-                            </div>
+                const sDaming = g.students.daming;
+                const sXiaomei = g.students.xiaomei;
+
+                const renderTextarea = (studentKey, field, value, colorClass) => `
+                    <div class="h-full flex flex-col">
+                        <textarea class="flex-1 w-full p-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-${colorClass}-500/20 focus:border-${colorClass}-500 text-base resize-none bg-white transition-all leading-relaxed custom-scrollbar min-h-[200px]" 
+                        placeholder="請輸入內容..." 
+                        oninput="app.updateAdaptNew('${studentKey}', '${field}', this.value)">${value || ''}</textarea>
+                    </div>
+                `;
+
+                // Desktop View (Split Grid)
+                const desktopView = `
+                    <div class="hidden lg:grid grid-cols-2 gap-6 h-full pb-10">
+                        <div class="bg-blue-50/80 p-4 rounded-t-2xl border-b-4 border-blue-500 text-center font-black text-blue-800 text-xl shadow-sm"><i class="fa-solid fa-user-nurse mr-2"></i> 王大明</div>
+                        <div class="bg-pink-50/80 p-4 rounded-t-2xl border-b-4 border-pink-500 text-center font-black text-pink-800 text-xl shadow-sm"><i class="fa-solid fa-user-nurse mr-2"></i> 李小美</div>
+
+                        <div class="col-span-2 grid grid-cols-2 gap-6 bg-white/60 p-6 rounded-b-2xl rounded-t-lg border border-slate-200 shadow-sm mb-4">
+                            <div class="col-span-2 text-center mb-2"><span class="bg-slate-800 text-white px-6 py-1.5 rounded-full text-sm font-bold tracking-wider">運用到的回饋技巧</span></div>
+                            ${renderTextarea('daming', 'feedbackTechniques', sDaming.feedbackTechniques, 'blue')}
+                            ${renderTextarea('xiaomei', 'feedbackTechniques', sXiaomei.feedbackTechniques, 'pink')}
                         </div>
-                    `;
-                    content.appendChild(card);
-                });
+
+                        <div class="col-span-2 grid grid-cols-2 gap-6 bg-white/60 p-6 rounded-2xl border border-slate-200 shadow-sm">
+                            <div class="col-span-2 text-center mb-2"><span class="bg-orange-600 text-white px-6 py-1.5 rounded-full text-sm font-bold tracking-wider">遇到的限制與挑戰</span></div>
+                            ${renderTextarea('daming', 'challengesLimits', sDaming.challengesLimits, 'blue')}
+                            ${renderTextarea('xiaomei', 'challengesLimits', sXiaomei.challengesLimits, 'pink')}
+                        </div>
+                    </div>
+                `;
+
+                // Mobile View (Stacked)
+                const currentS = g.students[key];
+                const color = key === 'daming' ? 'blue' : 'pink';
+                const mobileView = `
+                    <div class="lg:hidden flex flex-col gap-6 pb-20">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                            <label class="block text-slate-700 font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-${color}-100 text-${color}-600 flex items-center justify-center"><i class="fa-solid fa-wand-magic-sparkles"></i></span>運用到的回饋技巧</label>
+                            ${renderTextarea(key, 'feedbackTechniques', currentS.feedbackTechniques, color)}
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                             <label class="block text-slate-700 font-bold mb-3 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><i class="fa-solid fa-mountain"></i></span>遇到的限制與挑戰</label>
+                            ${renderTextarea(key, 'challengesLimits', currentS.challengesLimits, color)}
+                        </div>
+                    </div>
+                `;
+
+                content.innerHTML = desktopView + mobileView;
             }
 
-            // --- TAB SWITCH LOGIC for Step 2 ---
-            switchRefTab(tab) {
-                const epaTab = document.getElementById('ref-tab-epa');
-                const trainingTab = document.getElementById('ref-tab-training');
-                const epaContent = document.getElementById('ref-content-epa');
-                const trainingContent = document.getElementById('ref-content-training');
-                
-                if (tab === 'epa') {
-                    epaContent.classList.remove('hidden');
-                    trainingContent.classList.add('hidden');
-                    epaTab.className = "flex-1 py-4 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white/60 transition-colors";
-                    trainingTab.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors";
-                } else {
-                    epaContent.classList.add('hidden');
-                    trainingContent.classList.remove('hidden');
-                    epaTab.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors";
-                    trainingTab.className = "flex-1 py-4 text-sm font-bold text-teal-700 border-b-2 border-teal-600 bg-white/60 transition-colors";
-                }
-            }
-
-            // ... (Rest of the App class)
-            updateAdaptItem(field, value) { const g = this.groups[this.activeGroupId - 1]; g.students[g.activeStudentTab].adaptLog[field] = value; if (typeof value === 'boolean') this.renderAdapt(); }
-            updateInput(student, field, value) { this.groups[this.activeGroupId - 1].students[student][field] = value; }
-            updateData(student, field, value) { this.updateInput(student, field, value); }
-            updateObs(student, field, value) { this.groups[this.activeGroupId - 1].observerData[`${student}-${field}`] = value; } // FIXED
-            setResult(r) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].result = r; this.renderCCC(); }
-            // NEW METHOD for Trust Level & Auto Result
-            setTrustLevel(level) {
-                const group = this.groups[this.activeGroupId - 1];
-                const student = group.students[group.activeStudentTab];
-                student.trustLevel = level;
-                
-                // AUTO LOGIC: Level 3c (ID 6) and above is PASS
-                student.result = (level >= 6);
-                
-                this.renderCCC();
-            }
-            
-            // New Method: Show Group List Modal
-            showGroupListModal() {
-                const modalTitle = document.getElementById('modal-title');
-                const modalIcon = document.getElementById('modal-icon');
-                const modalMessage = document.getElementById('modal-message');
-                const modalActions = document.getElementById('modal-actions');
-                const modal = document.getElementById('custom-modal');
-
-                modalTitle.innerText = "分組名單";
-                modalIcon.innerHTML = '<i class="fa-solid fa-users-viewfinder text-teal-600"></i>';
-                modalIcon.className = "w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center mb-4 text-3xl shadow-sm";
-                
-                // Hide default actions, we just need a close button
-                modalActions.innerHTML = '<button onclick="app.closeModal()" class="w-full py-3 rounded-xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition">關閉</button>';
-
-                // Table Content
-                modalMessage.innerHTML = `
-                    <div class="table-scroll-wrapper">
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead class="bg-slate-50 text-slate-700 font-bold uppercase sticky top-0 shadow-sm">
-                                <tr>
-                                    <th class="px-4 py-3">組別</th>
-                                    <th class="px-4 py-3">成員</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 1 組</td><td class="px-4 py-3"><strong>藥劑部</strong>: 黃淑芬(組長), 陳家豪, 林信伶<br><strong>放射腫瘤部</strong>: 蕭時玲<br><strong>電腦斷層</strong>: 吳世釧<br><strong>臨床病理</strong>: 林家榛<br><strong>耳鼻喉部</strong>: 陳力瑀</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 2 組</td><td class="px-4 py-3"><strong>護理部</strong>: 邱旅揚, 江惠英(副部長), 吳佩珊, 林琪馨<br><strong>4A</strong>: 徐富美<br><strong>8C</strong>: 陶菁<br><strong>急診</strong>: 魏妙芬<br><strong>3B</strong>: 邱怡菁<br><strong>門診</strong>: 郭惠婷<br><strong>5B</strong>: 鄭君婷<br><strong>8B</strong>: 謝雅玲</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 3 組</td><td class="px-4 py-3"><strong>3B</strong>: 謝佳效<br><strong>12A</strong>: 謝淑娟<br><strong>門診</strong>: 蔡素蕊<br><strong>呼吸照護</strong>: 蘇敬惠<br><strong>4A</strong>: 郭麗玲<br><strong>營養科</strong>: 劉美媛<br><strong>耳鼻喉</strong>: 楊晴嵐<br><strong>復健部</strong>: 羅蓓怡</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 4 組</td><td class="px-4 py-3"><strong>呼吸治療科</strong>: 梁懿珊(組長), 高佳瑜, 鄭愛琴<br><strong>泌尿外科</strong>: 林才揚<br><strong>麻醉部</strong>: 林耀聰, 洪國全</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 5 組</td><td class="px-4 py-3"><strong>復健部</strong>: 劉天慧(組長), 陳璟綺, 蔡宜庭<br><strong>精神醫學</strong>: 楊仁豪<br><strong>耳鼻喉</strong>: 簡佑安<br><strong>職業醫學</strong>: 王俞鈞, 郭婉吟</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 6 組</td><td class="px-4 py-3"><strong>臨床技能中心</strong>: 蔡長志<br><strong>骨科部</strong>: 林威廷<br><strong>中醫部</strong>: 王瑜婷<br><strong>耳鼻喉</strong>: 蘇偉翔<br><strong>急診</strong>: 陳伯格<br><strong>神經外科</strong>: 陳志偉<br><strong>精神醫學</strong>: 林健禾<br><strong>婦產部</strong>: 温仁育<br><strong>急診</strong>: 李國彰</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 7 組</td><td class="px-4 py-3"><strong>一般科</strong>: 郭妍伶<br><strong>牙科部</strong>: 陳冠良<br><strong>放射診斷</strong>: 謝賜吉<br><strong>兒科部</strong>: 黃筱倫<br><strong>麻醉部</strong>: 洪意茵<br><strong>家醫部</strong>: 黃建元<br><strong>急診</strong>: 王嘉地<br><strong>耳鼻喉</strong>: 劉璟鋒<br><strong>放射腫瘤</strong>: 何聖佑</td></tr>
-                                <tr class="hover:bg-slate-50"><td class="px-4 py-3 font-bold text-teal-600">第 8 組</td><td class="px-4 py-3"><strong>復健部</strong>: 王鈺霖<br><strong>解剖病理</strong>: 朱彰堯<br><strong>整形外科</strong>: 陳俊嘉<br><strong>耳鼻喉</strong>: 沈至軒</td></tr>
-                            </tbody>
-                        </table>
-                    </div>`;
-
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.querySelector('#modal-content').classList.add('scale-100');
-                    modal.querySelector('#modal-content').classList.remove('opacity-0');
-                }, 10);
-            }
-
-            addRemediationRow() { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.push({deficit:'',competency:'',action:'',assessment:'',goal:'',deadline:''}); this.renderRemediation(); }
-            updateRemRow(index, field, value) { this.groups[this.activeGroupId - 1].students[this.groups[this.activeGroupId - 1].activeStudentTab].remediationPlan[index][field] = value; }
-            deleteRemRow(index) { if(confirm('刪除此項目?')) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.splice(index,1); this.renderRemediation(); } }
-            
-            // Logic Fixed
+            // --- Helper Functions ---
             switchStudentTab(student) { 
                 this.groups[this.activeGroupId - 1].activeStudentTab = student;
                 if(this.currentModule === 'ccc') this.renderCCC();
                 else if(this.currentModule === 'remediation') this.renderRemediation();
                 else if(this.currentModule === 'adapt') this.renderAdapt();
             }
-
+            updateInput(student, field, value) { this.groups[this.activeGroupId - 1].students[student][field] = value; }
+            updateObs(student, field, value) { this.groups[this.activeGroupId - 1].observerData[`${student}-${field}`] = value; }
+            setTrustLevel(level) { 
+                const s = this.groups[this.activeGroupId - 1].students[this.groups[this.activeGroupId - 1].activeStudentTab];
+                s.trustLevel = level; s.result = (level >= 6); this.renderCCC();
+            }
+            addRemediationRow() { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.push({deficit:'',competency:'',action:'',assessment:'',goal:'',deadline:''}); this.renderRemediation(); }
+            updateRemRow(idx, field, val) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan[idx][field] = val; }
+            deleteRemRow(idx) { if(confirm('刪除此項目?')) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].remediationPlan.splice(idx,1); this.renderRemediation(); } }
+            updateAdaptNew(studentKey, field, value) { const g = this.groups[this.activeGroupId - 1]; if (g && g.students[studentKey]) g.students[studentKey][field] = value; }
+            
+            showModal({ title, message, onConfirm }) {
+                document.getElementById('modal-title').innerText = title;
+                document.getElementById('modal-message').innerHTML = message;
+                document.getElementById('modal-btn-confirm').onclick = () => { this.closeModal(); if(onConfirm) onConfirm(); };
+                document.getElementById('custom-modal').classList.remove('hidden');
+            }
             closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
             
-            showModal({ title, message, icon, type, onConfirm }) {
-                const modal = document.getElementById('custom-modal');
-                const titleEl = document.getElementById('modal-title');
-                const msgEl = document.getElementById('modal-message');
-                const iconContainer = document.getElementById('modal-icon');
-                const btnCancel = document.getElementById('modal-btn-cancel');
-                const btnConfirm = document.getElementById('modal-btn-confirm');
-                titleEl.innerHTML = title;
-                msgEl.innerHTML = message;
-                
-                // Reset actions if overwritten by Group List Modal
-                if (type === 'success') { 
-                    iconContainer.innerHTML = '<i class="fa-solid fa-check text-green-600 text-xl"></i>'; 
-                    iconContainer.className = "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4 shadow-sm"; 
-                    
-                    const actionsHtml = `
-                        <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg transition">取消</button>
-                        <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-teal-600 text-white font-bold shadow-lg shadow-teal-600/20 hover:bg-teal-700 text-lg transition">確定</button>
-                    `;
-                    document.getElementById('modal-actions').innerHTML = actionsHtml;
-                } 
-                else if (type === 'warning') { 
-                    iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-yellow-600 text-xl"></i>'; 
-                    iconContainer.className = "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4 shadow-sm"; 
-
-                    const actionsHtml = `
-                        <button id="modal-btn-cancel" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 text-lg transition">取消</button>
-                        <button id="modal-btn-confirm" class="flex-1 py-3 rounded-xl bg-yellow-600 text-white font-bold shadow-lg shadow-yellow-600/20 hover:bg-yellow-700 text-lg transition">確定</button>
-                    `;
-                    document.getElementById('modal-actions').innerHTML = actionsHtml;
-                }
-
-                if (onConfirm) { 
-                    document.getElementById('modal-btn-cancel').classList.remove('hidden'); 
-                    document.getElementById('modal-btn-confirm').onclick = () => { this.closeModal(); onConfirm(); }; 
-                    document.getElementById('modal-btn-cancel').onclick = () => this.closeModal();
-                } else { 
-                    document.getElementById('modal-btn-cancel').classList.add('hidden'); 
-                    document.getElementById('modal-btn-confirm').onclick = () => this.closeModal(); 
-                }
-                
-                modal.classList.remove('hidden'); 
-                setTimeout(() => { modal.classList.add('opacity-100'); modal.querySelector('#modal-content').classList.add('scale-100'); }, 10);
-            }
-
             completeCCCGroupSimulation() {
-                const group = this.groups[this.activeGroupId - 1];
-                const p1 = group.students.daming.result;
-                const p2 = group.students.xiaomei.result;
-                if (p1 !== null && p2 !== null) { 
-                    this.showModal({ 
-                        title: "確認結束演練", 
-                        message: "兩位學員皆已評定完成。<br>確定要結束本組演練並返回儀表板嗎？", 
-                        type: 'success', 
-                        onConfirm: () => { 
-                            group.cccCompleted = true; 
-                            group.cccStep = 6; 
-                            this.sendDataToGoogleSheet(group, 'ccc'); 
-                            this.loadDashboard(); 
-                        } 
-                    }); 
-                } 
-                else { 
-                    this.showModal({ 
-                        title: "無法結束演練", 
-                        message: "請確認<span class='font-bold text-red-600'>兩位學員</span>皆已完成信賴決策(Pass/Fail)後再送出。<br><span class='text-xs text-slate-400'>(請點選信賴等級以自動判定)</span>", 
-                        type: 'warning' 
-                    }); 
-                }
+                const g = this.groups[this.activeGroupId - 1];
+                if (g.students.daming.result !== null && g.students.xiaomei.result !== null) {
+                    this.showModal({title:"確認結束", message:"確定要結束並送出嗎？", onConfirm:()=>{ g.cccCompleted=true; g.cccStep=6; this.sendDataToGoogleSheet(g,'ccc'); this.loadDashboard(); }});
+                } else alert("請先完成兩位學員的信賴決策");
             }
+            completeRemediation() { this.showModal({title:"提交計畫", message:"確定提交補強計畫嗎？", onConfirm:()=>{ this.groups[this.activeGroupId-1].remCompleted=true; this.sendDataToGoogleSheet(this.groups[this.activeGroupId-1],'remediation'); this.loadDashboard(); }}); }
+            completeAdapt() { this.showModal({title:"提交回饋", message:"確定提交回饋紀錄嗎？", onConfirm:()=>{ this.groups[this.activeGroupId-1].adaptCompleted=true; this.sendDataToGoogleSheet(this.groups[this.activeGroupId-1],'adapt'); this.loadDashboard(); }}); }
 
-            completeRemediation() {
-                const group = this.groups[this.activeGroupId - 1];
-                this.showModal({
-                    title: "提交補強計畫",
-                    message: "確定要提交本組的補強計畫嗎？<br><span class='text-sm text-slate-400'>提交後將標記為完成。</span>",
-                    type: "success",
-                    onConfirm: () => {
-                        group.remCompleted = true;
-                        this.sendDataToGoogleSheet(group, 'remediation');
-                        this.loadDashboard();
-                    }
-                });
-            }
-
-            completeAdapt() {
-                const group = this.groups[this.activeGroupId - 1];
-                this.showModal({
-                    title: "提交 ADAPT 回饋",
-                    message: "確定要提交本組的回饋紀錄嗎？",
-                    type: "success",
-                    onConfirm: () => {
-                        group.adaptCompleted = true;
-                        this.sendDataToGoogleSheet(group, 'adapt');
-                        this.loadDashboard();
-                    }
-                });
-            }
-
-            // --- 修正後的同步邏輯 (Fixes "Server Busy" & "Failed to fetch") ---
-            fetchDataFromGoogleSheet(isBackground = false) {
-                if (this.isSyncing) {
-                    console.log('Sync skipped: previous request still active.');
-                    return;
-                }
-
+            // --- API Logic ---
+            fetchDataFromGoogleSheet(isBg) {
+                if(this.isSyncing) return;
                 this.isSyncing = true;
-
-                if (!isBackground) {
-                    document.getElementById('loading-overlay').style.display = 'flex';
-                } else {
-                    const syncIcon = document.querySelector('#sync-status i');
-                    const syncText = document.getElementById('sync-text');
-                    if(syncIcon) syncIcon.classList.add('sync-spin');
-                    if(syncText) syncText.innerText = "同步中...";
-                }
-                
-                // Use explicit cors mode and credentials if needed (often helps with GAS)
-                fetch(API_URL, {
-                    method: 'GET',
-                    mode: 'cors', // Explicitly set mode
-                    // headers: { 'Content-Type': 'text/plain;charset=utf-8' } // REMOVED
-                })
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(resp => {
-                    if (resp.result === 'success') {
-                        this.processServerData(resp.data);
-                    } else if (resp.error === 'Server busy') {
-                        console.warn('Server busy, skipping this cycle.');
-                    } else {
-                        console.error('Server error response:', resp);
-                    }
-                })
-                .catch(err => {
-                    console.error('Fetch error details:', err);
-                    // Optional: Show user friendly message if not background
-                    if (!isBackground) {
-                       // alert("無法連接伺服器，請檢查網路或稍後再試。");
-                    }
-                })
-                .finally(() => {
-                    this.isSyncing = false;
-
-                    if (!isBackground) {
-                        document.getElementById('loading-overlay').style.opacity = '0';
-                        setTimeout(() => { 
-                            document.getElementById('loading-overlay').style.display = 'none'; 
-                        }, 300);
-                    } else {
-                        const syncIcon = document.querySelector('#sync-status i');
-                        const syncText = document.getElementById('sync-text');
-                        if(syncIcon) syncIcon.classList.remove('sync-spin');
-                        if(syncText) syncText.innerText = "就緒";
-                    }
+                if(!isBg) document.getElementById('loading-overlay').style.display='flex';
+                fetch(API_URL).then(r=>r.json()).then(resp => {
+                    if(resp.result==='success') this.processServerData(resp.data);
+                }).finally(()=>{
+                    this.isSyncing=false;
+                    if(!isBg) document.getElementById('loading-overlay').style.display='none';
                 });
             }
 
             processServerData(data) {
-                if (!this.groups || this.groups.length === 0) return;
+                if (!this.groups) return;
+                const canUpdate = (gid) => (this.activeGroupId === null || this.activeGroupId !== gid);
 
-                // 1. Safe Reset
-                this.groups.forEach(g => {
-                    if (g?.students?.daming) g.students.daming.remediationPlan = [];
-                    if (g?.students?.xiaomei) g.students.xiaomei.remediationPlan = [];
-                });
-
-                const canUpdate = (groupId) => {
-                    if (!groupId) return false;
-                    if (this.activeGroupId === null) return true;
-                    return this.activeGroupId !== groupId;
-                };
-
-                // 2. Process CCC Data
                 if (data.CCC_Master_Log) {
                     data.CCC_Master_Log.forEach(row => {
-                        // TRY-CATCH BLOCK FOR ROBUSTNESS
-                        try {
-                            const gid = parseInt(row[1]);
-                            if (!canUpdate(gid)) return;
-
-                            const name = row[2];
-                            const studentKey = (name === "王大明") ? "daming" : (name === "李小美") ? "xiaomei" : null;
-                            
-                            // Use Optional Chaining
-                            const s = this.groups[gid-1]?.students?.[studentKey];
-                            
-                            if (s) {
-                                s.summary = row[3];
-                                s.qualityNote = row[4];
-                                
-                                if (row[5] === "PASS") s.result = true;
-                                else if (row[5] === "FAIL") s.result = false;
-                                
-                                // FORCE STRING CONVERSION (Fixes .match is not a function error)
-                                let reasonRaw = row[6];
-                                let reasonText = (reasonRaw === null || reasonRaw === undefined) ? "" : String(reasonRaw);
-                                if (typeof reasonText !== 'string') reasonText = ""; // Double check
-
-                                s.trustLevel = null; // Reset first
-                                // UPDATED REGEX to handle new lowercase format as well
-                                const levelMatch = reasonText.match(/^\[Level (\d[a-z]?)-/i); 
-                                if (levelMatch) {
-                                    // We need to map back to our internal 1-7 index
-                                    const levelStr = levelMatch[1].toLowerCase();
-                                    const levelMap = { '1': 1, '2a': 2, '2b': 3, '3a': 4, '3b': 5, '3c': 6, '4': 7 };
-                                    s.trustLevel = levelMap[levelStr] || null;
-                                }
-                                s.reason = reasonText;
-
-                                s.plan = row[7];
-                                s.meetingNote = row[8];
-                                
-                                try {
-                                    if (row[9]) {
-                                        const obs = JSON.parse(row[9]);
-                                        if(this.groups[gid-1]?.observerData) {
-                                            Object.assign(this.groups[gid-1].observerData, obs);
-                                        }
-                                    }
-                                } catch(e) { }
-                                
-                                if(row[10]==="Completed") { 
-                                    this.groups[gid-1].cccCompleted=true; 
-                                    this.groups[gid-1].cccStep=6; 
-                                } else if (typeof row[10] === 'string' && row[10].startsWith("Step ")) {
-                                    const stepNum = parseInt(row[10].split(" ")[1]);
-                                    if (!isNaN(stepNum)) this.groups[gid-1].cccStep = stepNum;
-                                }
-                            }
-                        } catch (e) {
-                            console.error("Error processing row:", e, row);
-                        }
-                    });
-                }
-
-                // 3. Process Remediation Data
-                if (data.Remediation_Details) {
-                    const tempPlans = {}; 
-                    
-                    data.Remediation_Details.forEach(row => {
                         const gid = parseInt(row[1]);
                         if (!canUpdate(gid)) return;
-
-                        if (!tempPlans[gid]) tempPlans[gid] = { daming: [], xiaomei: [] };
-                        
-                        const name = row[2];
-                        const sKey = (name === "王大明") ? "daming" : (name === "李小美") ? "xiaomei" : null;
-                        
-                        if (sKey) {
-                            tempPlans[gid][sKey].push({
-                                deficit: row[3],
-                                competency: row[4],
-                                action: row[5],
-                                assessment: row[6],
-                                goal: row[7],
-                                deadline: row[8]
-                            });
-                        }
-                    });
-
-                    Object.keys(tempPlans).forEach(gidStr => {
-                        const gid = parseInt(gidStr);
-                        const group = this.groups[gid-1];
-                        if (group?.students) { // Check existence
-                            if(group.students.daming) group.students.daming.remediationPlan = tempPlans[gid].daming;
-                            if(group.students.xiaomei) group.students.xiaomei.remediationPlan = tempPlans[gid].xiaomei;
-                            group.remCompleted = true;
+                        const sKey = row[2]==="王大明"?"daming":row[2]==="李小美"?"xiaomei":null;
+                        if(sKey) {
+                            const s = this.groups[gid-1].students[sKey];
+                            s.summary = row[3]; s.qualityNote = row[4]; s.result = row[5]==="PASS"; s.reason = row[6]; s.plan = row[7]; s.meetingNote = row[8];
+                            if(row[10]==="Completed") { this.groups[gid-1].cccCompleted=true; this.groups[gid-1].cccStep=6; }
+                            else if(row[10] && row[10].startsWith("Step")) this.groups[gid-1].cccStep = parseInt(row[10].split(" ")[1]);
                         }
                     });
                 }
-
-                // 4. Process ADAPT Data
-                if (data.ADAPT_Feedbeck_Log) {
+                
+                // UPDATED Process Logic for new ADAPT format
+                if (data.ADAPT_Feedbeck_Log) { 
                     data.ADAPT_Feedbeck_Log.forEach(row => {
                         const gid = parseInt(row[1]);
                         if (!canUpdate(gid)) return;
-
-                        const name = row[2];
-                        const studentKey = (name === "王大明") ? "daming" : (name === "李小美") ? "xiaomei" : null;
-                        
-                        const s = this.groups[gid-1]?.students?.[studentKey];
-                        
-                        if (s) {
-                            const parseSmooth = (val) => val === "落實" ? true : val === "未落實" ? false : null;
-                            s.adaptLog['A1_smooth'] = parseSmooth(row[3]);
-                            s.adaptLog['A1_note'] = row[4];
-                            s.adaptLog['D_smooth'] = parseSmooth(row[5]);
-                            s.adaptLog['D_note'] = row[6];
-                            s.adaptLog['A2_smooth'] = parseSmooth(row[7]);
-                            s.adaptLog['A2_note'] = row[8];
-                            s.adaptLog['P_smooth'] = parseSmooth(row[9]);
-                            s.adaptLog['P_note'] = row[10];
-                            s.adaptLog['T_smooth'] = parseSmooth(row[11]);
-                            s.adaptLog['T_note'] = row[12];
-                            
-                            this.groups[gid-1].adaptCompleted = true;
+                        const sKey = row[2]==="王大明"?"daming":row[2]==="李小美"?"xiaomei":null;
+                        if(sKey) {
+                            const s = this.groups[gid-1].students[sKey];
+                            s.feedbackTechniques = row[3]; // Col D
+                            s.challengesLimits = row[4];   // Col E
+                            if (s.feedbackTechniques || s.challengesLimits) this.groups[gid-1].adaptCompleted = true;
                         }
                     });
                 }
-                
-                if (this.activeGroupId === null) {
-                    this.loadDashboard();
-                }
+                if(this.activeGroupId === null) this.loadDashboard();
             }
 
-            // --- 寫入資料 (POST) ---
             sendDataToGoogleSheet(group, type) {
-                let sheetName = "";
-                let rows = [];
-                const timestamp = new Date().toISOString();
-                
-                if (type === 'ccc') {
+                let sheetName = "", rows = [];
+                const ts = new Date().toISOString();
+                if(type === 'ccc') {
                     sheetName = "CCC_Master_Log";
-                    ['daming', 'xiaomei'].forEach(key => {
-                        const s = group.students[key];
-                        // Dynamic Status Logic
-                        let statusStr = "In Progress";
-                        if (group.cccCompleted) {
-                            statusStr = "Completed";
-                        } else {
-                            statusStr = `Step ${group.cccStep}`; 
-                        }
-                        
-                        // JSON stringify observer data
-                        const obsLog = JSON.stringify(group.observerData || {});
-
-                        // Append Trust Level to Reason if selected
-                        let finalReason = s.reason;
-                        if (s.trustLevel) {
-                            // UPDATED LEVELS ARRAY for correct logging (matching the 7-level structure)
-                            const levels = ["Level 1", "Level 2a", "Level 2b", "Level 3a", "Level 3b", "Level 3c", "Level 4"];
-                            // Avoid double prefixing if already present
-                            // Regex checks for start with [Level X] or [Level Xx] case insensitive
-                            if (!/^\[Level \d[a-z]?\]/i.test(finalReason)) {
-                                finalReason = `[${levels[s.trustLevel-1]}] ` + finalReason;
-                            }
-                        }
-
-                        const row = [
-                            timestamp, group.id, s.name,
-                            s.summary, s.qualityNote,
-                            (s.result === true ? "PASS" : (s.result === false ? "FAIL" : "")), 
-                            finalReason, s.plan,
-                            s.meetingNote, obsLog, statusStr
-                        ];
-                        rows.push(row);
+                    ['daming','xiaomei'].forEach(k => {
+                        const s = group.students[k];
+                        rows.push([ts, group.id, s.name, s.summary, s.qualityNote, s.result===true?"PASS":s.result===false?"FAIL":"", s.reason, s.plan, s.meetingNote, JSON.stringify(group.observerData), group.cccCompleted?"Completed":`Step ${group.cccStep}`]);
                     });
-                } else if (type === 'remediation') {
+                } else if(type === 'remediation') {
                     sheetName = "Remediation_Details";
-                    ['daming', 'xiaomei'].forEach(key => {
-                        const s = group.students[key];
-                        s.remediationPlan.forEach(item => {
-                             const row = [
-                                timestamp, group.id, s.name,
-                                item.deficit, item.competency, item.action,
-                                item.assessment, item.goal, item.deadline
-                            ];
-                            rows.push(row);
-                        });
+                    ['daming','xiaomei'].forEach(k => {
+                        group.students[k].remediationPlan.forEach(i => rows.push([ts, group.id, group.students[k].name, i.deficit, i.competency, i.action, i.assessment, i.goal, i.deadline]));
                     });
-                } else if (type === 'adapt') {
-                     sheetName = "ADAPT_Feedbeck_Log"; 
-                     ['daming', 'xiaomei'].forEach(key => {
-                        const s = group.students[key];
-                        const row = [timestamp, group.id, s.name];
-                        ADAPT_STEPS.forEach(step => {
-                            const smoothVal = s.adaptLog[`${step.id}_smooth`];
-                            const noteVal = s.adaptLog[`${step.id}_note`] || "";
-                            let smoothText = "";
-                            if (smoothVal === true) smoothText = "落實";
-                            else if (smoothVal === false) smoothText = "未落實";
-                            row.push(smoothText);
-                            row.push(noteVal);
-                        });
-                        rows.push(row);
-                     });
+                } else if(type === 'adapt') {
+                    // UPDATED Send Logic
+                    sheetName = "ADAPT_Feedbeck_Log";
+                    ['daming','xiaomei'].forEach(k => {
+                        const s = group.students[k];
+                        rows.push([ts, group.id, s.name, s.feedbackTechniques, s.challengesLimits]);
+                    });
                 }
-
-                if (rows.length === 0) return;
-
-                const payload = { sheet: sheetName, data: rows };
-                
-                // Show manual sync spinner for non-background save
-                const syncIcon = document.querySelector('#sync-status i');
-                const syncText = document.getElementById('sync-text');
-                if(syncIcon) syncIcon.classList.add('sync-spin');
-                if(syncText) syncText.innerText = "儲存中...";
-
-                fetch(API_URL, {
-                    method: 'POST',
-                    redirect: 'follow',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.result === 'error') alert("傳送失敗: " + data.error);
-                    else {
-                        if(type === 'ccc' && group.cccCompleted) {
-                             // completion logic
-                        }
-                    }
-                })
-                .catch((error) => console.error('Error:', error))
-                .finally(() => {
-                    if(syncIcon) syncIcon.classList.remove('sync-spin');
-                    if(syncText) syncText.innerText = "已儲存";
-                    setTimeout(() => { if(syncText) syncText.innerText = "就緒"; }, 2000);
-                });
+                fetch(API_URL, {method:'POST', body:JSON.stringify({sheet:sheetName, data:rows})});
             }
         }
-
         const app = new App();
     </script>
 </body>
