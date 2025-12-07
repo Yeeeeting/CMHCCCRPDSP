@@ -1117,9 +1117,9 @@
                 
                 // Optimized Step 7: 2-Column Grid (Scrollable)
                 if (stepId === 7) return `
-                    <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="glass-panel rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full">
                         <div class="px-6 border-b border-slate-200 bg-white/50">${this.getTabsHTML(activeKey)}</div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                        <div class="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
                             ${Object.entries(OBSERVER_ITEMS).map(([category, items], catIdx) => `
                                 <div class="flex flex-col">
                                     <div class="p-5 bg-slate-50/50 border-b border-slate-100">
@@ -1140,6 +1140,11 @@
                                     </div>
                                 </div>
                             `).join('')}
+                        </div>
+                        <div class="border-t border-slate-200 bg-white/50 px-6 py-4 flex gap-3">
+                            <button onclick="app.sendObserverDataToSheet()" class="flex-1 px-4 py-3 rounded-lg bg-teal-600 text-white font-bold hover:bg-teal-700 transition-all shadow-md flex items-center justify-center gap-2">
+                                <i class="fas fa-upload"></i> 送出觀察員紀錄
+                            </button>
                         </div>
                     </div>`;
             }
@@ -1282,7 +1287,113 @@
             updateInput(student, field, value) { this.groups[this.activeGroupId - 1].students[student][field] = value; }
             updateData(student, field, value) { this.updateInput(student, field, value); }
             updateObs(student, field, value) { this.groups[this.activeGroupId - 1].observerData[`${student}-${field}`] = value; } // FIXED
-            setResult(r) { this.groups[this.activeGroupId-1].students[this.groups[this.activeGroupId-1].activeStudentTab].result = r; this.renderCCC(); }
+            
+            // New Method: Send Observer Data to Google Sheet
+            sendObserverDataToSheet() {
+                const group = this.groups[this.activeGroupId - 1];
+                const sheetName = "Observer_Records";
+                const timestamp = new Date().toISOString();
+                const rows = [];
+                
+                // 收集所有觀察員資料
+                const categories = Object.keys(OBSERVER_ITEMS);
+                console.log('🔍 觀察員資料送出 - 類別:', categories);
+                console.log('📦 目前的 observerData:', group.observerData);
+                
+                let hasContent = false; // 檢查是否有填寫內容
+                
+                categories.forEach(category => {
+                    // 王大明資料
+                    const actualKey = `daming-${category}-actual`;
+                    const limitKey = `daming-${category}-limit`;
+                    const actualVal = group.observerData[actualKey] || "";
+                    const limitVal = group.observerData[limitKey] || "";
+                    
+                    if (actualVal.trim() || limitVal.trim()) hasContent = true;
+                    
+                    const row = [
+                        timestamp,
+                        group.id,
+                        "王大明",
+                        category,
+                        actualVal,
+                        limitVal
+                    ];
+                    rows.push(row);
+                    
+                    // 李小美資料
+                    const actualKey2 = `xiaomei-${category}-actual`;
+                    const limitKey2 = `xiaomei-${category}-limit`;
+                    const actualVal2 = group.observerData[actualKey2] || "";
+                    const limitVal2 = group.observerData[limitKey2] || "";
+                    
+                    if (actualVal2.trim() || limitVal2.trim()) hasContent = true;
+                    
+                    const row2 = [
+                        timestamp,
+                        group.id,
+                        "李小美",
+                        category,
+                        actualVal2,
+                        limitVal2
+                    ];
+                    rows.push(row2);
+                });
+                
+                console.log('📊 要送出的資料列數:', rows.length);
+                console.log('✍️ 是否有填寫內容:', hasContent);
+                console.log('📋 完整資料:', rows);
+                
+                if (!hasContent) {
+                    alert('未有觀察員記錄可送出，請先填寫「實際觀察」或「挑戰與限制」內容');
+                    return;
+                }
+                
+                if (rows.length === 0) {
+                    alert('未有觀察員資料可送出');
+                    return;
+                }
+                
+                const payload = { sheet: sheetName, data: rows };
+                console.log('🚀 送出的 payload:', payload);
+                
+                // Show sending spinner
+                const btn = event.target.closest('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 送出中...';
+                btn.disabled = true;
+                
+                fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                })
+                .then(r => r.json())
+                .then(data => {
+                    console.log('✅ 送出成功! 回應:', data);
+                    btn.innerHTML = '<i class="fas fa-check"></i> 送出成功！';
+                    btn.classList.remove('bg-teal-600', 'hover:bg-teal-700');
+                    btn.classList.add('bg-green-600');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('bg-green-600');
+                        btn.classList.add('bg-teal-600', 'hover:bg-teal-700');
+                        btn.disabled = false;
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('❌ 送出失敗:', err);
+                    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 送出失敗';
+                    btn.classList.remove('bg-teal-600', 'hover:bg-teal-700');
+                    btn.classList.add('bg-red-600');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('bg-red-600');
+                        btn.classList.add('bg-teal-600', 'hover:bg-teal-700');
+                        btn.disabled = false;
+                    }, 2000);
+                });
+            }
+            
             // NEW METHOD for Trust Level & Auto Result
             setTrustLevel(level) {
                 const group = this.groups[this.activeGroupId - 1];
