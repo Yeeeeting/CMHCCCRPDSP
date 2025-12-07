@@ -610,6 +610,11 @@
             // === Remediation Logic ===
             renderRemediation() {
                 const g = this.groups[this.activeGroupId - 1];
+
+                // [FIX] 動態更新補強計畫的組別標題
+                const titleEl = document.getElementById('rem-group-title');
+                if (titleEl) titleEl.innerText = `第 ${g.id} 組計畫`;
+
                 const key = g.activeStudentTab;
                 const container = document.getElementById('rem-tabs-container');
                 if(container) container.innerHTML = `<button onclick="app.switchStudentTab('daming')" class="px-4 py-2 rounded-lg text-sm font-bold ${key==='daming'?'bg-blue-600 text-white':'bg-slate-100 text-slate-500'}">王大明</button><button onclick="app.switchStudentTab('xiaomei')" class="px-4 py-2 rounded-lg text-sm font-bold ${key==='xiaomei'?'bg-pink-600 text-white':'bg-slate-100 text-slate-500'}">李小美</button>`;
